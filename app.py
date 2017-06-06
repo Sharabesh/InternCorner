@@ -7,7 +7,9 @@ import tornado.websocket
 import os
 import requests
 from bs4 import BeautifulSoup
-
+import sys
+sys.path.append(".")
+from models import *
 
 
 class BaseHandler(tornado.web.RequestHandler):
@@ -23,6 +25,10 @@ class MainHandler(BaseHandler):
 class NewHandler(BaseHandler):
     def get(self):
         self.render("templates/html/index.html")
+
+class CheckInHandler(BaseHandler):
+    def get(self):
+        self.render("templates/html/check-in.html")
 
 
 class WebSocketHandler(tornado.websocket.WebSocketHandler):
@@ -41,7 +47,6 @@ class WebSocketHandler(tornado.websocket.WebSocketHandler):
 
 
 
-
 settings = {
     "login_url":"/login",
     "compress_reponse":True,
@@ -57,6 +62,7 @@ def make_app():
         (r"/",NewHandler),
         (r"/websocket",WebSocketHandler),
         (r"/main",MainHandler),
+        (r"/check-in",CheckInHandler)
 
     ], debug=True,compress_response=True, **settings)
 
@@ -64,9 +70,9 @@ def make_app():
 if __name__ == "__main__":
     app = make_app()
     http_server = tornado.httpserver.HTTPServer(app)
-    port = int(os.environ.get("PORT",80))
+    port = int(os.environ.get("PORT",5000))
     http_server.listen(port)
-    print("Running at localhost:80")
+    print("Running at localhost:5000")
     tornado.ioloop.IOLoop.current().start()
 
 

@@ -14,23 +14,24 @@ import json
 
 from peewee import DateTimeField, CharField, IntegerField
 
-
+print(os.environ)
+print("DATABASE_URL" in os.environ)
 url = urlparse(os.environ["DATABASE_URL"])
 
 config = dict(
-    database = url.path[1:],
-    user = url.username,
-    password = url.password,
-    host= url.hostname,
-    port= url.port,
-    sslmode = 'require'
+	database = url.path[1:],
+	user = url.username,
+	password = url.password,
+	host= url.hostname,
+	port= url.port,
+	sslmode = 'require'
 )
 
 conn = PostgresqlExtDatabase(autocommit= True, autorollback = True, register_hstore = False, **config)
 
 class BaseModel(signals.Model):
-    class Meta:
-        database = conn
+	class Meta:
+		database = conn
 
 class User(BaseModel):
 	uniqueid = peewee.PrimaryKeyField(null=True)
