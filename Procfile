@@ -1,1 +1,1 @@
-web: python3 json_api/brainspell.py
+web: sudo python3 app.py
