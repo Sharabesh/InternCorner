@@ -7,7 +7,6 @@ import tornado.websocket
 import os
 import requests
 from bs4 import BeautifulSoup
-from models import *
 
 
 
