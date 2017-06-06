@@ -7,7 +7,9 @@ import tornado.websocket
 import os
 import requests
 from bs4 import BeautifulSoup
-from socket import *
+from . import models
+
+
 
 class BaseHandler(tornado.web.RequestHandler):
     def get_current_user(self):
