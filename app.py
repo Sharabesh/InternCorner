@@ -5,7 +5,6 @@ import tornado.web
 import tornado.httpclient
 import tornado.websocket
 import os
-import requests
 from bs4 import BeautifulSoup
 
 
