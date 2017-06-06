@@ -7,8 +7,6 @@ import tornado.websocket
 import os
 import requests
 from bs4 import BeautifulSoup
-import sys
-sys.path.append(".")
 from models import *
 
 
