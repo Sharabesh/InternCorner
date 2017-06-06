@@ -5,6 +5,7 @@ import tornado.web
 import tornado.httpclient
 import tornado.websocket
 import os
+import requests
 from bs4 import BeautifulSoup
 
 
@@ -18,6 +19,10 @@ class BaseHandler(tornado.web.RequestHandler):
 class MainHandler(BaseHandler):
     def get(self):
         self.render("templates/html/main.html")
+
+class NewHandler(BaseHandler):
+    def get(self):
+        self.render("templates/html/index.html")
 
 
 class WebSocketHandler(tornado.websocket.WebSocketHandler):
@@ -49,8 +54,9 @@ def make_app():
         (r"/static/(.*)", tornado.web.StaticFileHandler, {
             "path":os.path.join(os.path.dirname(os.path.abspath(__file__)), 'static')
         }),
-        (r"/",MainHandler),
-        (r"/websocket",WebSocketHandler)
+        (r"/",NewHandler),
+        (r"/websocket",WebSocketHandler),
+        (r"/main",MainHandler),
 
     ], debug=True,compress_response=True, **settings)
 
