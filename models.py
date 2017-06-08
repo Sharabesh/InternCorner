@@ -1,3 +1,4 @@
+#!/usr/local/bin/python3
 import peewee
 import psycopg2
 from playhouse import signals
@@ -14,8 +15,7 @@ import json
 
 from peewee import DateTimeField, CharField, IntegerField
 
-print(os.environ)
-print("DATABASE_URL" in os.environ)
+
 url = urlparse(os.environ["DATABASE_URL"])
 
 config = dict(

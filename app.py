@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/local/bin/python3
 import tornado.httpserver
 import tornado.ioloop
 import tornado.web
@@ -16,9 +16,6 @@ class BaseHandler(tornado.web.RequestHandler):
     def get(self):
         self.set_header("Content-Type", "application/json")
 
-class MainHandler(BaseHandler):
-    def get(self):
-        self.render("templates/html/main.html")
 
 class NewHandler(BaseHandler):
     def get(self):
@@ -59,7 +56,6 @@ def make_app():
         }),
         (r"/",NewHandler),
         (r"/websocket",WebSocketHandler),
-        (r"/main",MainHandler),
         (r"/check-in",CheckInHandler)
 
     ], debug=True,compress_response=True, **settings)
