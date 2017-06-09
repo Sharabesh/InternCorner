@@ -42,7 +42,8 @@
                     <span class="sr-only">Toggle navigation</span>
                     Menu <i class="fa fa-bars"></i>
                 </button>
-                <a class="navbar-brand" href="/">Home</a>
+{#                <a class="navbar-brand" href="/">Home</a>#}
+                <a href="./" class="navbar-left"><img style="max-width:100px; max-height:35px; margin-top:7px;" src="static/img//Cisco_logo.svg"></a>
             </div>
 
             <!-- Collect the nav links, forms, and other content for toggling -->
@@ -94,28 +95,28 @@
                     <div class="row control-group">
                         <div class="form-group col-xs-12 floating-label-form-group controls">
                             <label>What's your Project</label>
-                            <input type="text" class="form-control" placeholder="Project" id="project" required data-validation-required-message="Please enter your project.">
+                            <input type="text" class="form-control" placeholder="Project" id="project" name="project" required data-validation-required-message="Please enter your project.">
                             <p class="help-block text-danger"></p>
                         </div>
                     </div>
                     <div class="row control-group">
                         <div class="form-group col-xs-12 floating-label-form-group controls">
                             <label>Go Anonymous?</label>
-                            <input type="email" class="form-control" placeholder="Anonymous?" id="anon" required data-validation-required-message="Please enter your anon status.">
+                            <input type="email" class="form-control" placeholder="Anonymous?" id="anon" name="anon" required data-validation-required-message="Please enter your anon status.">
                             <p class="help-block text-danger"></p>
                         </div>
                     </div>
                     <div class="row control-group">
                         <div class="form-group col-xs-12 floating-label-form-group controls">
                             <label>How are you doing (Scale 1-10 --> Yash do this please)</label>
-                            <input type="tel" class="form-control" placeholder="How are you doing (Scale 1-10 --> Yash do this please)" id="phone" required data-validation-required-message="Please Fill this in.">
+                            <input type="tel" class="form-control" placeholder="How are you doing (Scale 1-10 --> Yash do this please)" id="phone" name="phone" required data-validation-required-message="Please Fill this in.">
                             <p class="help-block text-danger"></p>
                         </div>
                     </div>
                     <div class="row control-group">
                         <div class="form-group col-xs-12 floating-label-form-group controls">
                             <label>Tell us a little more?</label>
-                            <textarea rows="5" class="form-control" placeholder="Tell us a little more?" id="message"></textarea>
+                            <textarea rows="5" class="form-control" placeholder="Tell us a little more?" name="message" id="message"></textarea>
                             <p class="help-block text-danger"></p>
                         </div>
                     </div>

@@ -32,7 +32,6 @@
 </head>
 
 <body>
-
     <!-- Navigation -->
     <nav class="navbar navbar-default navbar-custom navbar-fixed-top">
         <div class="container-fluid">
@@ -42,14 +41,15 @@
                     <span class="sr-only">Toggle navigation</span>
                     Menu <i class="fa fa-bars"></i>
                 </button>
-                <a class="navbar-brand" href="/">Home</a>
+{#                <a class="navbar-brand" href="/">Home</a>#}
+                <a href="./" class="navbar-left"><img style="max-width:100px; max-height:35px; margin-top:7px;" src="static/img//Cisco_logo.svg"></a>
             </div>
 
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav navbar-right">
                     <li>
-                        <a href="#">My Account</a>
+                        <a href="/my-account">My Account</a>
                     </li>
                     <li>
                         <a href="#">Engage</a>
@@ -73,12 +73,22 @@
                     <div class="site-heading">
                         <h2>Share Your Experience</h2>
                         <hr class="small">
-                        <span class="subheading">A Way to keep track of the Cisco Intern Journey</span>
+                        <span id='description' class="subheading">A Way to keep track of the Cisco Intern Journey</span><br>
+                        <div id="success" class="alert alert-success" style="display: none">
+                            <strong>Congrats!<br></strong>Your post should appear shortly.
+                            {%  if message==1 %}
+                                <script>
+                                    $("#success").show().delay(2000).fadeOut();
+                                </script>
+                            {% end %}
+
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </header>
+
 
     <!-- Main Content -->
     <div class="container">
@@ -146,7 +156,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-                    <p class="copyright text-muted">Copyright &copy; THE Intern Corner 2017</p>
+                    <p class="copyright text-muted">Copyright &copy; THE Intern Corner 201</p>
                 </div>
             </div>
         </div>

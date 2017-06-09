@@ -42,3 +42,8 @@ class User(BaseModel):
 
 	class Meta:
 		db_table='user'
+
+
+def create_post(project,anonymous,phone,message,user):
+	pass
+	#TODO: add this functionality
