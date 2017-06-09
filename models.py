@@ -34,14 +34,33 @@ class BaseModel(signals.Model):
 		database = conn
 
 class User(BaseModel):
-	uniqueid = peewee.PrimaryKeyField(null=True)
+	uniqueid = peewee.PrimaryKeyField()
 	username = CharField(null=True)
-	password=CharField(null=True)
-	department= CharField(null=True)
-	posts = CharField(null=True)
+	password = CharField(null=True)
+	department = CharField(null=True)
 
 	class Meta:
 		db_table='user'
+
+class Posts(BaseModel):
+	post_id= peewee.PrimaryKeyField()
+	content = CharField(null=True)
+	likes = IntegerField(null=True)
+	author = CharField(null=True)
+	userid = ForeignKeyField(User,to_field='uniqueid', db_column='userid')
+
+	class Meta:
+		db_table='posts'
+
+class Likes(BaseModel):
+	user_like_id = ForeignKeyField(User,to_field='uniqueid', db_column='user_like_id')
+	post_like_id = ForeignKeyField(Posts,to_field='post_id', db_column='post_like_id')
+
+	class Meta:
+		db_table='likes'
+		primary_key = CompositeKey("user_like_id","post_like_id")
+
+
 
 
 def create_post(project,anonymous,phone,message,user):
