@@ -38,6 +38,9 @@ class User(BaseModel):
 	username = CharField(null=True)
 	password = CharField(null=True)
 	department = CharField(null=True)
+	firstname = CharField(null=True)
+	lastname = CharField(null=True)
+	email = CharField(null=True)
 
 	class Meta:
 		db_table='user'
@@ -66,3 +69,15 @@ class Likes(BaseModel):
 def create_post(project,anonymous,phone,message,user):
 	pass
 	#TODO: add this functionality
+
+def register_user(firstname,lastname,username,email,password,department):
+	if User.select().where((User.email == email)).execute().count == 0:
+		hasher = hashlib.sha1()
+		hasher.update(password.encode("utf-8"))
+		password = hasher.hexdigest()
+		User.create(firstname=firstname,lastname=lastname,username=username,email=email,password=password,department=department)
+		return True
+	return False
+
+
+

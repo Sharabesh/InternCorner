@@ -24,19 +24,25 @@ class NewHandler(BaseHandler):
 class CheckInHandler(BaseHandler):
 	def get(self):
 		self.render("templates/html/check-in.html")
+class RegistrationHandler(BaseHandler):
+	def get(self):
+		self.render("templates/html/register.html")
 
+class LoginHandler(BaseHandler):
+	def get(self):
+		self.render("templates/html/login.html")
 
 
 
 class PostEndPoint(BaseHandler):
 	def post(self):
+		user = self.get_current_user()
 		project = self.get_body_argument("project")
 		anonymous = self.get_body_argument("anon")
 		phone = self.get_body_argument("phone")
 		message = self.get_body_argument("message")
 		create_post(project,anonymous,phone,message)
 		self.render("/",message=1)
-
 
 
 settings = {
@@ -52,8 +58,12 @@ def make_app():
 			"path":os.path.join(os.path.dirname(os.path.abspath(__file__)), 'static')
 		}),
 		(r"/",NewHandler),
-		(r"/check-in",CheckInHandler)
+		(r"/check-in",CheckInHandler),
+		(r"/register",RegistrationHandler),
+		(r"/login",LoginHandler),
 
+		#ENDPOINTS
+		(r"/newPost", PostEndPoint),
 	], debug=True,compress_response=True, **settings)
 
 
