@@ -63,8 +63,15 @@ class Likes(BaseModel):
 		db_table='likes'
 		primary_key = CompositeKey("user_like_id","post_like_id")
 
-
-
+def login_user(username,password):
+	hasher = hashlib.sha1()
+	hasher.update(password.encode("utf-8"))
+	password = hasher.hexdigest()
+	q = User.select().where((User.username == username) & (User.password == password)).execute()
+	if q.count == 0:
+		return False
+	else:
+		return q
 
 def create_post(project,anonymous,phone,message,user):
 	pass

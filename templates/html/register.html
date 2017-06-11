@@ -6,86 +6,73 @@
 
 
 
-
-
-{% block header %}
+{% block content %}
+<style>
+body {
+    background: #c1bdba;
+    font-family: 'Titillium Web', sans-serif;
+    background-image: url("static/img/register.jpg");
+    background-size: cover;
+    -webkit-filter: blur(0px);
+    background-image: -webkit-gradient(5px);
+    z-index: 0;
+}
+</style>
 <div class="form">
 
     <ul class="tab-group">
         <!--<li class="tab active"><a href="#signup">Sign Up</a></li>
         <li class="tab"><a href="#login">Log In</a></li>-->
     </ul>
-
+    <div class="alert alert-success"
+            {% if failure !=1 %}
+                style="display: none;"
+            {% end %}>
+            <strong>Error!</strong> Looks like a user already exists with these credentials!
+    </div>
     <div class="tab-content">
-        <div id="signup">
+        <div id="login">
             <h1>Sign Up</h1>
-
-            <form action="/" method="post">
-
+            <form action="/newUser" method="post">
                 <div class="top-row">
                     <div class="field-wrap">
-                        <input type="text" required autocomplete="off" placeholder="First Name"/>
+                        <input type="text" name="first" required autocomplete="off" placeholder="First Name"/>
                     </div>
 
                     <div class="field-wrap">
-                        <input type="text" required autocomplete="off" placeholder="Last Name"/>
+                        <input type="text" name="last" required autocomplete="off" placeholder="Last Name"/>
                     </div>
                 </div>
 
                 <div class="field-wrap">
-                    <input type="e-mail" required autocomplete="off" placeholder="E-Mail"/>
+                    <input type="e-mail" name="email" required autocomplete="off" placeholder="E-Mail"/>
                 </div>
 
                 <div class="field-wrap">
-                    <input type="department" required autocomplete="off" placeholder="Department"/>
+                    <input type="department" name="department" required autocomplete="off" placeholder="Department"/>
                 </div>
 
                 <div class="field-wrap">
-                    <input type="username" required autocomplete="off" placeholder="Set a Username"/>
+                    <input type="username" name="username" required autocomplete="off" placeholder="Set a Username"/>
                 </div>
-
                 <div class="field-wrap">
-                    <input type="password" minlength="5" maxlength="25" required autocomplete="off" placeholder="Set a Password"
+                    <input type="password" name="password" minlength="5" maxlength="25" required autocomplete="off" placeholder="Set a Password"
                         title="Enter a password consisting of 5 - 25 characters"/>
                 </div>
-
                 <button type="submit" class="button button-block">Get Started</button>
-
             </form>
-
         </div>
-
         <div id="login">
             <h1>Welcome Back!</h1>
-
-            <form action="/" method="post">
-
-                <div class="field-wrap">
-                    <label>
-                        Email Address<span class="req">*</span>
-                    </label>
-                    <input type="email"required autocomplete="off"/>
-                </div>
-
-                <div class="field-wrap">
-                    <label>
-                        Password<span class="req">*</span>
-                    </label>
-                    <input type="password"required autocomplete="off"/>
-                </div>
-
-                <p class="forgot"><a href="#">Forgot Password?</a></p>
-
-                <button class="button button-block"/>Log In</button>
-
-            </form>
-
         </div>
-
     </div><!-- tab-content -->
 
 </div> <!-- /form -->
 {% end %}
+
+
+{#Remove Footer#}
+{% block footer %}{% end %}
 
 
 
