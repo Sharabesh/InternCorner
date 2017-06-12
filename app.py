@@ -65,12 +65,12 @@ class NewUserEndpoint(BaseHandler):
 
 class PostEndpoint(BaseHandler):
 	def post(self):
-		user = self.get_current_user()
+		user = self.get_current_email()
 		project = self.get_body_argument("project")
 		anonymous = self.get_body_argument("anon")
 		phone = self.get_body_argument("phone")
 		message = self.get_body_argument("message")
-		create_post(project,anonymous,phone,message)
+		create_post(project,anonymous,phone,message,user)
 		self.render("/",message=1,user=self.get_current_user())
 
 

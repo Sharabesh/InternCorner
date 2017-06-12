@@ -13,7 +13,7 @@ import re
 from functools import reduce
 import json
 
-from peewee import DateTimeField, CharField, IntegerField
+from peewee import DateTimeField, CharField, IntegerField, BooleanField
 
 
 url = urlparse(os.environ["DATABASE_URL"])
@@ -51,6 +51,7 @@ class Posts(BaseModel):
 	likes = IntegerField(null=True)
 	author = CharField(null=True)
 	userid = ForeignKeyField(User,to_field='uniqueid', db_column='userid')
+	anonymous = BooleanField(null=True)
 
 	class Meta:
 		db_table='posts'
@@ -74,8 +75,10 @@ def login_user(username,password):
 		return q
 
 def create_post(project,anonymous,phone,message,user):
-	pass
-	#TODO: add this functionality
+	correct_userid = User.select().where(User.email == user).execute()
+	correct_userid = list(correct_userid)[0]
+	userid = correct_userid.uniqueid
+	Posts.create(content=message,author=user,likes=0,userid=userid,anonymous=anonymous)
 
 def register_user(firstname,lastname,username,email,password,department):
 	if User.select().where((User.email == email)).execute().count == 0:
