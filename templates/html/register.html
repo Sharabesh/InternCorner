@@ -1,0 +1,79 @@
+{% extends base.html %}
+
+{% block css %}
+<link href="static/css/register.css" type='text/css' rel="stylesheet">
+{% end %}
+
+
+
+{% block content %}
+<style>
+body {
+    background: #c1bdba;
+    font-family: 'Titillium Web', sans-serif;
+    background-image: url("static/img/register.jpg");
+    background-size: cover;
+    -webkit-filter: blur(0px);
+    background-image: -webkit-gradient(5px);
+    z-index: 0;
+}
+</style>
+<div class="form">
+
+    <ul class="tab-group">
+        <!--<li class="tab active"><a href="#signup">Sign Up</a></li>
+        <li class="tab"><a href="#login">Log In</a></li>-->
+    </ul>
+    <div class="alert alert-success"
+            {% if failure !=1 %}
+                style="display: none;"
+            {% end %}>
+            <strong>Error!</strong> Looks like a user already exists with these credentials!
+    </div>
+    <div class="tab-content">
+        <div id="login">
+            <h1>Sign Up</h1>
+            <form action="/newUser" method="post">
+                <div class="top-row">
+                    <div class="field-wrap">
+                        <input type="text" name="first" required autocomplete="off" placeholder="First Name"/>
+                    </div>
+
+                    <div class="field-wrap">
+                        <input type="text" name="last" required autocomplete="off" placeholder="Last Name"/>
+                    </div>
+                </div>
+
+                <div class="field-wrap">
+                    <input type="e-mail" name="email" required autocomplete="off" placeholder="E-Mail"/>
+                </div>
+
+                <div class="field-wrap">
+                    <input type="department" name="department" required autocomplete="off" placeholder="Department"/>
+                </div>
+
+                <div class="field-wrap">
+                    <input type="username" name="username" required autocomplete="off" placeholder="Set a Username"/>
+                </div>
+                <div class="field-wrap">
+                    <input type="password" name="password" minlength="5" maxlength="25" required autocomplete="off" placeholder="Set a Password"
+                        title="Enter a password consisting of 5 - 25 characters"/>
+                </div>
+                <button type="submit" class="button button-block">Get Started</button>
+            </form>
+        </div>
+        <div id="login">
+            <h1>Welcome Back!</h1>
+        </div>
+    </div><!-- tab-content -->
+
+</div> <!-- /form -->
+{% end %}
+
+
+{#Remove Footer#}
+{% block footer %}{% end %}
+
+
+
+

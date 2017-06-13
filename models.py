@@ -13,7 +13,7 @@ import re
 from functools import reduce
 import json
 
-from peewee import DateTimeField, CharField, IntegerField
+from peewee import DateTimeField, CharField, IntegerField, BooleanField
 
 
 url = urlparse(os.environ["DATABASE_URL"])
@@ -38,6 +38,9 @@ class User(BaseModel):
 	username = CharField(null=True)
 	password = CharField(null=True)
 	department = CharField(null=True)
+	firstname = CharField(null=True)
+	lastname = CharField(null=True)
+	email = CharField(null=True)
 
 	class Meta:
 		db_table='user'
@@ -48,6 +51,8 @@ class Posts(BaseModel):
 	likes = IntegerField(null=True)
 	author = CharField(null=True)
 	userid = ForeignKeyField(User,to_field='uniqueid', db_column='userid')
+	anonymous = BooleanField(null=True)
+	feeling = IntegerField(null=True)
 
 	class Meta:
 		db_table='posts'
@@ -60,9 +65,36 @@ class Likes(BaseModel):
 		db_table='likes'
 		primary_key = CompositeKey("user_like_id","post_like_id")
 
+def login_user(username,password):
+	hasher = hashlib.sha1()
+	hasher.update(password.encode("utf-8"))
+	password = hasher.hexdigest()
+	q = User.select().where((User.username == username) & (User.password == password)).execute()
+	if q.count == 0:
+		return False
+	else:
+		return q
+
+def create_post(project,anonymous,feeling,message,user):
+	correct_userid = User.select().where(User.email == user).execute()
+	correct_userid = list(correct_userid)[0]
+	userid = correct_userid.uniqueid
+	Posts.create(content=message,author=user,feeling=feeling,likes=0,userid=userid,anonymous=anonymous)
+	return True
+
+def register_user(firstname,lastname,username,email,password,department):
+	if User.select().where((User.email == email)).execute().count == 0:
+		hasher = hashlib.sha1()
+		hasher.update(password.encode("utf-8"))
+		password = hasher.hexdigest()
+		User.create(firstname=firstname,lastname=lastname,username=username,email=email,password=password,department=department)
+		return True
+	return False
+
+def top_4():
+	q = Posts.select().order_by(SQL('likes').desc()).limit(4)
+	return q.execute()
 
 
 
-def create_post(project,anonymous,phone,message,user):
-	pass
-	#TODO: add this functionality
+
