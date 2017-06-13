@@ -47,6 +47,22 @@ class LoginHandler(BaseHandler):
 			self.redirect("/register")
 			# self.render("templates/html/login.html",failure=1,user=self.get_current_user())
 
+class UserPageEndpoint(BaseHandler):
+	def get(self):
+		full_dict = {}
+		results = top_4()
+		output_lst = []
+		for item in results:
+			article_dict = {}
+			article_dict["author"] = item.author
+			article_dict["likes"] = item.likes
+			article_dict["id"] = item.post_id
+			article_dict["feeling"] = item.feeling
+			article_dict["content"] = item.content
+			output_lst.append(article_dict)
+		self.write(json.dumps(output_lst))
+
+
 
 class NewUserEndpoint(BaseHandler):
 	def post(self):
@@ -66,12 +82,16 @@ class NewUserEndpoint(BaseHandler):
 class PostEndpoint(BaseHandler):
 	def post(self):
 		user = self.get_current_email()
+		print(user)
 		project = self.get_body_argument("project")
 		anonymous = self.get_body_argument("anon")
-		phone = self.get_body_argument("phone")
+		doing_well = self.get_body_argument("phone")
 		message = self.get_body_argument("message")
-		create_post(project,anonymous,phone,message,user)
-		self.render("/",message=1,user=self.get_current_user())
+		try:
+			create_post(project,anonymous,doing_well,message,user)
+			self.render("templates/html/index.html",message=0,user=self.get_current_user())
+		except:
+			self.render("templates/html/index.html", message=1, user=self.get_current_user())
 
 
 class LogoutEndpoint(BaseHandler):
@@ -101,6 +121,7 @@ def make_app():
 		(r"/newPost", PostEndpoint),
 		(r"/newUser",NewUserEndpoint),
 		(r"/logout",LogoutEndpoint),
+		(r"/top",UserPageEndpoint),
 	], debug=True,compress_response=True, **settings)
 
 
