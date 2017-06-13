@@ -119,9 +119,8 @@ def make_app():
 			"path":os.path.join(os.path.dirname(os.path.abspath(__file__)), 'static')
 		}),
     #Pages
-		(r"/",NewHandler),
 		(r"/check-in",CheckInHandler),
-		(r"/my-account",MyAccountHandler)
+		(r"/my-account",MyAccountHandler),
 		(r"/",IndexHandler),
 		(r"/check-in",CheckInHandler),
 		(r"/register",RegistrationHandler),
