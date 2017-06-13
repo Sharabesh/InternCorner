@@ -25,6 +25,10 @@ class CheckInHandler(BaseHandler):
 	def get(self):
 		self.render("templates/html/check-in.html")
 
+class MyAccountHandler(BaseHandler):
+	def get(self):
+		self.render("templates/html/my-account.html")
+
 
 
 
@@ -52,7 +56,8 @@ def make_app():
 			"path":os.path.join(os.path.dirname(os.path.abspath(__file__)), 'static')
 		}),
 		(r"/",NewHandler),
-		(r"/check-in",CheckInHandler)
+		(r"/check-in",CheckInHandler),
+		(r"/my-account",MyAccountHandler)
 
 	], debug=True,compress_response=True, **settings)
 
@@ -64,6 +69,3 @@ if __name__ == "__main__":
 	http_server.listen(port)
 	print("Running at localhost:5000")
 	tornado.ioloop.IOLoop.current().start()
-
-
-
