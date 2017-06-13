@@ -26,9 +26,15 @@ class IndexHandler(BaseHandler):
 class CheckInHandler(BaseHandler):
 	def get(self):
 		self.render("templates/html/check-in.html",user=self.get_current_user())
+
+class MyAccountHandler(BaseHandler):
+	def get(self):
+		self.render("templates/html/my-account.html",user=self.get_current_user())
+    
 class RegistrationHandler(BaseHandler):
 	def get(self):
 		self.render("templates/html/register.html",failure=0,user=self.get_current_user())
+
 
 class LoginHandler(BaseHandler):
 	def get(self):
@@ -112,16 +118,20 @@ def make_app():
 		(r"/static/(.*)", tornado.web.StaticFileHandler, {
 			"path":os.path.join(os.path.dirname(os.path.abspath(__file__)), 'static')
 		}),
+    #Pages
+		(r"/",NewHandler),
+		(r"/check-in",CheckInHandler),
+		(r"/my-account",MyAccountHandler)
 		(r"/",IndexHandler),
 		(r"/check-in",CheckInHandler),
 		(r"/register",RegistrationHandler),
 		(r"/login",LoginHandler),
-
 		#ENDPOINTS
 		(r"/newPost", PostEndpoint),
 		(r"/newUser",NewUserEndpoint),
 		(r"/logout",LogoutEndpoint),
 		(r"/top",UserPageEndpoint),
+
 	], debug=True,compress_response=True, **settings)
 
 
@@ -132,6 +142,3 @@ if __name__ == "__main__":
 	http_server.listen(port)
 	print("Running at localhost:5000")
 	tornado.ioloop.IOLoop.current().start()
-
-
-
