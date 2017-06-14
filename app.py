@@ -30,7 +30,7 @@ class CheckInHandler(BaseHandler):
 class MyAccountHandler(BaseHandler):
 	def get(self):
 		self.render("templates/html/my-account.html",user=self.get_current_user())
-    
+
 class RegistrationHandler(BaseHandler):
 	def get(self):
 		self.render("templates/html/register.html",failure=0,user=self.get_current_user())
@@ -111,7 +111,7 @@ class LogoutEndpoint(BaseHandler):
 settings = {
 	"login_url":"/login",
 	"compress_reponse":True,
-	"cookie_secret":"private_key"
+	"cookie_secret":"b'4rp+0kDTQ8m5wgZ7F2eRYg0NXlVoF0IYmL9Z2GrpUdA='"
 }
 
 
