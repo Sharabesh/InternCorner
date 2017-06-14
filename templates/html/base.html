@@ -15,6 +15,9 @@
 
     <!-- Theme CSS -->
     <link href="static/css/clean-blog.min.css" rel="stylesheet">
+    {% block css %}
+
+    {% end %}
 
     <!-- Custom Fonts -->
     <link href="static/css/font-awesome.min.css" rel="stylesheet" type="text/css">
@@ -46,15 +49,28 @@
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav navbar-right">
+                    {% if not user %}
                     <li>
-                        <a href="/my-account">My Account</a>
+                        <a href="/login">Login</a>
                     </li>
+                    <li>
+                        <a href="/register">Register</a>
+                    </li>
+                    {% end %}
                     <li>
                         <a href="#">Engage</a>
                     </li>
                     <li>
                         <a href="/check-in">Check-In</a>
                     </li>
+                    {% if user %}
+                    <li>
+                        <a href="/account">Welcome {{ user }}</a>
+                    </li>
+                    <li>
+                        <a href="/logout">Logout</a>
+                    </li>
+                    {% end %}
                 </ul>
             </div>
             <!-- /.navbar-collapse -->
