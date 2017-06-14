@@ -65,6 +65,7 @@ class UserPageEndpoint(BaseHandler):
 			article_dict["id"] = item.post_id
 			article_dict["feeling"] = item.feeling
 			article_dict["content"] = item.content
+			article_dict["title"] = item.title
 			output_lst.append(article_dict)
 		self.write(json.dumps(output_lst))
 
@@ -93,8 +94,9 @@ class PostEndpoint(BaseHandler):
 		anonymous = self.get_body_argument("anon")
 		doing_well = self.get_body_argument("phone")
 		message = self.get_body_argument("message")
+		title = self.get_body_argument("title")
 		try:
-			create_post(project,anonymous,doing_well,message,user)
+			create_post(project,anonymous,doing_well,message,user,title)
 			self.render("templates/html/index.html",message=0,user=self.get_current_user())
 		except:
 			self.render("templates/html/index.html", message=1, user=self.get_current_user())
