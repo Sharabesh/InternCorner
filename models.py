@@ -53,6 +53,7 @@ class Posts(BaseModel):
 	userid = ForeignKeyField(User,to_field='uniqueid', db_column='userid')
 	anonymous = BooleanField(null=True)
 	feeling = IntegerField(null=True)
+	title = CharField(null=True)
 
 	class Meta:
 		db_table='posts'
@@ -75,11 +76,11 @@ def login_user(username,password):
 	else:
 		return q
 
-def create_post(project,anonymous,feeling,message,user):
+def create_post(project,anonymous,feeling,message,user,title):
 	correct_userid = User.select().where(User.email == user).execute()
 	correct_userid = list(correct_userid)[0]
 	userid = correct_userid.uniqueid
-	Posts.create(content=message,author=user,feeling=feeling,likes=0,userid=userid,anonymous=anonymous)
+	Posts.create(content=message,author=user,feeling=feeling,likes=0,userid=userid,anonymous=anonymous,title=title)
 	return True
 
 def register_user(firstname,lastname,username,email,password,department):

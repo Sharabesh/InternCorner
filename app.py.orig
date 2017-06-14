@@ -26,6 +26,11 @@ class IndexHandler(BaseHandler):
 class CheckInHandler(BaseHandler):
 	def get(self):
 		self.render("templates/html/check-in.html",user=self.get_current_user())
+<<<<<<< HEAD
+class RegistrationHandler(BaseHandler):
+	def get(self):
+		self.render("templates/html/register.html",failure=0,user=self.get_current_user())
+=======
 
 class MyAccountHandler(BaseHandler):
 	def get(self):
@@ -35,6 +40,7 @@ class RegistrationHandler(BaseHandler):
 	def get(self):
 		self.render("templates/html/register.html",failure=0,user=self.get_current_user())
 
+>>>>>>> ba4598dee7b1776525f270f6934ec6aa41581899
 
 class LoginHandler(BaseHandler):
 	def get(self):
@@ -120,9 +126,12 @@ def make_app():
 		(r"/static/(.*)", tornado.web.StaticFileHandler, {
 			"path":os.path.join(os.path.dirname(os.path.abspath(__file__)), 'static')
 		}),
+<<<<<<< HEAD
+=======
     #Pages
 		(r"/check-in",CheckInHandler),
 		(r"/my-account",MyAccountHandler),
+>>>>>>> ba4598dee7b1776525f270f6934ec6aa41581899
 		(r"/",IndexHandler),
 		(r"/check-in",CheckInHandler),
 		(r"/register",RegistrationHandler),
@@ -132,7 +141,10 @@ def make_app():
 		(r"/newUser",NewUserEndpoint),
 		(r"/logout",LogoutEndpoint),
 		(r"/top",UserPageEndpoint),
+<<<<<<< HEAD
+=======
 
+>>>>>>> ba4598dee7b1776525f270f6934ec6aa41581899
 	], debug=True,compress_response=True, **settings)
 
 

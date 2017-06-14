@@ -45,7 +45,14 @@
                     <div class="row control-group">
                         <div class="form-group col-xs-12 floating-label-form-group controls">
                             <label>How are you doing (Scale 1-10 --> Yash do this please)</label>
-                            <input type="tel" class="form-control" placeholder="How are you doing (Scale 1-10 --> Yash do this please)" id="phone" name="phone" required data-validation-required-message="Please Fill this in.">
+                            <input type="number" class="form-control" placeholder="How are you doing (Scale 1-10 --> Yash do this please)" id="phone" name="phone" required data-validation-required-message="Please Fill this in.">
+                            <p class="help-block text-danger"></p>
+                        </div>
+                    </div>
+                    <div class="row control-group">
+                        <div class="form-group col-xs-12 floating-label-form-group controls">
+                            <label>Title</label>
+                            <input type='text' class="form-control" placeholder="Title your post" name="title" id="title">
                             <p class="help-block text-danger"></p>
                         </div>
                     </div>
@@ -60,7 +67,7 @@
                     <div id="success"></div>
                     <div class="row">
                         <div class="form-group col-xs-12">
-                            <button type="submit" class="btn btn-default">Send</button>
+                            <button type="submit" class="btn btn-block btn-default">Send</button>
                         </div>
                     </div>
                 </form>

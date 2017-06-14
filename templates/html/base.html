@@ -11,10 +11,12 @@
     <title>Your Cisco Portal</title>
 
     <!-- Bootstrap Core CSS -->
-    <link href="static/css/bootstrap.css" rel="stylesheet">
+
 
     <!-- Theme CSS -->
     <link href="static/css/clean-blog.min.css" rel="stylesheet">
+
+    <link href="static/css/bootstrap.css" rel="stylesheet">
     {% block css %}
 
     {% end %}
@@ -65,7 +67,7 @@
                     </li>
                     {% if user %}
                     <li>
-                        <a href="/account">Welcome {{ user }}</a>
+                        <a href="/my-account">Welcome {{ user }}</a>
                     </li>
                     <li>
                         <a href="/logout">Logout</a>
