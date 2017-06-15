@@ -30,7 +30,7 @@ class CheckInHandler(BaseHandler):
 class MyAccountHandler(BaseHandler):
 	def get(self):
 		self.render("templates/html/my-account.html",user=self.get_current_user())
-    
+
 class RegistrationHandler(BaseHandler):
 	def get(self):
 		self.render("templates/html/register.html",failure=0,user=self.get_current_user())
@@ -68,6 +68,23 @@ class UserPageEndpoint(BaseHandler):
 			article_dict["title"] = item.title
 			output_lst.append(article_dict)
 		self.write(json.dumps(output_lst))
+
+class UserPostsEndpoint(BaseHandler):
+	def get(self):
+		username = self.get_current_user()
+		results = get_user_posts(username)
+		output_lst = []
+		for item in results:
+			article_dict = {}
+			article_dict["author"] = item.author
+			article_dict["likes"] = item.likes
+			article_dict["id"] = item.post_id
+			article_dict["feeling"] = item.feeling
+			article_dict["content"] = item.content
+			article_dict["title"] = item.title
+			output_lst.append(article_dict)
+		self.write(json.dumps(output_lst))
+
 
 
 
@@ -111,7 +128,7 @@ class LogoutEndpoint(BaseHandler):
 settings = {
 	"login_url":"/login",
 	"compress_reponse":True,
-	"cookie_secret":"private_key"
+	"cookie_secret":"b'4rp+0kDTQ8m5wgZ7F2eRYg0NXlVoF0IYmL9Z2GrpUdA='"
 }
 
 
@@ -132,6 +149,7 @@ def make_app():
 		(r"/newUser",NewUserEndpoint),
 		(r"/logout",LogoutEndpoint),
 		(r"/top",UserPageEndpoint),
+		(r"/user_posts",UserPostsEndpoint)
 
 	], debug=True,compress_response=True, **settings)
 

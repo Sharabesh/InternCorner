@@ -3,7 +3,6 @@ import peewee
 import psycopg2
 from playhouse import signals
 import time
-import peewee
 import os
 from urllib.parse import urlparse
 import playhouse
@@ -96,6 +95,6 @@ def top_4():
 	q = Posts.select().order_by(SQL('likes').desc()).limit(4)
 	return q.execute()
 
-
-
-
+def get_user_posts(username):
+	posts = Posts.select().join(User).where(User.username == username)
+	return posts.execute()
