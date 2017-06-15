@@ -1,5 +1,10 @@
 {% extends "base.html" %}
 
+{% block css %}
+<link href="https://afeld.github.io/emoji-css/emoji.css" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href= static/css/emojiBar.css>
+{% end %}
+
 {% block header %}
     <!-- Page Header -->
     <!-- Set your background image for this header on the line below. -->
@@ -44,11 +49,53 @@
                     </div>
                     <div class="row control-group">
                         <div class="form-group col-xs-12 floating-label-form-group controls">
-                            <label>How are you doing (Scale 1-10 --> Yash do this please)</label>
-                            <input type="number" class="form-control" placeholder="How are you doing (Scale 1-10 --> Yash do this please)" id="phone" name="phone" required data-validation-required-message="Please Fill this in.">
+                            <h4 style="font-weight: normal; color: grey">How are you feeling?</h4>
+                            <div class="sameRow spacer high"></div>
+
+                            <div class="sameRow spacer">
+                                <i class="em em-satisfied" id="1" onclick="this.className = 'class2'"></i>
+                            </div>
+
+                            <div class="sameRow spacer" id="2">
+                                <i class="em em-stuck_out_tongue"></i>
+                            </div>
+
+                            <div class="sameRow spacer" id="3">
+                                <i class="em em-relaxed"></i>
+                            </div>
+
+                            <div class="sameRow spacer" id="4">
+                                <i class="em em-triumph"></i>
+                            </div>
+
+                            <div class="sameRow spacer" id="5">
+                                <i class="em em-neutral_face"></i>
+                            </div>
+
+                            <div class="sameRow spacer" id="6">
+                                <i class="em em-sweat_smile"></i>
+                            </div>
+
+                            <div class="sameRow spacer" id="7">
+                                <i class="em em-unamused"></i>
+                            </div>
+
+                            <div class="sameRow spacer" id="8">
+                                <i class="em em-worried"></i>
+                            </div>
+
+
+                            <div class="sameRow spacer" id="9">
+                                <i class="em em-weary"></i>
+                            </div>
+
+                            <div class="sameRow spacer" id="10">
+                                <i class="em em-angry"></i>
+                            </div>
                             <p class="help-block text-danger"></p>
                         </div>
                     </div>
+
                     <div class="row control-group">
                         <div class="form-group col-xs-12 floating-label-form-group controls">
                             <label>Title</label>
@@ -74,3 +121,11 @@
             </div>
         </div>
 {% end %}
+
+
+<!--
+                    <script>
+                        document.getElementById("1").onclick = function () {
+                            document.getElementById("1").setAttribute("class", "one")
+                        }
+                    </script>
