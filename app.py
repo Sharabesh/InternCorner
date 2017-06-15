@@ -69,6 +69,23 @@ class UserPageEndpoint(BaseHandler):
 			output_lst.append(article_dict)
 		self.write(json.dumps(output_lst))
 
+class UserPostsEndpoint(BaseHandler):
+	def get(self):
+		username = self.get_current_user()
+		results = get_user_posts(username)
+		output_lst = []
+		for item in results:
+			article_dict = {}
+			article_dict["author"] = item.author
+			article_dict["likes"] = item.likes
+			article_dict["id"] = item.post_id
+			article_dict["feeling"] = item.feeling
+			article_dict["content"] = item.content
+			article_dict["title"] = item.title
+			output_lst.append(article_dict)
+		self.write(json.dumps(output_lst))
+
+
 
 
 class NewUserEndpoint(BaseHandler):
@@ -132,6 +149,7 @@ def make_app():
 		(r"/newUser",NewUserEndpoint),
 		(r"/logout",LogoutEndpoint),
 		(r"/top",UserPageEndpoint),
+		(r"/user_posts",UserPostsEndpoint)
 
 	], debug=True,compress_response=True, **settings)
 
