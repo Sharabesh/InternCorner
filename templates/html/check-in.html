@@ -53,7 +53,7 @@
                             <div class="sameRow spacer high"></div>
 
                             <div class="sameRow spacer">
-                                <i class="em em-satisfied" id="1" onclick="this.className = 'class2'"></i>
+                                <i class="em em-satisfied" id="1"></i>
                             </div>
 
                             <div class="sameRow spacer" id="2">
@@ -120,6 +120,17 @@
                 </form>
             </div>
         </div>
+<script>
+    function makeBig(id) {
+        $("#" + id).css("transform", "scale(2,2)");
+    }
+
+    $(".em").click(function() {
+        $(makeBig(id))
+    })
+
+
+</script>
 {% end %}
 
 
