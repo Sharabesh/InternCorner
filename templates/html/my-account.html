@@ -13,7 +13,6 @@
                     <h2>My Account</h2>
                     <hr class="small">
                     <span id='description' class="subheading">There are many like it, but this one is mine.</span><br>
-                    </div>
                 </div>
             </div>
         </div>
@@ -24,8 +23,8 @@
 {% block content %}
 <div class="container">
       <div class="row">
-      <div class="col-md-5 pull-right ">
-           <a href="edit.html" >Edit Profile</a>
+      <div class="col-md-6">
+{#           <a href="edit.html" >Edit Profile</a>#}
       </div>
         <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xs-offset-0 col-sm-offset-0 col-md-offset-3 col-lg-offset-3 toppad" >
           <div class="panel panel-info">
@@ -66,22 +65,23 @@
                 </div>
               </div>
             </div>
-                 <div class="panel-footer">
-                        <a data-original-title="Broadcast Message" data-toggle="tooltip" type="button" class="btn btn-sm btn-primary"><i class="glyphicon glyphicon-envelope"></i></a>
-                        <span class="pull-right">
-                            <a href="edit.html" data-original-title="Edit this user" data-toggle="tooltip" type="button" class="btn btn-sm btn-warning"><i class="glyphicon glyphicon-edit"></i></a>
-                            <a data-original-title="Remove this user" data-toggle="tooltip" type="button" class="btn btn-sm btn-danger"><i class="glyphicon glyphicon-remove"></i></a>
-                        </span>
-                    </div>
-
+             <div class="panel-footer">
+                    <a data-original-title="Broadcast Message" data-toggle="tooltip" type="button" class="btn btn-sm btn-primary"><i class="glyphicon glyphicon-envelope"></i></a>
+                    <span class="pull-right">
+                        <a href="edit.html" data-original-title="Edit this user" data-toggle="tooltip" type="button" class="btn btn-sm btn-warning"><i class="glyphicon glyphicon-edit"></i></a>
+                        <a data-original-title="Remove this user" data-toggle="tooltip" type="button" class="btn btn-sm btn-danger"><i class="glyphicon glyphicon-remove"></i></a>
+                    </span>
+                </div>
           </div>
         </div>
       </div>
     </div>
-
-<div class="row">
-        <div id='results' class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-        </div>
+<div class="container-fluid" style="margin-left:0;margin-right:0;">
+    <div class="row">
+            <h1 style="text-align:center;">My Posts</h1>
+            <div id='results' class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+            </div>
+    </div>
 </div>
 <script>
 $.ajax({
@@ -93,12 +93,12 @@ $.ajax({
     obj = JSON.parse(j);
     $("#results").html("");
     for (var i = 0; i < obj.length; i++) {
-        $("#results").append($("<div>", {"class":"post-preview"}).append(
-            $("<h2>", {"class":"post-title"}).text(obj[i].title).append(
-                $("<h3>", {"class":"post-subtitle"}).text(obj[i].content.slice(0,15) + "...\n" + "Feeling: " + obj[i].feeling).css("font-weight","normal")
+        $("#results").append($("<div>", {"class":"col-md-6"}).append(
+            $("<h2>", {"class":"title"}).text(obj[i].title).append(
+                $("<h3>").text(obj[i].content.slice(0,15) + "...\n" + "Feeling: " + obj[i].feeling).css("font-weight","normal")
             .append(
-                $("<p>", {"class":"post-meta"}).text("Posted by: " + obj[i].author)))
-        )).append($("<a>",{"class":"btn btn-sm btn-primary","href":"#","text":"Likes: " + obj[i].likes + " "}).append($("<span>",{"class":"glyphicon glyphicon-thumbs-up"}))).append("<hr>");
+                $("<p>").text("Posted by you")))
+        ));
     }
     $("#results").html($("#results").html().replace(/\n/g,'<br/>'));
 
