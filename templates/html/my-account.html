@@ -2,7 +2,23 @@
 
 {% block css %}
 <script src="static/js/jquery.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Roboto'>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+    html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
+
+    .spac{
+        height: 10px;
+
+    }
+
+
+</style>
+<body class="w3-light-grey">
 {% end %}
+
 
 {% block header %}
 <header class="intro-header" style="background-image: url('static/img/post-bg.jpg')">
@@ -20,89 +36,101 @@
 </header>
 {% end %}
 
+
 {% block content %}
-<div class="container">
-      <div class="row">
-      <div class="col-md-6">
-{#           <a href="edit.html" >Edit Profile</a>#}
-      </div>
-        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xs-offset-0 col-sm-offset-0 col-md-offset-3 col-lg-offset-3 toppad" >
-          <div class="panel panel-info">
-            <div class="panel-heading">
-              <h3 class="panel-title">Sheena Shrestha</h3>
-            </div>
-            <div class="panel-body">
-              <div class="row">
-                <div class="col-md-3 col-lg-3 " align="center"> <img alt="User Pic" src="http://babyinfoforyou.com/wp-content/uploads/2014/10/avatar-300x300.png" class="img-circle img-responsive"> </div>
-                <div class=" col-md-9 col-lg-9 ">
-                  <table class="table table-user-information">
-                    <tbody>
-                      <tr>
-                        <td>Department:</td>
-                        <td>Programming</td>
-                      </tr>
-                      <tr>
-                        <td>Hire date:</td>
-                        <td>06/23/2013</td>
-                      </tr>
-                      <tr>
-                        <td>Date of Birth</td>
-                        <td>01/24/1988</td>
-                      </tr>
-                      </tr>
-                      <tr>
-                        <td>Email</td>
-                        <td><a href="mailto:info@support.com">info@support.com</a></td>
-                      </tr>
-                        <td>Phone</td>
-                        <td>123-4567-890<br>
-                        </td>
+<!-- Page Container -->
+<div class="w3-content w3-margin-top" style="max-width:1400px;">
 
-                      </tr>
+    <!-- The Grid -->
+    <div class="w3-row-padding">
 
-                    </tbody>
-                  </table>
+        <!-- Left Column -->
+        <div class="w3-third">
+
+            <div class="w3-white w3-text-grey w3-card-4">
+                <div class="w3-display-container">
+                    <img src="static/img/avatar.png" style="width:100%" alt="Avatar">
+                    <div class="w3-display-bottomleft w3-container w3-text-black">
+                        <h2 class="spac">Yash Bora</h2>
+                    </div>
                 </div>
-              </div>
-            </div>
-             <div class="panel-footer">
-                    <a data-original-title="Broadcast Message" data-toggle="tooltip" type="button" class="btn btn-sm btn-primary"><i class="glyphicon glyphicon-envelope"></i></a>
-                    <span class="pull-right">
-                        <a href="edit.html" data-original-title="Edit this user" data-toggle="tooltip" type="button" class="btn btn-sm btn-warning"><i class="glyphicon glyphicon-edit"></i></a>
-                        <a data-original-title="Remove this user" data-toggle="tooltip" type="button" class="btn btn-sm btn-danger"><i class="glyphicon glyphicon-remove"></i></a>
-                    </span>
+                <div class="w3-container">
+                    <p><i class="fa fa-briefcase fa-fw w3-margin-right w3-large w3-text-teal"></i>Software Developer</p>
+                    <p><i class="fa fa-code fa-fw w3-margin-right w3-large w3-text-teal"></i>CSG_DNA</p>
+                    <p><i class="fa fa-building fa-fw w3-margin-right w3-large w3-text-teal"></i>SJC-24</p>
+                    <p><i class="fa fa-envelope fa-fw w3-margin-right w3-large w3-text-teal"></i>yabora@cisco.com</p>
+                    <!--<p><i class="fa fa-phone fa-fw w3-margin-right w3-large w3-text-teal"></i>8323107154</p>-->
+                    <hr>
+
+                    <br>
                 </div>
-          </div>
+            </div><br>
+
+            <!-- End Left Column -->
         </div>
-      </div>
-    </div>
-<div class="container-fluid" style="margin-left:0;margin-right:0;">
-    <div class="row">
-            <h1 style="text-align:center;">My Posts</h1>
-            <div id='results' class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+
+        <!-- Right Column -->
+        <div class="w3-twothird">
+
+            <div class="w3-container w3-card-2 w3-white w3-margin-bottom">
+                <h2 class="w3-text-grey w3-padding-16"><i class="fa fa-suitcase fa-fw w3-margin-right w3-xxlarge w3-text-teal"></i>Project</h2>
+                <div class="w3-container">
+                    <h5 class="w3-opacity"><b>UI Automation</b></h5>
+                    <h6 class="w3-text-teal"><i class="fa fa-calendar fa-fw w3-margin-right"></i>May 2017 - <span class="w3-tag w3-teal w3-round">Current</span></h6>
+                    <p>Working on the Client Health page for the Cisco Live release on June 21st. Specifically designing the capabilities tab under manager Tony Raj.</p>
+                    <hr>
+                </div>
+
             </div>
+
+            <div class="w3-container w3-card-2 w3-white">
+                <h2 class="w3-text-grey w3-padding-16"><i class="fa fa-certificate fa-fw w3-margin-right w3-xxlarge w3-text-teal"></i>Posts</h2>
+                    <div id='results' class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1"></div>
+                </div>
+            </div>
+
+
+
+            <!-- End Right Column -->
+        </div>
+
+        <!-- End Grid -->
     </div>
+
+    <!-- End Page Container -->
 </div>
+
+
 <script>
-$.ajax({
-    type:"GET",
-    url:"/user_posts"
-}).complete(function(o){
-    j = o.responseText;
-    console.log(j);
-    obj = JSON.parse(j);
-    $("#results").html("");
-    for (var i = 0; i < obj.length; i++) {
-        $("#results").append($("<div>", {"class":"col-md-6"}).append(
-            $("<h2>", {"class":"title"}).text(obj[i].title).append(
-                $("<h3>").text(obj[i].content.slice(0,15) + "...\n" + "Feeling: " + obj[i].feeling).css("font-weight","normal")
-            .append(
-                $("<p>").text("Posted by you")))
-        ));
-    }
-    $("#results").html($("#results").html().replace(/\n/g,'<br/>'));
+    var line = $("<div>", {"class":"w3-light-grey w3-round-xlarge"}).append($("<div>",{"class":"w3-round-large w3-teal","style":"height:2px;width:125%"}));
+    $.ajax({
+        type:"GET",
+        url:"/user_posts"
+    }).complete(function(o){
+        j = o.responseText;
+        console.log(j);
+        obj = JSON.parse(j);
+        $("#results").html("");
+        for (var i = 0; i < obj.length; i++) {
+            $("#results").append($("<div>", {"class":"col-md-12"}).append(
+                $("<h2>", {"class":"title"}).text(obj[i].title).append(
+                    $("<h3>").text(obj[i].content.slice(0,15) + "...\n" + "Feeling: " + obj[i].feeling).css("font-weight","normal")
+                        .append(
+                            $("<p>").text("Posted by you").append(line)))
+            ))
+        }
+        $("#results").html($("#results").html().replace(/\n/g,'<br/>'));
 
 
-})
+    })
 </script>
+
+
 {% end %}
+
+
+<!--
+          <div class="w3-light-grey w3-round-xlarge">
+            <div class="w3-round-xlarge w3-teal" style="height:24px;width:100%"></div>
+          </div>
+-->
