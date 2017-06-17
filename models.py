@@ -98,3 +98,5 @@ def top_4():
 def get_user_posts(username):
 	posts = Posts.select().join(User).where(User.username == username)
 	return posts.execute()
+def get_user(email):
+	return list(User.select().where(User.email == email).execute())[0]
