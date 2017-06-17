@@ -29,7 +29,10 @@ class CheckInHandler(BaseHandler):
 
 class MyAccountHandler(BaseHandler):
 	def get(self):
-		self.render("templates/html/my-account.html",user=self.get_current_user())
+		user = get_user(self.get_current_email())
+		self.render("templates/html/my-account.html", user=self.get_current_user(),
+					firstname=user.firstname, lastname=user.lastname, department=user.department,
+					email=user.email)
 
 class RegistrationHandler(BaseHandler):
 	def get(self):
