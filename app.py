@@ -38,6 +38,10 @@ class RegistrationHandler(BaseHandler):
 	def get(self):
 		self.render("templates/html/register.html",failure=0,user=self.get_current_user())
 
+class EngageHandler(BaseHandler):
+	def get(self):
+		self.render("templates/html/engage.html",user=self.get_current_user())
+
 
 class LoginHandler(BaseHandler):
 	def get(self):
@@ -147,6 +151,7 @@ def make_app():
 		(r"/check-in",CheckInHandler),
 		(r"/register",RegistrationHandler),
 		(r"/login",LoginHandler),
+		(r"/engage",EngageHandler),
 		#ENDPOINTS
 		(r"/newPost", PostEndpoint),
 		(r"/newUser",NewUserEndpoint),
