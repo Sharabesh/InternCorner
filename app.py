@@ -24,10 +24,12 @@ class IndexHandler(BaseHandler):
 		self.render("templates/html/index.html", message=0, user=self.get_current_user())
 
 class CheckInHandler(BaseHandler):
+	@tornado.web.authenticated
 	def get(self):
 		self.render("templates/html/check-in.html",user=self.get_current_user())
 
 class MyAccountHandler(BaseHandler):
+	@tornado.web.authenticated
 	def get(self):
 		user = get_user(self.get_current_email())
 		self.render("templates/html/my-account.html", user=self.get_current_user(),
@@ -39,6 +41,7 @@ class RegistrationHandler(BaseHandler):
 		self.render("templates/html/register.html",failure=0,user=self.get_current_user())
 
 class EngageHandler(BaseHandler):
+	@tornado.web.authenticated
 	def get(self):
 		self.render("templates/html/engage.html",user=self.get_current_user())
 
