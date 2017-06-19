@@ -62,8 +62,22 @@ class LoginHandler(BaseHandler):
 
 class UserPageEndpoint(BaseHandler):
 	def get(self):
-		full_dict = {}
 		results = top_4()
+		output_lst = []
+		for item in results:
+			article_dict = {}
+			article_dict["author"] = item.author
+			article_dict["likes"] = item.likes
+			article_dict["id"] = item.post_id
+			article_dict["feeling"] = item.feeling
+			article_dict["content"] = item.content
+			article_dict["title"] = item.title
+			output_lst.append(article_dict)
+		self.write(json.dumps(output_lst))
+
+class RandomPostsEndpoint(BaseHandler):
+	def get(self):
+		results = get_random_10()
 		output_lst = []
 		for item in results:
 			article_dict = {}
@@ -91,8 +105,6 @@ class UserPostsEndpoint(BaseHandler):
 			article_dict["title"] = item.title
 			output_lst.append(article_dict)
 		self.write(json.dumps(output_lst))
-
-
 
 
 class NewUserEndpoint(BaseHandler):
@@ -157,8 +169,8 @@ def make_app():
 		(r"/newUser",NewUserEndpoint),
 		(r"/logout",LogoutEndpoint),
 		(r"/top",UserPageEndpoint),
-		(r"/user_posts",UserPostsEndpoint)
-
+		(r"/user_posts",UserPostsEndpoint),
+		(r"/random",RandomPostsEndpoint),
 	], debug=True,compress_response=True, **settings)
 
 

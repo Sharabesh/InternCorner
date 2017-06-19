@@ -100,3 +100,7 @@ def get_user_posts(username):
 	return posts.execute()
 def get_user(email):
 	return list(User.select().where(User.email == email).execute())[0]
+
+def get_random_10():
+	q = Posts.select().order_by(fn.Random()).limit(10)
+	return q.execute()
