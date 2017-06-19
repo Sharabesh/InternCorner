@@ -96,7 +96,7 @@
                  panel.append($("<div>", {'class':'panel-heading'}).append(
                      $("<h4>",{"text":obj[i].title + "\nPosted by " + obj[i].author}))).append(
                         $("<div>", {"class": "panel-body"}).text(obj[i].content)
-                 ).append($("<a>",{"class":"btn btn-sm btn-primary","href":"#","text":"Likes: " + obj[i].likes + " ", "style":"margin-bottom:2%; margin-left:2%"}).append($("<span>",{"class":"glyphicon glyphicon-thumbs-up"})))
+                 ).append($("<a>",{"class":"btn btn-sm btn-primary","id":obj[i].id,"href":"#","text":"Likes: " + obj[i].likes + " ", "style":"margin-bottom:2%; margin-left:2%"}).append($("<span>",{"class":"glyphicon glyphicon-thumbs-up"})))
                  $("#results").append(panel);
              }
              $("#results").html($("#results").html().replace(/\n/g,'<br/>'));
