@@ -3,6 +3,8 @@
 {% block css %}
 <link href="https://afeld.github.io/emoji-css/emoji.css" rel="stylesheet">
 <link rel="stylesheet" type="text/css" href= static/css/emojiBar.css>
+<link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+<script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
 <script src="static/js/jquery.js"></script>
 {% end %}
 
@@ -33,21 +35,15 @@
                 <!-- WARNING: Some web hosts do not allow emails to be sent through forms to common mail hosts like Gmail or Yahoo. It's recommended that you use a private domain email address! -->
                 <!-- NOTE: To use the contact form, your site must be on a live web host with PHP! The form will not work locally! -->
                 <form name="sentMessage" id="contactForm" action="/newPost" method="post" novalidate>
-                    <p>Tell us what's relevant. Message not required.</p>
-                    <div class="row control-group">
-                        <div class="form-group col-xs-12 floating-label-form-group controls">
-                            <label>What's your Project</label>
-                            <input type="text" class="form-control" placeholder="Project" id="project" name="project" required data-validation-required-message="Please enter your project.">
-                            <p class="help-block text-danger"></p>
-                        </div>
-                    </div>
-                    <div class="row control-group">
-                        <div class="form-group col-xs-12 floating-label-form-group controls">
-                            <label>Go Anonymous?</label>
-                            <input type="email" class="form-control" placeholder="Anonymous?" id="anon" name="anon" required data-validation-required-message="Please enter your anon status.">
-                            <p class="help-block text-danger"></p>
-                        </div>
-                    </div>
+                    <!--<p>Tell us what's relevant. Message not required.</p>-->
+                    <!--<div class="row control-group">-->
+                        <!--<div class="form-group col-xs-12 floating-label-form-group controls">-->
+                            <!--<label>What's your Project</label>-->
+                            <!--<input type="text" class="form-control" placeholder="Project" id="project" name="project" required data-validation-required-message="Please enter your project.">-->
+                            <!--<p class="help-block text-danger"></p>-->
+                        <!--</div>-->
+                    <!--</div>-->
+
                     <div class="row control-group">
                         <div class="form-group col-xs-12 floating-label-form-group controls">
                             <h4 style="font-weight: normal; color: grey">How are you feeling?</h4>
@@ -111,10 +107,28 @@
                             <p class="help-block text-danger"></p>
                         </div>
                     </div>
+
+                    <div class="spacer1">
+                        <div class="form-group col-xs-2 floating-label-form-group controls">
+
+                            <!--<input type="email" class="form-control" placeholder="Anonymous?" id="anon" name="anon" required data-validation-required-message="Please enter your anon status.">-->
+                            <!--<div class=""></div>-->
+
+                            <div>
+                            <label class="switch"></label>
+                                <input type="checkbox" data-toggle="toggle">
+                                <div class="slider round"></div>
+                            </div>
+
+                            <p class="help-block text-danger"></p>
+                        </div>
+                    </div>
+
+
                     <br>
                     <div id="success"></div>
                     <div class="row">
-                        <div class="form-group col-xs-12">
+                        <div class="form-group col-xs-12 spacer2">
                             <button type="submit" class="btn btn-block btn-default">Send</button>
                         </div>
                     </div>

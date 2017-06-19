@@ -177,7 +177,8 @@ def make_app():
 if __name__ == "__main__":
 	app = make_app()
 	http_server = tornado.httpserver.HTTPServer(app)
-	port = int(os.environ.get("PORT",2000))
+	port = int(os.environ.get("PORT",5000))
 	http_server.listen(port)
 	print("Running at localhost:5000")
 	tornado.ioloop.IOLoop.current().start()
+	print("running")
