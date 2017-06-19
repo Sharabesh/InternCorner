@@ -45,7 +45,7 @@
                     <span class="sr-only">Toggle navigation</span>
                     Menu <i class="fa fa-bars"></i>
                 </button>
-                <a href="./" class="navbar-left"><img style="max-width:100px; max-height:35px; margin-top:7px;" src="static/img//Cisco_logo.svg"></a>
+                <a href="./" class="navbar-left"><img onmouseover="" style="max-width:100px; max-height:35px; margin-top:7px; cursor: pointer;" src="static/img//Cisco_logo.svg"></a>
             </div>
 
             <!-- Collect the nav links, forms, and other content for toggling -->
@@ -60,12 +60,12 @@
                     </li>
                     {% end %}
                     <li>
-                        <a href="#">Engage</a>
+                        <a href="/engage">Engage</a>
                     </li>
+                    {% if user %}
                     <li>
                         <a href="/check-in">Check-In</a>
                     </li>
-                    {% if user %}
                     <li>
                         <a href="/my-account">Welcome {{ user }}</a>
                     </li>
