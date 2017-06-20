@@ -24,16 +24,26 @@ class IndexHandler(BaseHandler):
 		self.render("templates/html/index.html", message=0, user=self.get_current_user())
 
 class CheckInHandler(BaseHandler):
+	@tornado.web.authenticated
 	def get(self):
 		self.render("templates/html/check-in.html",user=self.get_current_user())
 
 class MyAccountHandler(BaseHandler):
+	@tornado.web.authenticated
 	def get(self):
-		self.render("templates/html/my-account.html",user=self.get_current_user())
+		user = get_user(self.get_current_email())
+		self.render("templates/html/my-account.html", user=self.get_current_user(),
+					firstname=user.firstname, lastname=user.lastname, department=user.department,
+					email=user.email)
 
 class RegistrationHandler(BaseHandler):
 	def get(self):
 		self.render("templates/html/register.html",failure=0,user=self.get_current_user())
+
+class EngageHandler(BaseHandler):
+	@tornado.web.authenticated
+	def get(self):
+		self.render("templates/html/engage.html",user=self.get_current_user())
 
 
 class LoginHandler(BaseHandler):
@@ -55,8 +65,22 @@ class LoginHandler(BaseHandler):
 
 class UserPageEndpoint(BaseHandler):
 	def get(self):
-		full_dict = {}
 		results = top_4()
+		output_lst = []
+		for item in results:
+			article_dict = {}
+			article_dict["author"] = item.author
+			article_dict["likes"] = item.likes
+			article_dict["id"] = item.post_id
+			article_dict["feeling"] = item.feeling
+			article_dict["content"] = item.content
+			article_dict["title"] = item.title
+			output_lst.append(article_dict)
+		self.write(json.dumps(output_lst))
+
+class RandomPostsEndpoint(BaseHandler):
+	def get(self):
+		results = get_random_10()
 		output_lst = []
 		for item in results:
 			article_dict = {}
@@ -84,8 +108,6 @@ class UserPostsEndpoint(BaseHandler):
 			article_dict["title"] = item.title
 			output_lst.append(article_dict)
 		self.write(json.dumps(output_lst))
-
-
 
 
 class NewUserEndpoint(BaseHandler):
@@ -144,13 +166,14 @@ def make_app():
 		(r"/check-in",CheckInHandler),
 		(r"/register",RegistrationHandler),
 		(r"/login",LoginHandler),
+		(r"/engage",EngageHandler),
 		#ENDPOINTS
 		(r"/newPost", PostEndpoint),
 		(r"/newUser",NewUserEndpoint),
 		(r"/logout",LogoutEndpoint),
 		(r"/top",UserPageEndpoint),
-		(r"/user_posts",UserPostsEndpoint)
-
+		(r"/user_posts",UserPostsEndpoint),
+		(r"/random",RandomPostsEndpoint),
 	], debug=True,compress_response=True, **settings)
 
 
