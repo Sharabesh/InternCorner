@@ -72,7 +72,9 @@
             )).append($("<a>",{"class":"btn btn-sm btn-primary","href":"#","text":"Likes: " + obj[i].likes + " "}).append($("<span>",{"class":"glyphicon glyphicon-thumbs-up"}))).append("<hr>");
         }
         $("#results").html($("#results").html().replace(/\n/g,'<br/>'));
+
         createChart(feelingsData, labelsData);
+
 
     })
 
