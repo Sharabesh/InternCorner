@@ -2,6 +2,8 @@
 
 {% block css %}
 <script src="static/js/jquery.js"></script>
+<script src="static/js/Chart.bundle.min.js"></script>
+<script src="static/js/moment.js"></script>
 {% end %}
 
 {% block header %}
@@ -32,11 +34,23 @@
 <!-- Main Content -->
 {% block content %}
 <div class="row">
+  <div id="chart" class="col-lg-8 col-lg-offset-2">
+    <canvas id="feelings-chart" height="160"></canvas>
+  </div>
+  </div>
+</div>
+
+<div class="row">
     <div id='results' class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
     </div>
 </div>
 
 <script>
+    var feelingsData = [];
+    var labelsData = [];
+    var bgColorData = [];
+    var brdrColorData = [];
+
     $.ajax({
         type:"GET",
         url:"/top"
@@ -46,6 +60,10 @@
         obj = JSON.parse(j);
         $("#results").html("");
         for (var i = 0; i < obj.length; i++) {
+            feelingsData.push(obj[i].feeling);
+            labelsData.push(i);
+            bgColorData.push("rgba(255, 99, 132, 0.2)");
+            brdrColorData.push("rgba(255, 206, 86, 1)");
             $("#results").append($("<div>", {"class":"post-preview"}).append(
                 $("<h2>", {"class":"post-title"}).text(obj[i].title).append(
                     $("<h3>", {"class":"post-subtitle"}).text(obj[i].content.slice(0,15) + "...\n" + "Feeling: " + obj[i].feeling).css("font-weight","normal")
@@ -54,70 +72,37 @@
             )).append($("<a>",{"class":"btn btn-sm btn-primary","href":"#","text":"Likes: " + obj[i].likes + " "}).append($("<span>",{"class":"glyphicon glyphicon-thumbs-up"}))).append("<hr>");
         }
         $("#results").html($("#results").html().replace(/\n/g,'<br/>'));
-
+        createChart(feelingsData, labelsData);
 
     })
 
 
 
-
+    function createChart(feelingsData, labelsData) {
+      var ctx = document.getElementById("feelings-chart");
+      var myChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: labelsData,
+          datasets: [{
+            label: "Intern Feelings",
+            data: feelingsData,
+            backgroundColor: bgColorData,
+            borderColor: brdrColorData,
+            borderWidth: 1
+          }]
+        },
+        options: {
+          scales: {
+            yAxes: [{
+              ticks: {
+                beginAtZero:true
+              }
+            }]
+          },
+          responsive:true
+        }
+      });
+  }
 </script>
-
-
-
-{#<div class="row">#}
-{#    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">#}
-{#        <div class="post-preview">#}
-{#            <a href="post.html">#}
-{#                <h2 class="post-title">#}
-{#                    Man must explore, and this is exploration at its greatest#}
-{#                </h2>#}
-{#                <h3 class="post-subtitle">#}
-{#                    Problems look mighty small from 150 miles up#}
-{#                </h3>#}
-{#            </a>#}
-{#            <p class="post-meta">Posted by <a href="#">Start Bootstrap</a> on September 24, 2014</p>#}
-{#        </div>#}
-{#        <hr>#}
-{#        <div class="post-preview">#}
-{#            <a href="post.html">#}
-{#                <h2 class="post-title">#}
-{#                    I believe every human has a finite number of heartbeats. I don't intend to waste any of mine.#}
-{#                </h2>#}
-{#            </a>#}
-{#            <p class="post-meta">Posted by <a href="#">Start Bootstrap</a> on September 18, 2014</p>#}
-{#        </div>#}
-{#        <hr>#}
-{#        <div class="post-preview">#}
-{#            <a href="post.html">#}
-{#                <h2 class="post-title">#}
-{#                    Science has not yet mastered prophecy#}
-{#                </h2>#}
-{#                <h3 class="post-subtitle">#}
-{#                    We predict too much for the next year and yet far too little for the next ten.#}
-{#                </h3>#}
-{#            </a>#}
-{#            <p class="post-meta">Posted by <a href="#">Start Bootstrap</a> on August 24, 2014</p>#}
-{#        </div>#}
-{#        <hr>#}
-{#        <div class="post-preview">#}
-{#            <a href="post.html">#}
-{#                <h2 class="post-title">#}
-{#                    Failure is not an option#}
-{#                </h2>#}
-{#                <h3 class="post-subtitle">#}
-{#                    Many say exploration is part of our destiny, but it’s actually our duty to future generations.#}
-{#                </h3>#}
-{#            </a>#}
-{#            <p class="post-meta">Posted by <a href="#">Start Bootstrap</a> on July 8, 2014</p>#}
-{#        </div>#}
-{#        <hr>#}
-{#        <!-- Pager -->#}
-{#        <ul class="pager">#}
-{#            <li class="next">#}
-{#                <a href="#">More Posts &rarr;</a>#}
-{#            </li>#}
-{#        </ul>#}
-{#    </div>#}
-{#</div>#}
 {% end %}
