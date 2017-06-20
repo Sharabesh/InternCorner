@@ -73,10 +73,7 @@ def login_user(username,password):
 	hasher.update(password.encode("utf-8"))
 	password = hasher.hexdigest()
 	q = User.select().where((User.username == username) & (User.password == password)).execute()
-	if q.count == 0:
-		return False
-	else:
-		return q
+	return q
 
 def create_post(project,anonymous,feeling,message,user,title):
 	correct_userid = User.select().where(User.email == user).execute()
