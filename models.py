@@ -68,6 +68,10 @@ class Likes(BaseModel):
 		db_table='likes'
 		primary_key = CompositeKey("user_like_id","post_like_id")
 
+
+
+
+
 def login_user(username,password):
 	hasher = hashlib.sha1()
 	hasher.update(password.encode("utf-8"))
