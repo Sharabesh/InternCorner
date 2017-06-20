@@ -11,6 +11,7 @@ from playhouse.postgres_ext import *
 import re
 from functools import reduce
 import json
+import datetime
 
 from peewee import DateTimeField, CharField, IntegerField, BooleanField
 
@@ -53,6 +54,8 @@ class Posts(BaseModel):
 	anonymous = BooleanField(null=True)
 	feeling = IntegerField(null=True)
 	title = CharField(null=True)
+	time_posted = DateTimeField()
+
 
 	class Meta:
 		db_table='posts'
