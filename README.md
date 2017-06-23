@@ -9,5 +9,5 @@
 * Install the requirements 
  - pip install -r requirements.txt
 * Run the webapp 
- - cd to the repository 
- - python3 app.py
+- cd to the repository 
+- python3 app.py
