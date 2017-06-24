@@ -11,6 +11,7 @@ from playhouse.postgres_ext import *
 import re
 from functools import reduce
 import json
+import datetime
 
 from peewee import DateTimeField, CharField, IntegerField, BooleanField
 
@@ -53,6 +54,8 @@ class Posts(BaseModel):
 	anonymous = BooleanField(null=True)
 	feeling = IntegerField(null=True)
 	title = CharField(null=True)
+	time_posted = DateTimeField()
+
 
 	class Meta:
 		db_table='posts'
@@ -64,6 +67,10 @@ class Likes(BaseModel):
 	class Meta:
 		db_table='likes'
 		primary_key = CompositeKey("user_like_id","post_like_id")
+
+
+
+
 
 def login_user(username,password):
 	hasher = hashlib.sha1()
