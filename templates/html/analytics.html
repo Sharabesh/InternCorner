@@ -4,6 +4,8 @@
 <script src="static/js/jquery.js"></script>
 <script src="static/js/Chart.bundle.min.js"></script>
 <script src="static/js/moment.js"></script>
+<script src="static/js/jquery-ui.min.js"></script>
+<link href="static/css/jquery-ui.min.css" rel="stylesheet">
 {% end %}
 
 {% block header %}
@@ -12,17 +14,9 @@
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
                 <div class="site-heading">
-                    <h2>Share Your Experience</h2>
+                    <h2>Analytics</h2>
                     <hr class="small">
-                    <span id='description' class="subheading">A Way to keep track of the Cisco Intern Journey</span><br>
-                    <div id="success" class="alert alert-success" style="display: none">
-                        <strong>Congrats!<br></strong>Your post should appear shortly.
-                        {%  if message==1 %}
-                            <script>
-                                $("#success").show().delay(2000).fadeOut();
-                            </script>
-                        {% end %}
-                    </div>
+                    <span id='description' class="subheading">A little knowledge is a dangerous thing.</span><br>
                 </div>
             </div>
         </div>
@@ -34,17 +28,29 @@
 <!-- Main Content -->
 {% block content %}
 <div class="row">
+    <form>
+      <label for="start-date">Start </label>
+      <input id="start-date" class="datepicker" />
+      <label for="end-date">End </label>
+      <input id="end-date" class="datepicker" />
+    </form>
+</div>
+
+
+<div class="row">
   <div id="chart" class="col-lg-8 col-lg-offset-2">
     <canvas id="feelings-chart" height="160"></canvas>
   </div>
 </div>
 
-<div class="row">
-    <div id='results' class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-    </div>
-</div>
+
+
 
 <script>
+  $(document).ready(function() {
+    $(".datepicker").datepicker();
+  });
+
     var feelingsData = [];
     var labelsData = [];
     var bgColorData = [];
@@ -52,7 +58,7 @@
 
     $.ajax({
         type:"GET",
-        url:"/top"
+        url:"/random"
     }).complete(function(o){
         j = o.responseText;
         console.log(j);
@@ -63,17 +69,10 @@
             labelsData.push(i);
             bgColorData.push("rgba(255, 99, 132, 0.2)");
             brdrColorData.push("rgba(255, 206, 86, 1)");
-            $("#results").append($("<div>", {"class":"post-preview"}).append(
-                $("<h2>", {"class":"post-title"}).text(obj[i].title).append(
-                    $("<h3>", {"class":"post-subtitle"}).text(obj[i].content.slice(0,15) + "...\n" + "Feeling: " + obj[i].feeling).css("font-weight","normal")
-                .append(
-                    $("<p>", {"class":"post-meta"}).text("Posted by: " + obj[i].author)))
-            )).append($("<a>",{"class":"btn btn-sm btn-primary","href":"#","text":"Likes: " + obj[i].likes + " "}).append($("<span>",{"class":"glyphicon glyphicon-thumbs-up"}))).append("<hr>");
         }
-        $("#results").html($("#results").html().replace(/\n/g,'<br/>'));
         createChart(feelingsData, labelsData);
+    });
 
-    })
 
 
     function createChart(feelingsData, labelsData) {
@@ -98,7 +97,11 @@
               }
             }]
           },
-          responsive:true
+          responsive:true,
+          title: {
+              display:true,
+              text:"Average Intern over Time"
+          }
         }
       });
   }

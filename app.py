@@ -45,6 +45,10 @@ class EngageHandler(BaseHandler):
 	def get(self):
 		self.render("templates/html/engage.html",user=self.get_current_user())
 
+class AnalyticsHandler(BaseHandler):
+	@tornado.web.authenticated
+	def get(self):
+		self.render("templates/html/analytics.html",user=self.get_current_user())
 
 class LoginHandler(BaseHandler):
 	def get(self):
@@ -167,6 +171,7 @@ def make_app():
 		(r"/register",RegistrationHandler),
 		(r"/login",LoginHandler),
 		(r"/engage",EngageHandler),
+		(r"/analytics",AnalyticsHandler),
 		#ENDPOINTS
 		(r"/newPost", PostEndpoint),
 		(r"/newUser",NewUserEndpoint),
