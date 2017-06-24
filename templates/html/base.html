@@ -46,6 +46,9 @@
                     Menu <i class="fa fa-bars"></i>
                 </button>
                 <a href="./" class="navbar-left"><img onmouseover="" style="max-width:100px; max-height:35px; margin-top:7px; cursor: pointer;" src="static/img//Cisco_logo.svg"></a>
+                {% if user %}
+                <span class="navbar-nav navbar-left" style="color:black; font-size: 0.75em; font-weight: bold; padding-left:3%; padding-top:5%;"><em>Welcome {{ user }}</em></span>
+                {% end %}
             </div>
 
             <!-- Collect the nav links, forms, and other content for toggling -->
@@ -67,7 +70,7 @@
                         <a href="/check-in">Check-In</a>
                     </li>
                     <li>
-                        <a href="/my-account">Welcome {{ user }}</a>
+                        <a href="/my-account">My Account</a>
                     </li>
                     <li>
                         <a href="/logout">Logout</a>
@@ -91,7 +94,7 @@
         {% block content %}{% end %}
     </div>
 
-    <hr>
+
 
     <!-- Footer -->
     {% block footer %}
@@ -99,7 +102,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-                    <p class="copyright text-muted">Copyright &copy; THE Intern Corner 201</p>
+                    <p class="copyright text-muted">Developed by The InternCorner</p>
                 </div>
             </div>
         </div>

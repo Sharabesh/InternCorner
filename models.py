@@ -108,3 +108,7 @@ def get_user(email):
 def get_random_10():
 	q = Posts.select().order_by(fn.Random()).limit(10)
 	return q.execute()
+
+def search_posts(query):
+	match = Match(Posts.title,query) | Match(Posts.content,query) | Match(Posts.author,query)
+	return Posts.select().where(match).limit(10).execute()
