@@ -16,6 +16,8 @@
     <!-- Theme CSS -->
     <link href="static/css/clean-blog.min.css" rel="stylesheet">
 
+    <!-- jQuery -->
+    <script src="static/js/jquery.js"></script>
 
     {% block css %}
 
@@ -62,7 +64,11 @@
                         <a href="/register">Register</a>
                     </li>
                     {% end %}
+
                     {% if user %}
+                    <li>
+                        <a href="/analytics">Analytics</a>
+                    </li>
                     <li>
                         <a href="/engage">Engage</a>
                     </li>
@@ -102,15 +108,13 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+
                     <p class="copyright text-muted">Developed by The InternCorner</p>
                 </div>
             </div>
         </div>
     </footer>
     {% end %}
-
-    <!-- jQuery -->
-    <script src="static/js/jquery.js"></script>
 
     <!-- Bootstrap Core JavaScript -->
     <script src="static/js/bootstrap.min.js"></script>
