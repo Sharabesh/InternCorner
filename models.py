@@ -141,3 +141,6 @@ def get_chart_posts(start_date, end_date):
 # 	elif (end_date != ""):
 # 		q = Posts.select().where(Posts.time_posted <= end_date).order_by(SQL('likes').asc())
 # 	return q.execute()
+def search_posts(query):
+	match = Match(Posts.title,query) | Match(Posts.content,query) | Match(Posts.author,query)
+	return Posts.select().where(match).limit(10).execute()
