@@ -102,9 +102,42 @@ def top_4():
 def get_user_posts(username):
 	posts = Posts.select().join(User).where(User.username == username)
 	return posts.execute()
+
 def get_user(email):
 	return list(User.select().where(User.email == email).execute())[0]
 
 def get_random_10():
 	q = Posts.select().order_by(fn.Random()).limit(10)
 	return q.execute()
+
+def get_chart_posts(start_date, end_date):
+	if (start_date != "" and end_date != ""):
+		q = Posts.select().where((Posts.time_posted >= start_date) & (Posts.time_posted <= end_date)).order_by(SQL('time_posted').asc())
+	elif (start_date != ""):
+		q = Posts.select().where(Posts.time_posted >= start_date).order_by(SQL('time_posted').asc())
+	elif (end_date != ""):
+		q = Posts.select().where(Posts.time_posted <= end_date).order_by(SQL('time_posted').asc())
+	return q.execute()
+
+# def helper(filters):
+# 	x = []
+# 	query = []
+# 	for key in filters:
+# 		if key == "Department":
+# 			x.append(User.department)
+# 			query.append(Equals(User.department, filters["department"])
+# 		if key == "...":
+# 			x.append(...)
+#
+#
+# def get_chart_posts(filters):
+# 	functools.reduce(query, &)
+# 	columns = helper(filters)
+# 	q = Posts.select().where(query)
+# 	if (start_date != "" and end_date != ""):
+# 		q = Posts.select().where((Posts.time_posted >= start_date) & (Posts.time_posted <= end_date)).order_by(SQL('likes').asc())
+# 	elif (start_date != ""):
+# 		q = Posts.select().where(Posts.time_posted >= start_date).order_by(SQL('likes').asc())
+# 	elif (end_date != ""):
+# 		q = Posts.select().where(Posts.time_posted <= end_date).order_by(SQL('likes').asc())
+# 	return q.execute()

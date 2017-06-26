@@ -28,14 +28,32 @@
 <!-- Main Content -->
 {% block content %}
 <div class="row">
-    <form>
-      <label for="start-date">Start </label>
-      <input id="start-date" class="datepicker" />
-      <label for="end-date">End </label>
-      <input id="end-date" class="datepicker" />
-    </form>
-</div>
+    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <!-- Contact Form - Enter your email address on line 19 of the mail/contact_me.php file to make this form work. -->
+        <!-- WARNING: Some web hosts do not allow emails to be sent through forms to common mail hosts like Gmail or Yahoo. It's recommended that you use a private domain email address! -->
+        <!-- NOTE: To use the contact form, your site must be on a live web host with PHP! The form will not work locally! -->
+        <form name="sentMessage" id="chartForm" novalidate>
 
+            <div class="row">
+              <label for="start-date">Start </label>
+              <input id="start-date" class="datepicker" />
+            </div>
+
+            <div class="row">
+              <label for="end-date">End </label>
+              <input id="end-date" class="datepicker" />
+            </div>
+
+            <br>
+            <div class="row">
+                <div class="form-group col-xs-12">
+                    <button id="new-chart-button" type="button" class="btn btn-block btn-default">Send</button>
+                </div>
+            </div>
+            <br>
+        </form>
+    </div>
+</div>
 
 <div class="row">
   <div id="chart" class="col-lg-8 col-lg-offset-2">
@@ -47,45 +65,115 @@
 
 
 <script>
+//Maps feelings by date
+//Key => date
+//Value => array of feelings
+class FeelingMap {
+  constructor() {
+    this.map = {};
+  }
+
+  //insert feeling based on date
+  insert(date, feeling) {
+    if (this.map[date] == undefined) { this.map[date] = [feeling]; }
+    else { this.map[date].push(feeling); }
+  }
+
+  //print feeling map
+  print() {
+    console.log("Feeling map");
+    for (var feelings in this.map) {
+      console.log(feelings);
+      console.log(this.map[feelings]);
+    }
+  }
+}
+
+//Stores all data for a Chart
+class ChartData {
+  constructor() {
+    this.feelings = [];
+    this.labels = [];
+    this.bgColors = [];
+    this.brdrColors = [];
+  }
+
+  reset() {
+    this.feelings = [];
+    this.labels = [];
+    this.bgColors = [];
+    this.brdrColors = [];
+  }
+}
+
   $(document).ready(function() {
     $(".datepicker").datepicker();
   });
 
-    var feelingsData = [];
-    var labelsData = [];
-    var bgColorData = [];
-    var brdrColorData = [];
+    $("#new-chart-button").click(function() {
+      var start_date = $("#start-date").val();
+      var end_date = $("#end-date").val();
+      var chart_data = new ChartData();
 
-    $.ajax({
+      if (!validDates(start_date, end_date)) { return; }
+
+      $.ajax({
         type:"GET",
-        url:"/random"
-    }).complete(function(o){
+        url:"/newChart",
+        data: {
+          "start_date" : start_date,
+          "end_date" : end_date
+        }
+      }).complete(function(o){
         j = o.responseText;
         console.log(j);
         obj = JSON.parse(j);
-        $("#results").html("");
+        var fmap = new FeelingMap();
         for (var i = 0; i < obj.length; i++) {
-            feelingsData.push(obj[i].feeling);
-            labelsData.push(i);
-            bgColorData.push("rgba(255, 99, 132, 0.2)");
-            brdrColorData.push("rgba(255, 206, 86, 1)");
+            fmap.insert(obj[i].time_posted, obj[i].feeling);
         }
-        createChart(feelingsData, labelsData);
+
+        for (var i in fmap.map) {
+          chart_data.feelings.push(average(fmap.map[i])); //Push Avg feeling for a date
+          chart_data.labels.push(i); //Push Date
+          chart_data.bgColors.push("rgba(255, 99, 132, 0.2)");
+          chart_data.brdrColors.push("rgba(255, 206, 86, 1)");
+        }
+        createChart(chart_data);
+      });
     });
 
 
+    // $.ajax({
+    //     type:"GET",
+    //     url:"/random"
+    // }).complete(function(o){
+    //     var chart_data = new ChartData();
+    //     j = o.responseText;
+    //     console.log(j);
+    //     obj = JSON.parse(j);
+    //     for (var i = 0; i < obj.length; i++) {
+    //         chart_data.feelings.push(obj[i].feeling);
+    //         chart_data.labels.push(obj[i].time_posted);
+    //         chart_data.bgColors.push("rgba(255, 99, 132, 0.2)");
+    //         chart_data.brdrColors.push("rgba(255, 206, 86, 1)");
+    //     }
+    //     createChart(chart_data);
+    // });
 
-    function createChart(feelingsData, labelsData) {
+
+
+    function createChart(chart_data) {
       var ctx = document.getElementById("feelings-chart");
       var myChart = new Chart(ctx, {
         type: 'line',
         data: {
-          labels: labelsData,
+          labels: chart_data.labels,
           datasets: [{
             label: "Intern Feelings",
-            data: feelingsData,
-            backgroundColor: bgColorData,
-            borderColor: brdrColorData,
+            data: chart_data.feelings,
+            backgroundColor: chart_data.bgColors,
+            borderColor: chart_data.brdrColors,
             borderWidth: 1
           }]
         },
@@ -100,10 +188,33 @@
           responsive:true,
           title: {
               display:true,
-              text:"Average Intern over Time"
+              text:"Intern Feelings Over Time"
           }
         }
       });
+  }
+
+  //Returns true if dates are valid. false otherwise
+  function validDates(start_date, end_date) {
+    var start_moment = new Date(start_date);
+    var end_moment = new Date(end_date);
+    if (start_moment <= end_moment) {
+      console.log("Valid dates");
+      return true;
+    } else {
+      console.log("Not valid dates");
+      return false;
+    }
+  }
+
+  //Returns average of an array, rounding to 2 decimal places
+  function average(array) {
+    var sum = 0.0;
+    var n = (1.0 * array.length);
+    for (var i = 0; i < n; ++i) {
+      sum += array[i];
+    }
+    return (sum / n).toFixed(2);
   }
 </script>
 {% end %}
