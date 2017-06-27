@@ -89,8 +89,13 @@
                             <div class="sameRow spacer">
                                 <i class="em em-angry" id="10"></i>
                             </div>
+
                             <p class="help-block text-danger"></p>
+
+                            <div id = "eText" class="text-left spacer1"><br/></div>
+
                         </div>
+
                     </div>
 
                     <div class="row control-group">
@@ -148,10 +153,33 @@
         $("#" + id).css("transform","scale(1,1)");
     }
 
+
+    var clickText = "<br/>";
+    var emo = ["Ecstatic", "Silly", "Happy", "Victorious", "Neutral", "Nervous", "/", "Sad", "Unhappy", "Angry"];
+    function emojiText(id) {
+        if (id < 0) {
+            $("#eText").html(clickText);
+        }
+        else {
+            $("#eText").html(emo[id-1]);
+        }
+    }
+
     $(".em").click(function() {
         console.log(this.id);
         makeBig(this.id);
+        emojiText(this.id);
+        clickText = emo[this.id-1];
     })
+
+    $(".em").hover(function() {
+        emojiText(this.id);
+    }, function() {
+        emojiText(-1);
+    })
+
+
+
 </script>
 {% end %}
 

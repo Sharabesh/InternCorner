@@ -36,7 +36,9 @@ i:hover{
     transform: scale(2,2);
 }
 
-
+.emoj{
+    padding-right: 15px;
+}
 
 
 pad{
