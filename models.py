@@ -12,6 +12,7 @@ import re
 from functools import reduce
 import json
 import datetime
+import operator
 
 from peewee import DateTimeField, CharField, IntegerField, BooleanField
 
@@ -38,6 +39,7 @@ class User(BaseModel):
 	username = CharField(null=True)
 	password = CharField(null=True)
 	department = CharField(null=True)
+	school = CharField(null=True)
 	firstname = CharField(null=True)
 	lastname = CharField(null=True)
 	email = CharField(null=True)
@@ -56,7 +58,6 @@ class Posts(BaseModel):
 	title = CharField(null=True)
 	time_posted = DateTimeField()
 
-
 	class Meta:
 		db_table='posts'
 
@@ -67,10 +68,6 @@ class Likes(BaseModel):
 	class Meta:
 		db_table='likes'
 		primary_key = CompositeKey("user_like_id","post_like_id")
-
-
-
-
 
 def login_user(username,password):
 	hasher = hashlib.sha1()
@@ -102,11 +99,27 @@ def top_4():
 def get_user_posts(username):
 	posts = Posts.select().join(User).where(User.username == username)
 	return posts.execute()
+
 def get_user(email):
 	return list(User.select().where(User.email == email).execute())[0]
 
 def get_random_10():
 	q = Posts.select().order_by(fn.Random()).limit(10)
+	return q.execute()
+
+def get_chart_posts(**kargs):
+	filters = []
+	for i in kargs:
+		if kargs[i] != "":
+			if i == "department":
+				filters.append((User.department == kargs[i]))
+			if i == "school":
+				filters.append((User.school == kargs[i]))
+			if i == "start_date":
+				filters.append((Posts.time_posted >= kargs[i]))
+			if i == "end_date":
+				filters.append((Posts.time_posted <= kargs[i]))
+	q = Posts.select(Posts.feeling, Posts.time_posted).join(User).where((reduce(operator.and_, filters))).order_by(SQL('time_posted').asc())
 	return q.execute()
 
 def search_posts(query):

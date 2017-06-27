@@ -6,6 +6,7 @@ import tornado.httpclient
 import tornado.websocket
 import os
 import requests
+import datetime
 from bs4 import BeautifulSoup
 from models import *
 
@@ -79,6 +80,7 @@ class UserPageEndpoint(BaseHandler):
 			article_dict["feeling"] = item.feeling
 			article_dict["content"] = item.content
 			article_dict["title"] = item.title
+			article_dict["time_posted"] = (item.time_posted).strftime("%x")
 			output_lst.append(article_dict)
 		self.write(json.dumps(output_lst))
 
@@ -94,6 +96,7 @@ class RandomPostsEndpoint(BaseHandler):
 			article_dict["feeling"] = item.feeling
 			article_dict["content"] = item.content
 			article_dict["title"] = item.title
+			article_dict["time_posted"] = (item.time_posted).strftime("%x")
 			output_lst.append(article_dict)
 		self.write(json.dumps(output_lst))
 
@@ -110,8 +113,24 @@ class UserPostsEndpoint(BaseHandler):
 			article_dict["feeling"] = item.feeling
 			article_dict["content"] = item.content
 			article_dict["title"] = item.title
+			article_dict["time_posted"] = (item.time_posted).strftime("%x")
 			output_lst.append(article_dict)
 		self.write(json.dumps(output_lst))
+
+class NewChartEndpoint(BaseHandler):
+	def get(self):
+		start_date = self.get_argument("start_date","")
+		end_date = self.get_argument("end_date","")
+		department = self.get_argument("department","")
+		school = self.get_argument("school","")
+		results = get_chart_posts(start_date=start_date, end_date=end_date,department=department,school=school)
+		output_list = []
+		for item in results:
+			article_dict = {}
+			article_dict["feeling"] = item.feeling
+			article_dict["time_posted"] = (item.time_posted).strftime("%x")
+			output_list.append(article_dict)
+		self.write(json.dumps(output_list))
 
 
 class NewUserEndpoint(BaseHandler):
@@ -151,6 +170,8 @@ class LogoutEndpoint(BaseHandler):
 		self.clear_cookie("email")
 		self.redirect('/')
 
+
+
 settings = {
 	"login_url":"/login",
 	"compress_reponse":True,
@@ -179,6 +200,7 @@ def make_app():
 		(r"/top",UserPageEndpoint),
 		(r"/user_posts",UserPostsEndpoint),
 		(r"/random",RandomPostsEndpoint),
+		(r"/newChart",NewChartEndpoint)
 	], debug=True,compress_response=True, **settings)
 
 
