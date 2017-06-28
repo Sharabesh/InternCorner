@@ -66,7 +66,7 @@
                     </div>
                     <!--<p><i class="fa fa-phone fa-fw w3-margin-right w3-large w3-text-teal"></i>8323107154</p>-->
                     <hr>
-                    {% if not college %}
+                    {% if not (college and manager and project) %}
                     <p><a onclick="showFields()" id="continue">Fill out your profile</a></p>
                     {% end %}
                 </div>

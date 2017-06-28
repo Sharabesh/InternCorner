@@ -36,6 +36,8 @@ class MyAccountHandler(BaseHandler):
 	@tornado.web.authenticated
 	def get(self):
 		user = get_user(self.get_current_email())
+		print(user.school)
+		user.project = user.project if user.project else json.dumps({"title":""})
 		self.render("templates/html/my-account.html", user=self.get_current_user(),
 					firstname=user.firstname, lastname=user.lastname, department=user.department,
 					email=user.email, college=user.school,manager=user.manager,project=eval(user.project)["title"]);
