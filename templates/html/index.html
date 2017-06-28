@@ -63,15 +63,9 @@
             labelsData.push(i);
             bgColorData.push("rgba(255, 99, 132, 0.2)");
             brdrColorData.push("rgba(255, 206, 86, 1)");
-            $("#results").append($("<div>", {"class":"post-preview"}).append(
-                $("<h2>", {"class":"post-title"}).text(obj[i].title).append(
-                    $("<h3>", {"class":"post-subtitle"}).text(obj[i].content.slice(0,15) + "...\n" + "Feeling: " + obj[i].feeling).css("font-weight","normal")
-                .append(
-                    $("<p>", {"class":"post-meta"}).text("Posted by: " + obj[i].author)))
-            )).append($("<a>",{"class":"btn btn-sm btn-primary","href":"#","text":"Likes: " + obj[i].likes + " "}).append($("<span>",{"class":"glyphicon glyphicon-thumbs-up"}))).append("<hr>");
         }
-        $("#results").html($("#results").html().replace(/\n/g,'<br/>'));
         createChart(feelingsData, labelsData);
+
 
     })
 
@@ -83,7 +77,7 @@
         data: {
           labels: labelsData,
           datasets: [{
-            label: "Intern Feelings",
+            label: "Intern Feelings Over Time",
             data: feelingsData,
             backgroundColor: bgColorData,
             borderColor: brdrColorData,
