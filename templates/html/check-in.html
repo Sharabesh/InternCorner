@@ -3,6 +3,7 @@
 {% block css %}
 <link href="https://afeld.github.io/emoji-css/emoji.css" rel="stylesheet">
 <link rel="stylesheet" type="text/css" href= "static/css/emojiBar.css">
+<link rel="stylesheet" type="text/css" href= "static/css/form-button.css">
 <script src="static/js/jquery.js"></script>
 {% end %}
 
@@ -82,8 +83,7 @@
 
                     <div class="row control-group">
                         <div class="form-group col-xs-12 floating-label-form-group controls">
-                            <label>Go Anonymous?</label>
-                            <input type="checkbox" class="form-control" value="true" id="anon" name="anon">
+                            <button type="button" id="anon" class="btn btn-block btn-default form-button" name="button">Go Public</button>
                             <p class="help-block text-danger"></p>
                         </div>
                     </div>
@@ -116,6 +116,16 @@
         </div>
 <script>
     var feeling = -1;
+    var anonymous = 0;
+    var anonCSS = {
+      "backgroundColor" : "blue",
+      "color" : "white"
+    }
+    var publicCSS = {
+      "backgroundColor" : "white",
+      "color" : "black"
+    }
+
     //TODO: Semi-Hacky and not very efficient find a better way to do this
     function makeBig(id) {
         for (var i = 1; i < 11; i++) {
@@ -131,10 +141,22 @@
         feeling = this.id;
     })
 
+    $("#anon").click(function() {
+      anonymous = anonymous ^ 1;
+      if (anonymous == 1) {
+        $("#anon").css(anonCSS);
+        $("#anon").text("Go Anonymous")
+      }
+      else {
+        $("#anon").css(publicCSS);
+        $("#anon").text("Go Public")
+      }
+    })
+
     $("#submit").click(function() {
       if (feeling < 0) { console.log("Feeling not selected"); return;}
 
-      var anon = $("#anon").val() ? $("#anon").val() : "";
+      var anon = anonymous;
       var title = $("#title").val() ? $("#title").val() : "";
       var message = $("#message").val() ? $("#message").val() : "";
       $.ajax({
