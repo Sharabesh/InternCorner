@@ -62,11 +62,9 @@ class LoginHandler(BaseHandler):
 			values = list(values)[0]
 			self.set_secure_cookie("user",username)
 			self.set_secure_cookie("email",values.email)
-			print("redirecting")
-			self.render("templates/html/index.html", message=0, user=self.get_current_user())
+			self.redirect("/")
 		else:
-			self.redirect("/register")
-			# self.render("templates/html/login.html",failure=1,user=self.get_current_user())
+			self.render("templates/html/login.html",failure=1,user=self.get_current_user())
 
 class UserPageEndpoint(BaseHandler):
 	def get(self):
@@ -152,16 +150,15 @@ class PostEndpoint(BaseHandler):
 	def post(self):
 		user = self.get_current_email()
 		print(user)
-		project = self.get_body_argument("project")
-		anonymous = self.get_body_argument("anon")
-		doing_well = self.get_body_argument("phone")
-		message = self.get_body_argument("message")
-		title = self.get_body_argument("title")
+		feeling = self.get_body_argument("feeling")
+		anon = self.get_body_argument("anon",default="false")
+		title = self.get_body_argument("title",default="")
+		message = self.get_body_argument("message",default="")
 		try:
-			create_post(project,anonymous,doing_well,message,user,title)
-			self.render("templates/html/index.html",message=0,user=self.get_current_user())
+			create_post(anon,feeling,message,user,title)
+			self.render("templates/html/check-in.html",message=1,user=self.get_current_user())
 		except:
-			self.render("templates/html/index.html", message=1, user=self.get_current_user())
+			self.render("templates/html/check-in.html", message=0, user=self.get_current_user())
 
 
 class LogoutEndpoint(BaseHandler):

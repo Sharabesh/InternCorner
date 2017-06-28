@@ -12,18 +12,20 @@
     <div>Intern<span>Corner</span></div>
 </div>
 <br>
-    <div class="alert alert-success"
-            {% if failure !=1 %}
-                style="display: none;"
-            {% end %}>
-            <strong>Error!</strong> Invalid Credentials!
-    </div>
 <div class="login">
     <form action="/login" method="post">
         <input type="text" placeholder="username" name="username" id="username"><br>
         <input type="password" placeholder="password" name="password" id="password"><br><br>
         <button type="submit" class="btn btn-default">Login</button>
     </form>
+    {% if failure == 1 %}
+    <div class="row" >
+      <div class="alert alert-danger">
+              <strong>Error!</strong> Invalid Credentials!
+      </div>
+    </div>
+    {% end %}
+
 </div>
 
 {% end %}
@@ -31,8 +33,3 @@
 
 {% block footer %}
 {% end %}
-<!--
-<script src="https://cdnjs.cloudflare.com/ajax/libs/prefixfree/1.0.7/prefixfree.min.js"></script>
-<script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
-    <link rel="stylesheet" type="text/css" href="randomCode.js">
-http://ginva.com/wp-content/uploads/2012/07/city-skyline-wallpapers-008.jpg
