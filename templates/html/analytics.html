@@ -127,7 +127,7 @@ class ChartData {
       var school = $("#school").val();
       var chart_data = new ChartData();
 
-      if (!validDates(start_date, end_date)) { return; }
+      if (!validFields(start_date, end_date, department, school)) { return; }
 
       $.ajax({
         type:"GET",
@@ -186,6 +186,13 @@ class ChartData {
           }
         }
       });
+  }
+
+  //Returns true if form fields are valid. false otherwise
+  function validFields(start_date, end_date, department, school) {
+    //Need at least one field
+    if (start_date == "" && end_date == "" && department == "" && school == "") { return false; }
+    return validDates(start_date, end_date);
   }
 
   //Returns true if dates are valid. false otherwise

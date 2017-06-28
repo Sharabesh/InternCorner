@@ -11,9 +11,6 @@ from bs4 import BeautifulSoup
 from models import *
 
 
-
-
-
 class BaseHandler(tornado.web.RequestHandler):
 	def get_current_user(self):
 		return self.get_secure_cookie("user")
@@ -30,7 +27,7 @@ class IndexHandler(BaseHandler):
 class CheckInHandler(BaseHandler):
 	@tornado.web.authenticated
 	def get(self):
-		self.render("templates/html/check-in.html",user=self.get_current_user())
+		self.render("templates/html/check-in.html", user=self.get_current_user())
 
 class MyAccountHandler(BaseHandler):
 	@tornado.web.authenticated
@@ -67,11 +64,9 @@ class LoginHandler(BaseHandler):
 			values = list(values)[0]
 			self.set_secure_cookie("user",username)
 			self.set_secure_cookie("email",values.email)
-			print("redirecting")
-			self.render("templates/html/index.html", message=0, user=self.get_current_user())
+			self.redirect("/")
 		else:
-			self.redirect("/register")
-			# self.render("templates/html/login.html",failure=1,user=self.get_current_user())
+			self.render("templates/html/login.html",failure=1,user=self.get_current_user())
 
 class UserPageEndpoint(BaseHandler):
 	def get(self):
@@ -157,16 +152,23 @@ class PostEndpoint(BaseHandler):
 	def post(self):
 		user = self.get_current_email()
 		print(user)
-		project = self.get_body_argument("project")
-		anonymous = self.get_body_argument("anon")
-		doing_well = self.get_body_argument("phone")
-		message = self.get_body_argument("message")
-		title = self.get_body_argument("title")
+		feeling = self.get_body_argument("feeling")
+		anon = self.get_body_argument("anon",default="false")
+		title = self.get_body_argument("title",default="")
+		message = self.get_body_argument("message",default="")
+		output_list = []
 		try:
-			create_post(project,anonymous,doing_well,message,user,title)
-			self.render("templates/html/index.html",message=0,user=self.get_current_user())
+			create_post(anon,feeling,message,user,title)
+			resultMessage = {}
+			resultMessage["success"] = "true"
+			output_list.append(resultMessage)
+			self.write(json.dumps(output_list))
 		except:
-			self.render("templates/html/index.html", message=1, user=self.get_current_user())
+			resultMessage = {}
+			resultMessage["success"] = "false"
+			output_list.append(resultMessage)
+			self.write(json.dumps(output_list))
+
 class UserDataHandler(BaseHandler):
 	def post(self):
 		school = self.get_body_argument("school")
@@ -197,7 +199,6 @@ def make_app():
 			"path":os.path.join(os.path.dirname(os.path.abspath(__file__)), 'static')
 		}),
     #Pages
-		(r"/check-in",CheckInHandler),
 		(r"/my-account",MyAccountHandler),
 		(r"/",IndexHandler),
 		(r"/check-in",CheckInHandler),

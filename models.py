@@ -78,7 +78,7 @@ def login_user(username,password):
 	q = User.select().where((User.username == username) & (User.password == password)).execute()
 	return q
 
-def create_post(project,anonymous,feeling,message,user,title):
+def create_post(anonymous,feeling,message,user,title):
 	correct_userid = User.select().where(User.email == user).execute()
 	correct_userid = list(correct_userid)[0]
 	userid = correct_userid.uniqueid

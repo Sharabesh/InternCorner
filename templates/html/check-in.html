@@ -2,7 +2,7 @@
 
 {% block css %}
 <link href="https://afeld.github.io/emoji-css/emoji.css" rel="stylesheet">
-<link rel="stylesheet" type="text/css" href= static/css/emojiBar.css>
+<link rel="stylesheet" type="text/css" href= "static/css/emojiBar.css">
 <script src="static/js/jquery.js"></script>
 {% end %}
 
@@ -13,7 +13,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-                    <div class="page-heading">
+                    <div class="site-heading">
                         <h2>Tell us about yourself</h2>
                         <hr class="small">
                         <span class="subheading">Everyone's experience is unique, tell us about yours.</span>
@@ -29,70 +29,60 @@
 {% block content %}
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-                <!-- Contact Form - Enter your email address on line 19 of the mail/contact_me.php file to make this form work. -->
-                <!-- WARNING: Some web hosts do not allow emails to be sent through forms to common mail hosts like Gmail or Yahoo. It's recommended that you use a private domain email address! -->
-                <!-- NOTE: To use the contact form, your site must be on a live web host with PHP! The form will not work locally! -->
-                <form name="sentMessage" id="contactForm" action="/newPost" method="post" novalidate>
-                    <p>Tell us what's relevant. Message not required.</p>
-                    <div class="row control-group">
-                        <div class="form-group col-xs-12 floating-label-form-group controls">
-                            <label>What's your Project</label>
-                            <input type="text" class="form-control" placeholder="Project" id="project" name="project" required data-validation-required-message="Please enter your project.">
-                            <p class="help-block text-danger"></p>
-                        </div>
-                    </div>
-                    <div class="row control-group">
-                        <div class="form-group col-xs-12 floating-label-form-group controls">
-                            <label>Go Anonymous?</label>
-                            <input type="email" class="form-control" placeholder="Anonymous?" id="anon" name="anon" required data-validation-required-message="Please enter your anon status.">
-                            <p class="help-block text-danger"></p>
-                        </div>
-                    </div>
+                <form name="sentMessage" id="contactForm">
                     <div class="row control-group">
                         <div class="form-group col-xs-12 floating-label-form-group controls">
                             <h4 style="font-weight: normal; color: grey">How are you feeling?</h4>
                             <div class="sameRow spacer high"></div>
 
                             <div class="sameRow spacer">
-                                <i class="em em-satisfied" id="1"></i>
+                                <i class="em em-satisfied" id="10"></i>
                             </div>
 
                             <div class="sameRow spacer" >
-                                <i class="em em-stuck_out_tongue" id="2"></i>
+                                <i class="em em-stuck_out_tongue" id="9"></i>
                             </div>
 
                             <div class="sameRow spacer" >
-                                <i class="em em-relaxed" id="3"></i>
+                                <i class="em em-relaxed" id="8"></i>
                             </div>
 
                             <div class="sameRow spacer" >
-                                <i class="em em-triumph" id="4"></i>
+                                <i class="em em-triumph" id="7"></i>
                             </div>
 
                             <div class="sameRow spacer" >
-                                <i class="em em-neutral_face" id="5"></i>
+                                <i class="em em-neutral_face" id="6"></i>
                             </div>
 
                             <div class="sameRow spacer" >
-                                <i class="em em-sweat_smile" id="6"></i>
+                                <i class="em em-sweat_smile" id="5"></i>
                             </div>
 
                             <div class="sameRow spacer" >
-                                <i class="em em-unamused" id="7"></i>
+                                <i class="em em-unamused" id="4"></i>
                             </div>
 
                             <div class="sameRow spacer" >
-                                <i class="em em-worried" id="8"></i>
+                                <i class="em em-worried" id="3"></i>
                             </div>
 
 
                             <div class="sameRow spacer" >
-                                <i class="em em-weary" id="9"></i>
+                                <i class="em em-weary" id="2"></i>
                             </div>
 
                             <div class="sameRow spacer">
-                                <i class="em em-angry" id="10"></i>
+                                <i class="em em-angry" id="1"></i>
                             </div>
+
+                            <p class="help-block text-danger"></p>
+                        </div>
+                    </div>
+
+                    <div class="row control-group">
+                        <div class="form-group col-xs-12 floating-label-form-group controls">
+                            <button type="button" id="anon" class="btn btn-block btn-default form-button" name="button">Go Public</button>
                             <p class="help-block text-danger"></p>
                         </div>
                     </div>
@@ -112,16 +102,28 @@
                         </div>
                     </div>
                     <br>
-                    <div id="success"></div>
                     <div class="row">
                         <div class="form-group col-xs-12">
-                            <button type="submit" class="btn btn-block btn-default">Send</button>
+                            <button type="button" id="submit" class="btn btn-block btn-default">Send</button>
                         </div>
                     </div>
                 </form>
             </div>
+            <div id="success" class="alert alert-success" style="display: none">
+                <strong>Congrats!<br></strong>Your post should appear shortly.
+            </div>
         </div>
 <script>
+    var feeling = -1;
+    var anonymous = 0;
+    var anonCSS = {
+      "backgroundColor" : "blue",
+      "color" : "white"
+    }
+    var publicCSS = {
+      "backgroundColor" : "white",
+      "color" : "black"
+    }
 
     //TODO: Semi-Hacky and not very efficient find a better way to do this
     function makeBig(id) {
@@ -133,12 +135,47 @@
     function makeSmall(id) {
         $("#" + id).css("transform","scale(1,1)");
     }
-
     $(".em").click(function() {
-        console.log(this.id);
         makeBig(this.id);
+        feeling = this.id;
     })
+
+    $("#anon").click(function() {
+      anonymous = anonymous ^ 1;
+      if (anonymous == 1) {
+        $("#anon").css(anonCSS);
+        $("#anon").text("Go Anonymous")
+      }
+      else {
+        $("#anon").css(publicCSS);
+        $("#anon").text("Go Public")
+      }
+    })
+
+    $("#submit").click(function() {
+      if (feeling < 0) { console.log("Feeling not selected"); return;}
+
+      var anon = anonymous;
+      var title = $("#title").val() ? $("#title").val() : "";
+      var message = $("#message").val() ? $("#message").val() : "";
+      $.ajax({
+        type:"POST",
+        url:"/newPost",
+        data: {
+          "feeling": feeling,
+          "anon": anon,
+          "title": title,
+          "message": message
+        }
+      }).complete(function(o){
+        j = o.responseText;
+        console.log(j);
+        obj = JSON.parse(j);
+        if (obj[0]["success"] == "true") {
+          $("#success").show().delay(2000).fadeOut(1000);
+        }
+      });
+    });
+
 </script>
 {% end %}
-
-
