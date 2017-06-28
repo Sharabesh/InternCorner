@@ -35,7 +35,7 @@ class MyAccountHandler(BaseHandler):
 		user = get_user(self.get_current_email())
 		self.render("templates/html/my-account.html", user=self.get_current_user(),
 					firstname=user.firstname, lastname=user.lastname, department=user.department,
-					email=user.email)
+					email=user.email, college=user.school,manager=user.manager,project=eval(user.project)["title"]);
 
 class RegistrationHandler(BaseHandler):
 	def get(self):
@@ -159,6 +159,15 @@ class PostEndpoint(BaseHandler):
 			self.render("templates/html/check-in.html",message=1,user=self.get_current_user())
 		except:
 			self.render("templates/html/check-in.html", message=0, user=self.get_current_user())
+      
+class UserDataHandler(BaseHandler):
+	def post(self):
+		school = self.get_body_argument("school")
+		manager = self.get_body_argument("manager")
+		project = self.get_body_argument("project")
+		user = self.get_current_email()
+		add_user_data(school,manager,project,user)
+
 
 
 class LogoutEndpoint(BaseHandler):
@@ -197,7 +206,8 @@ def make_app():
 		(r"/top",UserPageEndpoint),
 		(r"/user_posts",UserPostsEndpoint),
 		(r"/random",RandomPostsEndpoint),
-		(r"/newChart",NewChartEndpoint)
+		(r"/newChart",NewChartEndpoint),
+		(r"/update-fields",UserDataHandler),
 	], debug=True,compress_response=True, **settings)
 
 
