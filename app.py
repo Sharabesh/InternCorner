@@ -27,7 +27,7 @@ class IndexHandler(BaseHandler):
 class CheckInHandler(BaseHandler):
 	@tornado.web.authenticated
 	def get(self):
-		self.render("templates/html/check-in.html",user=self.get_current_user())
+		self.render("templates/html/check-in.html", user=self.get_current_user())
 
 class MyAccountHandler(BaseHandler):
 	@tornado.web.authenticated
@@ -154,11 +154,20 @@ class PostEndpoint(BaseHandler):
 		anon = self.get_body_argument("anon",default="false")
 		title = self.get_body_argument("title",default="")
 		message = self.get_body_argument("message",default="")
+		output_list = []
 		try:
 			create_post(anon,feeling,message,user,title)
-			self.render("templates/html/check-in.html",message=1,user=self.get_current_user())
+			resultMessage = {}
+			resultMessage["success"] = "true"
+			output_list.append(resultMessage)
+			self.write(json.dumps(output_list))
+			# self.render("templates/html/check-in.html",message=1,user=self.get_current_user())
 		except:
-			self.render("templates/html/check-in.html", message=0, user=self.get_current_user())
+			# self.render("templates/html/check-in.html", message=0, user=self.get_current_user())
+			resultMessage = {}
+			resultMessage["success"] = "false"
+			output_list.append(resultMessage)
+			self.write(json.dumps(output_list))
 
 
 class LogoutEndpoint(BaseHandler):
@@ -182,7 +191,6 @@ def make_app():
 			"path":os.path.join(os.path.dirname(os.path.abspath(__file__)), 'static')
 		}),
     #Pages
-		(r"/check-in",CheckInHandler),
 		(r"/my-account",MyAccountHandler),
 		(r"/",IndexHandler),
 		(r"/check-in",CheckInHandler),
