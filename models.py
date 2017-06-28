@@ -43,6 +43,8 @@ class User(BaseModel):
 	firstname = CharField(null=True)
 	lastname = CharField(null=True)
 	email = CharField(null=True)
+	manager = CharField(null=True)
+	project = CharField(null=True)
 
 	class Meta:
 		db_table='user'
@@ -106,6 +108,13 @@ def get_user(email):
 def get_random_10():
 	q = Posts.select().order_by(fn.Random()).limit(10)
 	return q.execute()
+
+def add_user_data(school,manager,project,user):
+	print("ran")
+	query = User.update(school=school,manager=manager,project={"title":project}).where(User.email == user)
+	query.execute()
+
+
 
 def get_chart_posts(**kargs):
 	filters = []

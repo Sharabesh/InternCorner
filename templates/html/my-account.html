@@ -55,12 +55,20 @@
                     </div>
                 </div>
                 <div class="w3-container">
-                    <p><i class="fa fa-code fa-fw w3-margin-right w3-large w3-text-teal"></i>{{ department }}</p>
-                    <p><i class="fa fa-envelope fa-fw w3-margin-right w3-large w3-text-teal"></i>{{ email }}</p>
+                    <div id="personal">
+                        <p><i class="fa fa-code fa-fw w3-margin-right w3-large w3-text-teal"></i>Department: {{ department }}</p>
+                        <p><i class="fa fa-envelope fa-fw w3-margin-right w3-large w3-text-teal"></i>Email: {{ email }}</p>
+                        {% if college and manager and project %}
+                        <p><i class="fa fa-university fa-fw w3-margin-right w3-large w3-text-teal"></i>College: {{ college }}</p>
+                        <p><i class="fa fa-user fa-fw w3-margin-right w3-large w3-text-teal"></i>Manager: {{ manager }}</p>
+                        <p><i class="fa fa-wrench fa-fw w3-margin-right w3-large w3-text-teal"></i>Project: {{ project }}</p>
+                        {% end %}
+                    </div>
                     <!--<p><i class="fa fa-phone fa-fw w3-margin-right w3-large w3-text-teal"></i>8323107154</p>-->
                     <hr>
-
-                    <br>
+                    {% if not college %}
+                    <p><a onclick="showFields()" id="continue">Fill out your profile</a></p>
+                    {% end %}
                 </div>
             </div><br>
 
@@ -71,16 +79,6 @@
 
         <!-- Right Column -->
         <div class="w3-twothird">
-            <div class="w3-container w3-card-2 w3-white w3-margin-bottom">
-                <h2 class="w3-text-grey w3-padding-16"><i class="fa fa-suitcase fa-fw w3-margin-right w3-xxlarge w3-text-teal"></i>Project</h2>
-                <div class="w3-container">
-                    <h5 class="w3-opacity"><b>UI Automation</b></h5>
-                    <h6 class="w3-text-teal"><i class="fa fa-calendar fa-fw w3-margin-right"></i>May 2017 - <span class="w3-tag w3-teal w3-round">Current</span></h6>
-                    <p>Working on the Client Health page for the Cisco Live release on June 21st. Specifically designing the capabilities tab under manager Tony Raj.</p>
-                    <hr>
-                </div>
-            </div>
-
             <!-- Posts Page -->
             <div class="w3-container w3-card-2 w3-white w3-margin-bottom">
                 <h2 id='results' class="w3-text-grey w3-padding-16"><i class="fa fa-certificate fa-fw w3-margin-right w3-xxlarge w3-text-teal"></i>Posts <br></h2>
@@ -118,6 +116,38 @@
 
 
 </script>
+<script>
+    /* Helper Methods */
+    function showFields() {
+        $("#personal").append($("<input >", {"type":"text","class":"form-control", "placeholder":"School", "id":"school"}).prop("required",true));
+        $("#personal").append($("<input>", {"type":"text","class":"form-control", "placeholder":"Manager", "id":"manager"}).prop("required",true));
+        $("#personal").append($("<input>", {"type":"text","class":"form-control", "placeholder":"Project", "id":"project"}).prop("required",true));
+        $("#personal").append($("<a>", {"class":"btn btn-primary btn-block", "value":"Submit", "style":"height:10%", "onclick":"add_data()"}));
+        $("#continue").hide();
+    }
+    function add_data() {
+        fields = {
+                "school":$("#school").val(),
+                "manager": $("#manager").val(),
+                "project":$("#project").val()
+        };
+        if (fields['school'] && fields['manager'] && fields["project"]) {
+            $.ajax({
+                type: "POST",
+                url: "update-fields",
+                data: fields
+            });
+            location.reload();
+        }
+        else {
+            alert("please fill in all the fields")
+        }
+    }
+</script>
 
-
+<style>
+    .form-control {
+        margin-bottom: 3%
+    }
+</style>
 {% end %}
