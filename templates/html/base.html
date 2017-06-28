@@ -47,9 +47,11 @@
                     <span class="sr-only">Toggle navigation</span>
                     Menu <i class="fa fa-bars"></i>
                 </button>
-                <a href="./" class="navbar-left"><img onmouseover="" style="max-width:100px; max-height:35px; margin-top:7px; cursor: pointer;" src="static/img//Cisco_logo.svg"></a>
+                {% if not user %}
+                <a href="./" class="navbar-brand"><img onmouseover="" style="max-width:100px; max-height:35px; margin-top:-7px; cursor: pointer;" src="static/img//Cisco_logo.svg"></a>
+                {% end %}
                 {% if user %}
-                <span class="navbar-nav navbar-left" style="color:black; font-size: 0.75em; font-weight: bold; padding-left:3%; padding-top:5%;"><em>Welcome {{ user }}</em></span>
+                <a class="navbar-brand" href="/">Welcome {{ user }}</a>
                 {% end %}
             </div>
 
@@ -108,7 +110,6 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-
                     <p class="copyright text-muted">Developed by The InternCorner</p>
                 </div>
             </div>
