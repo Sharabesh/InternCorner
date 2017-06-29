@@ -28,39 +28,38 @@
 <!-- Main Content -->
 {% block content %}
 <div class="row">
-    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-        <!-- Contact Form - Enter your email address on line 19 of the mail/contact_me.php file to make this form work. -->
-        <!-- WARNING: Some web hosts do not allow emails to be sent through forms to common mail hosts like Gmail or Yahoo. It's recommended that you use a private domain email address! -->
-        <!-- NOTE: To use the contact form, your site must be on a live web host with PHP! The form will not work locally! -->
-        <form name="sentMessage" id="chartForm" novalidate>
-
+    <form name="sentMessage" id="chartForm" novalidate>
+    <div class="col-lg-5">
             <div class="row">
-              <label for="start-date">Start </label>
-              <input id="start-date" class="datepicker" />
+                <label for="start-date">Start </label>
+              <input id="start-date" class="datepicker" style="width: 100%" />
             </div>
 
-            <div class="row">
-              <label for="end-date">End </label>
-              <input id="end-date" class="datepicker" />
-            </div>
 
             <div class="row">
-              <label for="department">Department </label>
-              <input id="department" />
+                <label for="end-date">End </label>
+              <input id="end-date" class="datepicker" style="width: 100%" />
             </div>
+    </div>
+        <div class="col-lg-5 col-lg-offset-2">
 
             <div class="row">
-              <label for="school">School </label>
-              <input id="school" />
+                <label for="department">Department </label>
+              <input id="department" style="width: 100%" />
+            </div>
+            <div class="row">
+                <label for="school">School </label>
+              <input id="school" style="width: 100%" />
             </div>
 
             <br>
-            <div class="row">
-                <div class="form-group col-xs-12">
-                    <button id="new-chart-button" type="button" class="btn btn-block btn-default">Send</button>
-                </div>
-            </div>
             <br>
+        </div>
+        <div class="row">
+            <div class="form-group col-xs-12">
+                <button id="new-chart-button" type="button" class="btn btn-block btn-default">Send</button>
+            </div>
+        </div>
         </form>
     </div>
 </div>
