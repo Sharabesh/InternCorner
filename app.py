@@ -9,6 +9,7 @@ import requests
 import datetime
 from bs4 import BeautifulSoup
 from models import *
+from playhouse.shortcuts import *
 
 
 class BaseHandler(tornado.web.RequestHandler):
@@ -33,12 +34,11 @@ class MyAccountHandler(BaseHandler):
 	@tornado.web.authenticated
 	def get(self):
 		user = get_user(self.get_current_email())
-		print(user.school)
 		user.project = user.project if user.project else json.dumps({"title":""})
-		self.render("templates/html/my-account.html", user=self.get_current_user(),
-					firstname=user.firstname, lastname=user.lastname, department=user.department,
-					email=user.email, college=user.school,manager=user.manager,project=eval(user.project)["title"]);
 
+		self.render("templates/html/my-account.html", user=self.get_current_user(),data=model_to_dict(user));
+		dict(firstname=user.firstname, lastname=user.lastname, department=user.department,
+					email=user.email, college=user.school,manager=user.manager,project=eval(user.project)["title"])
 class RegistrationHandler(BaseHandler):
 	def get(self):
 		self.render("templates/html/register.html",failure=0,user=self.get_current_user())
@@ -221,7 +221,12 @@ def make_app():
 if __name__ == "__main__":
 	app = make_app()
 	http_server = tornado.httpserver.HTTPServer(app)
-	port = int(os.environ.get("PORT",5000))
-	http_server.listen(port)
-	print("Running at localhost:5000")
+	try:
+		port = int(os.environ.get("PORT",5000))
+		http_server.listen(port)
+	except:
+		port = int(os.environ.get("PORT", 3000))
+		http_server.listen(port)
+
+	print("Running at localhost:" + str(port))
 	tornado.ioloop.IOLoop.current().start()
