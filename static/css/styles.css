@@ -5,11 +5,6 @@ html, body {
    color:#555555;
 }
 
-.nav {
-   font-family:Arial,sans-serif;
-   font-size:13px;
-}
-
 a {
   color:#222222;
 }
@@ -169,14 +164,14 @@ h1,h2,h3 {
     text-shadow:0 0 1px rgba(0,0,0,.3);
 }
 .form-control {
-	
+
 }
 
 .panel textarea, .well textarea, textarea.form-control
 {
    resize: none;
 }
-  
+
 .badge{
    color:#3B5999;
    background-color:#fff;
@@ -185,7 +180,7 @@ h1,h2,h3 {
    background-color:#3B5999;
    color:#fff;
 }
-    
+
 .jumbotron {
   background-color:transparent;
 }
