@@ -10,6 +10,7 @@ $("#submit").click(function() {
     }
   }).complete(function(o) {
     j = o.responseText;
+    console.log(j);
     obj = JSON.parse(j);
     if (j["success"] === 0) {
       $("#failure").fadeIn();

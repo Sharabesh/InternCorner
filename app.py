@@ -70,6 +70,8 @@ class LoginHandler(BaseHandler):
 
 class LoginHandlerExtEndpoint(BaseHandler):
 	def post(self):
+		self.clear_cookie("user")
+		self.clear_cookie("email")
 		username = self.get_body_argument("username")
 		password = self.get_body_argument("password")
 		values = login_user(username,password)
