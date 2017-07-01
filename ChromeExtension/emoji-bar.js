@@ -25,7 +25,8 @@ function makeSmall(id) {
 $(".em").click(function() {
     makeBig(this.id);
     feeling = this.id;
-})
+    $(".em").unbind("mouseenter mouseleave");
+});
 
 $("#submit").click(function() {
   if (feeling < 0) { console.log("Feeling not selected"); return;}

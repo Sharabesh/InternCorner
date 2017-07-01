@@ -1,6 +1,10 @@
+
+
+
 $("#submit").click(function() {
   var username = $("#username").val();
   var password = $("#password").val();
+  console.log("HERE");
   $.ajax({
     type: "POST",
     url: "https://devinterncorner.herokuapp.com/login-ext",
@@ -12,10 +16,10 @@ $("#submit").click(function() {
     j = o.responseText;
     console.log(j);
     obj = JSON.parse(j);
-    if (j["success"] === 0) {
+    if (obj["success"] === 0) {
       $("#failure").fadeIn();
     } else {
-      window.location="emoji-bar.html?username=" + j.username;
+      window.location = "emoji-bar.html?username=" + obj.username;
     }
   });
 });
