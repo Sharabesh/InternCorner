@@ -1,5 +1,10 @@
 var feeling = -1;
 
+$(".em").hover(function() {
+    makeBig(this.id);
+});
+
+
 //Get query parameter
 function getParameterByName(name) {
     name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
@@ -38,7 +43,7 @@ $("#submit").click(function() {
       message: ""
     }
   }).complete(function(o) {
-    j = o.responseJSON;
+    j = o.responseText;
     var failure = (j.success == "false");
     if (!failure) { window.close(); }
   });

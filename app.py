@@ -76,11 +76,11 @@ class LoginHandlerExtEndpoint(BaseHandler):
 		output_dic = {}
 		if values.count > 0:
 			values = list(values)[0]
+			#Never send plaintext passwords!
+			output_dic["success"] = 1
 			output_dic["username"] = values.email
-			output_dic["password"] = password
 		else:
-			output_dic["username"] = "error"
-			output_dic["password"] = "error"
+			output_dic["success"] = 0
 		self.write(json.dumps(output_dic))
 
 
