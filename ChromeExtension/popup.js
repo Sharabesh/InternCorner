@@ -1,11 +1,11 @@
 $("#submit").click(function() {
   var username = $("#username").val();
   var password = $("#password").val();
-
   $.ajax({
+
     type: "POST",
     dataType: "json",
-    url: "http://localhost:5000/login-ext",
+    url: "https://devinterncorner.herokuapp.com/login-ext",
     data: {
       username: username,
       password: password
