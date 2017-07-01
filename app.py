@@ -68,6 +68,22 @@ class LoginHandler(BaseHandler):
 		else:
 			self.render("templates/html/login.html",failure=1,user=self.get_current_user())
 
+class LoginHandlerExtEndpoint(BaseHandler):
+	def post(self):
+		username = self.get_body_argument("username")
+		password = self.get_body_argument("password")
+		values = login_user(username,password)
+		output_dic = {}
+		if values.count > 0:
+			values = list(values)[0]
+			output_dic["username"] = values.email
+			output_dic["password"] = password
+		else:
+			output_dic["username"] = "error"
+			output_dic["password"] = "error"
+		self.write(json.dumps(output_dic))
+
+
 class UserPageEndpoint(BaseHandler):
 	def get(self):
 		results = top_4()
@@ -169,6 +185,39 @@ class PostEndpoint(BaseHandler):
 			output_list.append(resultMessage)
 			self.write(json.dumps(output_list))
 
+class PostExtEndpoint(BaseHandler):
+	def post(self):
+		user = self.get_body_argument("username")
+		print(user)
+		feeling = self.get_body_argument("feeling")
+		anon = self.get_body_argument("anon",default="false")
+		title = self.get_body_argument("title",default="")
+		message = self.get_body_argument("message",default="")
+		output_list = []
+		try:
+			create_post(anon,feeling,message,user,title)
+			resultMessage = {}
+			resultMessage["success"] = "true"
+			output_list.append(resultMessage)
+			self.write(json.dumps(output_list))
+		except:
+			resultMessage = {}
+			resultMessage["success"] = "false"
+			output_list.append(resultMessage)
+			self.write(json.dumps(output_list))
+
+class GetCookieEndpoint(BaseHandler):
+	def post(self):
+		output_list = []
+		email = self.get_body_argument("email")
+		self.set_secure_cookie("email",email)
+		cookie = self.get_secure_cookie("email")
+		message = {}
+		message["email-cookie"] = cookie
+		message["email-received"] = email
+		output_list.append(message)
+		self.write(json.dumps(output_list))
+
 class UserDataHandler(BaseHandler):
 	def post(self):
 		school = self.get_body_argument("school")
@@ -215,7 +264,10 @@ def make_app():
 		(r"/random",RandomPostsEndpoint),
 		(r"/newChart",NewChartEndpoint),
 		(r"/update-fields",UserDataHandler),
-	], debug=True,compress_response=True, **settings)
+		(r"/get-cookie",GetCookieEndpoint),
+		(r"/login-ext", LoginHandlerExtEndpoint),
+		(r"/newPostExt", PostExtEndpoint)
+	], debug=True, **settings)
 
 
 if __name__ == "__main__":

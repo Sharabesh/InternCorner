@@ -1,0 +1,30 @@
+.sameRow{
+    display: inline;
+}
+
+.box{
+    border: 2px solid #00f6ff;
+    padding-left: 5px;
+    padding-top: 5px;
+    padding-bottom: 10px;
+    border-radius: 15px;
+    width: 100%;
+
+}
+
+.spacer{
+    margin-right: 25px;
+}
+
+i{
+    width: auto;
+    height: auto;
+}
+
+i:hover{
+    transform: scale(2,2);
+}
+
+pad{
+    padding-bottom: 5%;
+}
