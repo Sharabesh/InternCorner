@@ -116,6 +116,39 @@ class RandomPostsEndpoint(BaseHandler):
 			output_lst.append(article_dict)
 		self.write(json.dumps(output_lst))
 
+class SearchHandler(BaseHandler):
+	def get(self):
+		query = self.get_argument("q")
+		table = self.get_argument("req")
+		start = self.get_query_argument("start",0)
+		results = search(query,table,start)
+		output_lst = []
+		if table == "p":
+			for item in results:
+				article_dict = {}
+				article_dict["author"] = item.author
+				article_dict["likes"] = item.likes
+				article_dict["id"] = item.post_id
+				article_dict["feeling"] = item.feeling
+				article_dict["content"] = item.content
+				article_dict["title"] = item.title
+				article_dict["time_posted"] = (item.time_posted).strftime("%x")
+				output_lst.append(article_dict)
+		else:
+			for item in results:
+				article_dict = {}
+				article_dict["username"] = item.username
+				article_dict["department"] = item.department
+				article_dict["firstname"] = item.firstname
+				article_dict["lastname"] = item.lastname
+				article_dict["email"] = item.email
+				article_dict["school"] = item.school
+				article_dict["manager"] = item.manager
+				output_lst.append(article_dict)
+		self.write(json.dumps(output_lst))
+
+
+
 class UserPostsEndpoint(BaseHandler):
 	def get(self):
 		username = self.get_current_user()
@@ -255,6 +288,7 @@ def make_app():
 		(r"/login",LoginHandler),
 		(r"/engage",EngageHandler),
 		(r"/analytics",AnalyticsHandler),
+		(r"/search",SearchHandler),
 		#ENDPOINTS
 		(r"/newPost", PostEndpoint),
 		(r"/newUser",NewUserEndpoint),
