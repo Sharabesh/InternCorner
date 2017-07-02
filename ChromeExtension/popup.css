@@ -3,6 +3,14 @@
     overflow: hidden !important;
     -webkit-overflow-scrolling: touch;
 }
+
+#failure {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  text-align: center;
+}
 body, html{
      height: 100%;
     min-width:200px;
@@ -13,7 +21,7 @@ body, html{
 }
 
 .main{
- 	margin:50px 15px;
+ 	margin:25px 15px;
 }
 
 h1.title {

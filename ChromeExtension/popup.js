@@ -17,7 +17,7 @@ $("#submit").click(function() {
     console.log(j);
     obj = JSON.parse(j);
     if (obj["success"] === 0) {
-      $("#failure").fadeIn();
+      $("#failure").css('visibility','visible').hide().fadeIn();
     } else {
       window.location = "emoji-bar.html?username=" + obj.username;
     }
