@@ -57,7 +57,9 @@ class Posts(BaseModel):
 	anonymous = BooleanField(null=True)
 	feeling = IntegerField(null=True)
 	title = CharField(null=True)
+	likes = IntegerField(null=True)
 	time_posted = DateTimeField()
+
 
 	class Meta:
 		db_table='posts'
