@@ -117,7 +117,7 @@
 <script>
     $.ajax({
         type: "GET",
-        url: `/user_posts?start=${START}`
+        url: `/user_posts?email={{ data['email'] }}&start=${START}`
     }).complete(function(o){
        j = o.responseText;
        console.log(j);
