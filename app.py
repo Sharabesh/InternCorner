@@ -151,7 +151,8 @@ class SearchHandler(BaseHandler):
 class UserPostsEndpoint(BaseHandler):
 	def get(self):
 		username = self.get_current_user()
-		results = get_user_posts(username)
+		start = self.get_argument("start")
+		results = get_user_posts(username,start)
 		output_lst = []
 		for item in results:
 			article_dict = {}

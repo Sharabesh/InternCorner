@@ -20,6 +20,8 @@
 {% end %}
 
 
+
+
 {% block header %}
 <header class="intro-header" style="background-image: url('static/img/post-bg.jpg')">
     <div class="container">
@@ -38,6 +40,10 @@
 
 
 {% block content %}
+<script>
+    var urlParams = new URLSearchParams(window.location.search);
+    var START = JSON.parse(urlParams.get("start"));
+</script>
 <!-- Page Container -->
 <div class="w3-content w3-margin-top" style="max-width:1400px;">
 
@@ -79,23 +85,39 @@
             <!-- Posts Page -->
             <div class="w3-container w3-card-2 w3-white w3-margin-bottom">
                 <h2 id='results' class="w3-text-grey w3-padding-16"><i class="fa fa-certificate fa-fw w3-margin-right w3-xxlarge w3-text-teal"></i>Posts <br></h2>
+                <div class="container" style="padding-bottom:30px;" id="navButtons">
+                    <div class="btn-group" role="group">
+                      <a id="backBtn" style="display:inline-block; margin-top:20px;" onclick="goback();" ><button type="button" class="btn btn-default">Back</button></a>
+                      <a id="nextBtn" style="display:inline-block; margin-top:20px;" onclick="goforward();"><button type="button" class="btn btn-default">Next</button></a>
+                    </div>
+                </div>
                 </div>
             </div>
-
-
-
             <!-- End Right Column -->
         </div>
 
         <!-- End Grid -->
     </div>
 
+<script>
+    if (START === 0) {
+        $("#backBtn").hide();
+    }
+    function goback() {
+
+        window.location.search=`email={{ data['email'] }}&start=${START - 5}`
+    }
+    function goforward() {
+        window.location.search=`email={{ data['email'] }}&start=${START + 5}`
+    }
+</script>
+
     <!-- End Page Container -->
 
 <script>
     $.ajax({
         type: "GET",
-        url: "/user_posts"
+        url: `/user_posts?start=${START}`
     }).complete(function(o){
        j = o.responseText;
        console.log(j);
