@@ -273,6 +273,12 @@ class UserDataHandler(BaseHandler):
 		user = self.get_current_email()
 		add_user_data(school,manager,project,user)
 
+class LikeUpdateEndpoint(BaseHandler):
+	def post(self):
+		user = self.get_current_email()
+		id = self.get_argument("vote_id")
+		self.write(update_vote(user,id))
+
 
 class LogoutEndpoint(BaseHandler):
 	def get(self):
@@ -315,7 +321,8 @@ def make_app():
 		(r"/update-fields",UserDataHandler),
 		(r"/get-cookie",GetCookieEndpoint),
 		(r"/login-ext", LoginHandlerExtEndpoint),
-		(r"/newPostExt", PostExtEndpoint)
+		(r"/newPostExt", PostExtEndpoint),
+		(r"/like",LikeUpdateEndpoint)
 	], debug=True, **settings)
 
 
