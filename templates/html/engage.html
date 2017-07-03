@@ -95,6 +95,8 @@
              }
              $("#results").html($("#results").html().replace(/\n/g,'<br/>'));
           });
+
+
           function loadSearch() {
               var query = $("#searcher").val();
               var req = $("#req").val();
@@ -134,11 +136,14 @@
                       for (var i = 0; i < obj.length; i++) {
                           var panel = $("<div>", {"class": "panel panel-default"});
                           panel.append($("<div>", {'class': 'panel-heading'}).append(
-                              $("<h4>", {"text": obj[i].firstname + " " + obj[i].lastname}))).append(
+                              $("<a>",{"href":`/view?email=${obj[i].email}`}).append(
+                              $("<h4>", {"text": obj[i].firstname + " " + obj[i].lastname})))
+                          ).append(
                               $("<div>", {"class": "panel-body"}).text("Department: " + obj[i].department)
                           ).append($("<div>", {
                               "class":"panel-body",
-                              "text": "Email: " + obj[i].email + "\n" +
+                              "text":
+                              "Email: " + obj[i].email + "\n" +
                               "University: " + obj[i].school + "\n" +
                               "Manager: " + obj[i].manager + "\n",
                           }));
@@ -150,13 +155,6 @@
               }
 
           }
-
-
-
-
-
-
-
       </script>
 
 

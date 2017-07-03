@@ -1,0 +1,123 @@
+{% extends "base.html" %}
+
+{% block css %}
+<script src="static/js/jquery.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Roboto'>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+    html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
+
+    .spac{
+        height: 10px;
+
+    }
+
+
+</style>
+<body class="w3-light-grey">
+{% end %}
+
+
+{% block header %}
+<header class="intro-header" style="background-image: url('static/img/post-bg.jpg')">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="site-heading">
+                    <h2>{{ data['firstname'] }} {{ data['lastname'] }}</h2>
+                    <hr class="small">
+                    <span id='description' class="subheading">Explore the Community</span><br>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+{% end %}
+
+
+{% block content %}
+<!-- Page Container -->
+<div class="w3-content w3-margin-top" style="max-width:1400px;">
+
+    <!-- The Grid -->
+    <div class="w3-row-padding">
+
+        <!-- Left Column -->
+        <div class="w3-third">
+
+            <div class="w3-white w3-text-grey w3-card-4">
+                <div class="w3-display-container">
+                    <img src="static/img/avatar.png" style="width:100%" alt="Avatar">
+                    <div class="w3-display-bottomleft w3-container w3-text-black">
+                        <h3 class="spac">{{ data['firstname'] }} {{ data['lastname'] }}</h3>
+                    </div>
+                </div>
+                <div class="w3-container">
+                    <div id="personal">
+                        <p><i class="fa fa-code fa-fw w3-margin-right w3-large w3-text-teal"></i>Department: {{ data['department'] }}</p>
+                        <p><i class="fa fa-envelope fa-fw w3-margin-right w3-large w3-text-teal"></i>Email: {{ data['email'] }}</p>
+                        {% if data['school'] and data['manager'] and data['project'] %}
+                        <p><i class="fa fa-university fa-fw w3-margin-right w3-large w3-text-teal"></i>College: {{ data['school'] }}</p>
+                        <p><i class="fa fa-user fa-fw w3-margin-right w3-large w3-text-teal"></i>Manager: {{ data['manager'] }}</p>
+                        <p><i class="fa fa-wrench fa-fw w3-margin-right w3-large w3-text-teal"></i>Project: {{ eval(data['project'])['title'] }}</p>
+                        {% end %}
+                    </div>
+                    <!--<p><i class="fa fa-phone fa-fw w3-margin-right w3-large w3-text-teal"></i>8323107154</p>-->
+                    <hr>
+                </div>
+            </div><br>
+
+            <!-- End Left Column -->
+        </div>
+
+            <!-- Right Column -->
+
+        <!-- Right Column -->
+        <div class="w3-twothird">
+            <!-- Posts Page -->
+            <div class="w3-container w3-card-2 w3-white w3-margin-bottom">
+                <h2 id='results' class="w3-text-grey w3-padding-16"><i class="fa fa-certificate fa-fw w3-margin-right w3-xxlarge w3-text-teal"></i>Posts <br></h2>
+                </div>
+            </div>
+
+
+
+            <!-- End Right Column -->
+        </div>
+
+        <!-- End Grid -->
+    </div>
+
+    <!-- End Page Container -->
+
+<script>
+    $.ajax({
+        type: "GET",
+        url: "/user_posts"
+    }).complete(function(o){
+       j = o.responseText;
+       console.log(j);
+       obj = JSON.parse(j);
+       for (var i = 0; i < obj.length; i++) {
+           $("#results").append($("<div>", {"class": "w3-container"}).append(
+               $("<h5>",{"class":"w3-opacity", "style":"font-size: 1em;"}).append($("<b>", {"text":obj[i].title}))).append(
+               $("<h6>",{"class": "w3-text-teal"}).text("Feeling " + obj[i].feeling)).append(
+               $("<p>", {"style": "font-size: 0.75em;"}).text(obj[i].content.slice(0.15) + "...")).append("<hr>")
+           )
+       }
+
+    });
+
+
+
+</script>
+
+
+<style>
+    .form-control {
+        margin-bottom: 3%
+    }
+</style>
+{% end %}

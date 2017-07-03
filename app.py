@@ -36,9 +36,8 @@ class MyAccountHandler(BaseHandler):
 		user = get_user(self.get_current_email())
 		user.project = user.project if user.project else json.dumps({"title":""})
 
-		self.render("templates/html/my-account.html", user=self.get_current_user(),data=model_to_dict(user));
-		dict(firstname=user.firstname, lastname=user.lastname, department=user.department,
-					email=user.email, college=user.school,manager=user.manager,project=eval(user.project)["title"])
+		self.render("templates/html/my-account.html", user=self.get_current_user(),data=model_to_dict(user))
+
 class RegistrationHandler(BaseHandler):
 	def get(self):
 		self.render("templates/html/register.html",failure=0,user=self.get_current_user())
@@ -239,6 +238,14 @@ class PostExtEndpoint(BaseHandler):
 			output_list.append(resultMessage)
 			self.write(json.dumps(output_list))
 
+class ViewHandler(BaseHandler):
+	def get(self):
+		print("here")
+		user_email = self.get_argument("email")
+		user = get_user(user_email)
+		self.render("templates/html/view.html", user=self.get_current_user(), data=model_to_dict(user))
+
+
 class GetCookieEndpoint(BaseHandler):
 	def post(self):
 		output_list = []
@@ -289,6 +296,7 @@ def make_app():
 		(r"/engage",EngageHandler),
 		(r"/analytics",AnalyticsHandler),
 		(r"/search",SearchHandler),
+		(r"/view",ViewHandler),
 		#ENDPOINTS
 		(r"/newPost", PostEndpoint),
 		(r"/newUser",NewUserEndpoint),
