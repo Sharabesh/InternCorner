@@ -130,7 +130,7 @@ def search(query,table,start):
 
 
 def get_random_10():
-	q = Posts.select().order_by(fn.Random()).limit(10)
+	q = Posts.select().where(Posts.content != "").order_by(fn.Random()).limit(10)
 	return q.execute()
 
 def add_user_data(school,manager,project,user):

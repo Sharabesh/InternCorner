@@ -3,6 +3,8 @@
 		<link href="static/css/styles.css" rel="stylesheet">
         <script src="static/js/jquery.js"></script>
         <link rel="stylesheet" href="/static/css/form-button.css">
+        <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+
 
 	{% end %}
 
@@ -86,9 +88,9 @@
              console.log(j);
              obj = JSON.parse(j);
              for (var i = 0; i < obj.length; i++) {
-                 var panel = $("<div>", {"class": "panel panel-default"});
-                 panel.append($("<div>", {'class':'panel-heading'}).append(
-                     $("<h4>",{"text":obj[i].title + "\nPosted by " + obj[i].author}))).append(
+                 var panel = $("<div>", {"class": "w3-container w3-card-2 w3-white w3-margin-bottom"});
+                 panel.append($("<div>", {'class':'w3-container'}).append(
+                     $("<h4>",{"text":obj[i].title + "\nPosted by " + obj[i].author, "class":"w3-text-grey w3-padding-16"}))).append(
                         $("<div>", {"class": "panel-body"}).text(obj[i].content)
                  ).append($("<a>",{
                      "class":"btn btn-sm btn-primary",
@@ -97,7 +99,8 @@
                      "onclick": "submitVote(this.id)",
                      "text":"Likes: " + obj[i].likes + " ",
                      "style":"margin-bottom:2%; margin-left:2%"
-                 }).append($("<span>",{"class":"glyphicon glyphicon-thumbs-up"})))
+                 }).append($("<span>",{"class":"glyphicon glyphicon-thumbs-up"})));
+
                  $("#results").append(panel);
              }
              $("#results").html($("#results").html().replace(/\n/g,'<br/>'));
@@ -117,9 +120,10 @@
                       console.log(j);
                       obj = JSON.parse(j);
                       for (var i = 0; i < obj.length; i++) {
-                          var panel = $("<div>", {"class": "panel panel-default"});
-                          panel.append($("<div>", {'class': 'panel-heading'}).append(
-                              $("<h4>", {"text": obj[i].title + "\nPosted by " + obj[i].author}))).append(
+
+                          var panel = $("<div>", {"class": "w3-container w3-card-2 w3-white w3-margin-bottom"});
+                          panel.append($("<div>", {'class': 'w3-container'}).append(
+                              $("<h4>", {"text": obj[i].title + "\nPosted by " + obj[i].author,"class":"w3-text-grey w3-padding-16"}))).append(
                               $("<div>", {"class": "panel-body"}).text(obj[i].content)
                           ).append($("<a>", {
                               "class": "btn btn-sm btn-primary",
@@ -142,10 +146,10 @@
                       console.log(j);
                       obj = JSON.parse(j);
                       for (var i = 0; i < obj.length; i++) {
-                          var panel = $("<div>", {"class": "panel panel-default"});
-                          panel.append($("<div>", {'class': 'panel-heading'}).append(
+                           var panel = $("<div>", {"class": "w3-container w3-card-2 w3-white w3-margin-bottom"});
+                          panel.append($("<div>", {'class': 'w3-container'}).append(
                               $("<a>",{"href":`/view?email=${obj[i].email}`}).append(
-                              $("<h4>", {"text": obj[i].firstname + " " + obj[i].lastname})))
+                              $("<h4>", {"text": obj[i].firstname + " " + obj[i].lastname,"class":"w3-text-grey w3-padding-16"})))
                           ).append(
                               $("<div>", {"class": "panel-body"}).text("Department: " + obj[i].department)
                           ).append($("<div>", {
