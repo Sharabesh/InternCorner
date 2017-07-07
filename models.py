@@ -60,7 +60,6 @@ class Posts(BaseModel):
 	likes = IntegerField(null=True)
 	time_posted = DateTimeField()
 
-
 	class Meta:
 		db_table='posts'
 
