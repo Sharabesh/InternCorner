@@ -214,17 +214,17 @@ class PostEndpoint(BaseHandler):
 		message = self.get_body_argument("message",default="")
 		output_list = []
 		update_streak_post(user)
-		# try:
-		# 	create_post(anon,feeling,message,user,title)
-		# 	resultMessage = {}
-		# 	resultMessage["success"] = "true"
-		# 	output_list.append(resultMessage)
-		# 	self.write(json.dumps(output_list))
-		# except:
-		# 	resultMessage = {}
-		# 	resultMessage["success"] = "false"
-		# 	output_list.append(resultMessage)
-		# 	self.write(json.dumps(output_list))
+		try:
+			create_post(anon,feeling,message,user,title)
+			resultMessage = {}
+			resultMessage["success"] = "true"
+			output_list.append(resultMessage)
+			self.write(json.dumps(output_list))
+		except:
+			resultMessage = {}
+			resultMessage["success"] = "false"
+			output_list.append(resultMessage)
+			self.write(json.dumps(output_list))
 
 class PostExtEndpoint(BaseHandler):
 	def post(self):
