@@ -63,6 +63,7 @@ class LoginHandler(BaseHandler):
 			values = list(values)[0]
 			self.set_secure_cookie("user",username)
 			self.set_secure_cookie("email",values.email)
+			update_streak_login(values.email)
 			self.redirect("/")
 		else:
 			self.render("templates/html/login.html",failure=1,user=self.get_current_user())
@@ -212,17 +213,18 @@ class PostEndpoint(BaseHandler):
 		title = self.get_body_argument("title",default="")
 		message = self.get_body_argument("message",default="")
 		output_list = []
-		try:
-			create_post(anon,feeling,message,user,title)
-			resultMessage = {}
-			resultMessage["success"] = "true"
-			output_list.append(resultMessage)
-			self.write(json.dumps(output_list))
-		except:
-			resultMessage = {}
-			resultMessage["success"] = "false"
-			output_list.append(resultMessage)
-			self.write(json.dumps(output_list))
+		update_streak_post(user)
+		# try:
+		# 	create_post(anon,feeling,message,user,title)
+		# 	resultMessage = {}
+		# 	resultMessage["success"] = "true"
+		# 	output_list.append(resultMessage)
+		# 	self.write(json.dumps(output_list))
+		# except:
+		# 	resultMessage = {}
+		# 	resultMessage["success"] = "false"
+		# 	output_list.append(resultMessage)
+		# 	self.write(json.dumps(output_list))
 
 class PostExtEndpoint(BaseHandler):
 	def post(self):

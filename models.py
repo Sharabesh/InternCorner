@@ -15,7 +15,7 @@ import datetime
 import operator
 
 from peewee import DateTimeField, CharField, IntegerField, BooleanField
-
+from datetime import datetime
 
 url = urlparse(os.environ["DATABASE_URL"])
 
@@ -45,6 +45,8 @@ class User(BaseModel):
 	email = CharField(null=True)
 	manager = CharField(null=True)
 	project = CharField(null=True)
+	streak = IntegerField(null=True)
+	streak_date = DateTimeField()
 
 	class Meta:
 		db_table='user'
@@ -80,11 +82,39 @@ def login_user(username,password):
 	return q
 
 def create_post(anonymous,feeling,message,user,title):
-	correct_userid = User.select().where(User.email == user).execute()
+	correct_userid = User.select(User.uniqueid).where(User.email == user).execute()
 	correct_userid = list(correct_userid)[0]
 	userid = correct_userid.uniqueid
 	Posts.create(content=message,author=user,feeling=feeling,likes=0,userid=userid,anonymous=anonymous,title=title)
 	return True
+
+def update_streak_post(user):
+	correct_user = User.select(User.uniqueid, User.streak, User.streak_date).where(User.email == user).execute()
+	correct_user = list(correct_user)[0]
+	userid = correct_user.uniqueid
+	new_streak = correct_user.streak
+	diff = days_between(str(correct_user.streak_date), str(datetime.now().strftime("%Y-%m-%d")))
+	if diff == 1:
+		new_streak = correct_user.streak + 1
+	elif diff > 1:
+		new_streak = 0
+	new_date = str(datetime.now().strftime("%Y-%m-%d"))
+	User.update(streak=new_streak, streak_date=new_date).where(User.email == user).execute()
+
+def update_streak_login(user):
+	correct_user = User.select(User.uniqueid, User.streak_date).where(User.email == user).execute()
+	correct_user = list(correct_user)[0]
+	userid = correct_user.uniqueid
+	diff = days_between(str(correct_user.streak_date), str(datetime.now().strftime("%Y-%m-%d")))
+	if diff > 1:
+		User.update(streak=0).where(User.email == user).execute()
+
+def days_between(d1, d2):
+	d1 = datetime.strptime(d1, "%Y-%m-%d")
+	d2 = datetime.strptime(d2, "%Y-%m-%d")
+	return abs((d2 - d1).days)
+
+
 
 def register_user(firstname,lastname,username,email,password,department):
 	if User.select().where((User.email == email)).execute().count == 0:
