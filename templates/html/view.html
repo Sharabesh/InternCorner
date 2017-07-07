@@ -122,6 +122,9 @@
        j = o.responseText;
        console.log(j);
        obj = JSON.parse(j);
+       if (obj.length < 5) {
+           $("#nextBtn").hide();
+       }
        for (var i = 0; i < obj.length; i++) {
            $("#results").append($("<div>", {"class": "w3-container"}).append(
                $("<h5>",{"class":"w3-opacity", "style":"font-size: 1em;"}).append($("<b>", {"text":obj[i].title}))).append(
