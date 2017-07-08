@@ -26,6 +26,10 @@ body{
     z-index: 0;
 }
 
+.sameRow{
+    display: inline;
+}
+
 .grad{
     position: absolute;
     top: -20px;

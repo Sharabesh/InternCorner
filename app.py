@@ -311,3 +311,4 @@ if __name__ == "__main__":
 
 	print("Running at localhost:" + str(port))
 	tornado.ioloop.IOLoop.current().start()
+	print("running")

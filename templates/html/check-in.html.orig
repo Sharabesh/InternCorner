@@ -2,9 +2,13 @@
 
 {% block css %}
 <link href="https://afeld.github.io/emoji-css/emoji.css" rel="stylesheet">
+<<<<<<< HEAD
+<link rel="stylesheet" type="text/css" href= "static/css/emojiBar.css">
+=======
 <link rel="stylesheet" type="text/css" href= static/css/emojiBar.css>
 <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
 <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+>>>>>>> d6287dcd258cb1dc07abb9165d398380ca78e5f0
 <script src="static/js/jquery.js"></script>
 {% end %}
 
@@ -31,6 +35,9 @@
 {% block content %}
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+<<<<<<< HEAD
+                <form name="sentMessage" id="contactForm">
+=======
                 <!-- Contact Form - Enter your email address on line 19 of the mail/contact_me.php file to make this form work. -->
                 <!-- WARNING: Some web hosts do not allow emails to be sent through forms to common mail hosts like Gmail or Yahoo. It's recommended that you use a private domain email address! -->
                 <!-- NOTE: To use the contact form, your site must be on a live web host with PHP! The form will not work locally! -->
@@ -44,6 +51,7 @@
                         <!--</div>-->
                     <!--</div>-->
 
+>>>>>>> d6287dcd258cb1dc07abb9165d398380ca78e5f0
                     <div class="row control-group">
                         <div class="form-group col-xs-12 floating-label-form-group controls">
                             <h4 style="font-weight: normal; color: grey">How are you feeling?</h4>
@@ -90,19 +98,22 @@
                                 <i class="em em-angry" id="1"></i>
                             </div>
 
+<<<<<<< HEAD
+                            <p class="help-block text-danger"></p>
+                        </div>
+                    </div>
+
+                    <div class="row control-group">
+                        <div class="form-group col-xs-12 floating-label-form-group controls">
+                            <button type="button" id="anon" class="btn btn-block btn-default form-button" name="button">Go Public</button>
+=======
+>>>>>>> d6287dcd258cb1dc07abb9165d398380ca78e5f0
                             <p class="help-block text-danger"></p>
 
                             <div id = "eText" class="text-left spacer1"><br/></div>
 
                         </div>
 
-                    </div>
-
-                    <div class="row control-group">
-                        <div class="form-group col-xs-12 floating-label-form-group controls">
-                            <button type="button" id="anon" class="btn btn-block btn-default form-button" name="button">Go Public</button>
-                            <p class="help-block text-danger"></p>
-                        </div>
                     </div>
 
                     <div class="row control-group">
@@ -139,8 +150,13 @@
 
                     <br>
                     <div class="row">
+<<<<<<< HEAD
+                        <div class="form-group col-xs-12">
+                            <button type="button" id="submit" class="btn btn-block btn-default">Send</button>
+=======
                         <div class="form-group col-xs-12 spacer2">
                             <button type="submit" class="btn btn-block btn-default">Send</button>
+>>>>>>> d6287dcd258cb1dc07abb9165d398380ca78e5f0
                         </div>
                     </div>
                 </form>
@@ -171,6 +187,8 @@
     function makeSmall(id) {
         $("#" + id).css("transform","scale(1,1)");
     }
+<<<<<<< HEAD
+=======
 
 
     var clickText = "<br/>";
@@ -184,8 +202,13 @@
         }
     }
 
+>>>>>>> d6287dcd258cb1dc07abb9165d398380ca78e5f0
     $(".em").click(function() {
         makeBig(this.id);
+<<<<<<< HEAD
+        feeling = this.id;
+    })
+=======
         emojiText(this.id);
         clickText = emo[this.id-1];
     })
@@ -197,6 +220,47 @@
     })
 
 
+
+</script>
+{% end %}
+>>>>>>> d6287dcd258cb1dc07abb9165d398380ca78e5f0
+
+    $("#anon").click(function() {
+      anonymous = anonymous ^ 1;
+      if (anonymous == 1) {
+        $("#anon").css(anonCSS);
+        $("#anon").text("Go Anonymous")
+      }
+      else {
+        $("#anon").css(publicCSS);
+        $("#anon").text("Go Public")
+      }
+    })
+
+    $("#submit").click(function() {
+      if (feeling < 0) { console.log("Feeling not selected"); return;}
+
+      var anon = anonymous;
+      var title = $("#title").val() ? $("#title").val() : "";
+      var message = $("#message").val() ? $("#message").val() : "";
+      $.ajax({
+        type:"POST",
+        url:"/newPost",
+        data: {
+          "feeling": feeling,
+          "anon": anon,
+          "title": title,
+          "message": message
+        }
+      }).complete(function(o){
+        j = o.responseText;
+        console.log(j);
+        obj = JSON.parse(j);
+        if (obj[0]["success"] == "true") {
+          $("#success").show().delay(2000).fadeOut(1000);
+        }
+      });
+    });
 
 </script>
 {% end %}

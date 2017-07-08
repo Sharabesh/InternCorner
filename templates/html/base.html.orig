@@ -73,7 +73,11 @@
 
                     {% if user %}
                     <li>
+<<<<<<< HEAD
+                        <a href="/analytics">Analytics</a>
+=======
                         <a href="/">Home</a>
+>>>>>>> d6287dcd258cb1dc07abb9165d398380ca78e5f0
                     </li>
                     <li>
                         <a href="/engage">Engage</a>
