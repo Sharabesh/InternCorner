@@ -171,12 +171,12 @@ def add_user_data(school,manager,project,user):
 
 def update_vote(user_email,id):
 	user = get_user(user_email).uniqueid
-	print(user)
-	print(id)
 	if Likes.select().where(Likes.user_like_id == user, Likes.post_like_id == id).count() > 0:
+		Posts.update(likes=Posts.likes - 1).where(Posts.post_id == id).execute()
 		return -1
 	else:
 		Likes.create(user_like_id=user,post_like_id=id)
+		Posts.update(likes=Posts.likes + 1).where(Posts.post_id == id).execute()
 		return 1
 
 def get_admin_posts():

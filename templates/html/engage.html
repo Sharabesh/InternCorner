@@ -95,7 +95,6 @@
                  ).append($("<a>",{
                      "class":"btn btn-sm btn-primary",
                      "id":obj[i].id,
-                     "href":"#",
                      "onclick": "submitVote(this.id)",
                      "text":"Likes: " + obj[i].likes + " ",
                      "style":"margin-bottom:2%; margin-left:2%"
@@ -129,7 +128,6 @@
                               "class": "btn btn-sm btn-primary",
                               "id": obj[i].id,
                               "onclick": "submitVote(this.id)",
-                              "href": "#",
                               "text": "Likes: " + obj[i].likes + " ",
                               "style": "margin-bottom:2%; margin-left:2%"
                           }).append($("<span>", {"class": "glyphicon glyphicon-thumbs-up"})))
@@ -173,8 +171,15 @@
             type:"POST",
             url:"/like",
             data: {
-                "id":id
+                "vote_id":id
             }
+        }).complete(function (o) {
+            j = o.responseText;
+            console.log(j);
+            obj = JSON.parse(j);
+            var text = $("#" + id).text().split(": ");
+            $("#" + id).text(text[0] + ": " + (JSON.parse(text[1]) + obj) + " ").append($("<span>", {"class": "glyphicon glyphicon-thumbs-up"}));
+            console.log(text);
         })
     }
 </script>

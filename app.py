@@ -306,7 +306,7 @@ class LikeUpdateEndpoint(BaseHandler):
 	def post(self):
 		user = self.get_current_email()
 		id = self.get_argument("vote_id")
-		self.write(update_vote(user,id))
+		self.write(str(update_vote(user,id)))
 
 
 class LogoutEndpoint(BaseHandler):
