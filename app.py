@@ -100,6 +100,22 @@ class UserPageEndpoint(BaseHandler):
 			output_lst.append(article_dict)
 		self.write(json.dumps(output_lst))
 
+class MostLikesEndpoint(BaseHandler):
+	def get(self):
+		results = users_most_likes()
+		output_list = []
+		for item in results:
+			article_dict = {}
+			article_dict["firstname"] = item.firstname
+			article_dict["department"] = item.department
+			output_list.append(article_dict)
+		self.write(json.dumps(output_list))
+
+class Test(BaseHandler):
+	def get(self):
+		print("It's working")
+
+
 class RandomPostsEndpoint(BaseHandler):
 	def get(self):
 		results = get_random_10()
@@ -132,6 +148,18 @@ class UserPostsEndpoint(BaseHandler):
 			article_dict["time_posted"] = (item.time_posted).strftime("%x")
 			output_lst.append(article_dict)
 		self.write(json.dumps(output_lst))
+
+class PostDayEndpoint(BaseHandler):
+	def get(self):
+		results = postOfDay()
+		output_list = []
+		for item in results:
+			article_dict = {}
+			article_dict["content"] = item.content
+			article_dict["title"] = item.title
+			article_dict["author"] = item.author
+			output_list.append(article_dict)
+		self.write(json.dumps(output_list))
 
 class NewChartEndpoint(BaseHandler):
 	def get(self):
@@ -234,7 +262,6 @@ class LogoutEndpoint(BaseHandler):
 		self.redirect('/')
 
 
-
 settings = {
 	"login_url":"/login",
 	"compress_reponse":True,
@@ -247,7 +274,7 @@ def make_app():
 		(r"/static/(.*)", tornado.web.StaticFileHandler, {
 			"path":os.path.join(os.path.dirname(os.path.abspath(__file__)), 'static')
 		}),
-    #Pages
+	#Pages
 		(r"/my-account",MyAccountHandler),
 		(r"/",IndexHandler),
 		(r"/check-in",CheckInHandler),
@@ -266,7 +293,9 @@ def make_app():
 		(r"/update-fields",UserDataHandler),
 		(r"/get-cookie",GetCookieEndpoint),
 		(r"/login-ext", LoginHandlerExtEndpoint),
-		(r"/newPostExt", PostExtEndpoint)
+		(r"/newPostExt", PostExtEndpoint),
+		(r"/mostLikes", MostLikesEndpoint),
+		(r"/postOfDay", PostDayEndpoint)
 	], debug=True, **settings)
 
 

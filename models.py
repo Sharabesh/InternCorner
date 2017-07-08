@@ -98,6 +98,11 @@ def top_4():
 	q = Posts.select().order_by(SQL('likes').desc()).limit(4)
 	return q.execute()
 
+def users_most_likes():
+    q = User.select().order_by(fn.Random()).limit(3)
+    return q.execute()
+
+
 def get_user_posts(username):
 	posts = Posts.select().join(User).where(User.username == username)
 	return posts.execute()
@@ -113,6 +118,10 @@ def add_user_data(school,manager,project,user):
 	print("ran")
 	query = User.update(school=school,manager=manager,project={"title":project}).where(User.email == user)
 	query.execute()
+
+def postOfDay():
+    q = Posts.select().order_by(SQL('likes').desc()).limit(1)
+    return q.execute()
 
 
 
