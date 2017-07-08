@@ -351,7 +351,12 @@ def make_app():
 		(r"/get-cookie",GetCookieEndpoint),
 		(r"/login-ext", LoginHandlerExtEndpoint),
 		(r"/newPostExt", PostExtEndpoint),
+<<<<<<< HEAD
+		(r"/mostLikes", MostLikesEndpoint),
+		(r"/postOfDay", PostDayEndpoint)
+=======
 		(r"/like",LikeUpdateEndpoint)
+>>>>>>> e95bf55802c3c65878c8f05da1431ce9defc3c8c
 	], debug=True, **settings)
 
 

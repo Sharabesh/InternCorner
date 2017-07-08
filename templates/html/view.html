@@ -3,7 +3,6 @@
 {% block css %}
 <script src="static/js/jquery.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link href="https://afeld.github.io/emoji-css/emoji.css" rel="stylesheet">
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Roboto'>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -21,15 +20,17 @@
 {% end %}
 
 
+
+
 {% block header %}
 <header class="intro-header" style="background-image: url('static/img/post-bg.jpg')">
     <div class="container">
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
                 <div class="site-heading">
-                    <h2>My Account</h2>
+                    <h2>{{ data['firstname'] }} {{ data['lastname'] }}</h2>
                     <hr class="small">
-                    <span id='description' class="subheading">There are many like it, but this one is mine.</span><br>
+                    <span id='description' class="subheading">Explore the Community</span><br>
                 </div>
             </div>
         </div>
@@ -56,21 +57,7 @@
                 <div class="w3-display-container">
                     <img src="static/img/avatar.png" style="width:100%" alt="Avatar">
                     <div class="w3-display-bottomleft w3-container w3-text-black">
-                      {% if data['streak'] > 0 %}
-                        <h3 class="spac">{{ data['firstname'] }} {{ data['lastname'] }} <i class="em em-fire"></i><i class="streak">{{ data['streak'] }}</i></h3>
-                      {% else %}
                         <h3 class="spac">{{ data['firstname'] }} {{ data['lastname'] }}</h3>
-                      {% end if %}
-
-                      <style media="screen">
-                        .streak {
-                          font-size: 16px;
-                        }
-                        .em {
-                          width: 20px;
-                          height: 20px;
-                        }
-                      </style>
                     </div>
                 </div>
                 <div class="w3-container">
@@ -85,9 +72,6 @@
                     </div>
                     <!--<p><i class="fa fa-phone fa-fw w3-margin-right w3-large w3-text-teal"></i>8323107154</p>-->
                     <hr>
-                    {% if not (data['school'] and data['manager'] and data['project']) %}
-                    <p><a onclick="showFields()" id="continue">Fill out your profile</a></p>
-                    {% end %}
                 </div>
             </div><br>
 
@@ -103,42 +87,37 @@
                 <h2 id='results' class="w3-text-grey w3-padding-16"><i class="fa fa-certificate fa-fw w3-margin-right w3-xxlarge w3-text-teal"></i>Posts <br></h2>
                 <div class="container" style="padding-bottom:30px;" id="navButtons">
                     <div class="btn-group" role="group">
-                      <a id="backBtn" style="display:inline-block;" onclick="goback();" ><button type="button" class="btn btn-default">Back</button></a>
-                      <a id="nextBtn" style="display:inline-block;" onclick="goforward();"><button type="button" class="btn btn-default">Next</button></a>
+                      <a id="backBtn" style="display:inline-block; margin-top:20px;" onclick="goback();" ><button type="button" class="btn btn-default">Back</button></a>
+                      <a id="nextBtn" style="display:inline-block; margin-top:20px;" onclick="goforward();"><button type="button" class="btn btn-default">Next</button></a>
                     </div>
                 </div>
                 </div>
             </div>
-
-
-
             <!-- End Right Column -->
         </div>
 
         <!-- End Grid -->
     </div>
+
 <script>
     if (START === 0) {
         $("#backBtn").hide();
     }
     function goback() {
 
-        window.location.search=`start=${START - 5}`
+        window.location.search=`email={{ data['email'] }}&start=${START - 5}`
     }
     function goforward() {
-        window.location.search=`start=${START + 5}`
+        window.location.search=`email={{ data['email'] }}&start=${START + 5}`
     }
 </script>
-
 
     <!-- End Page Container -->
 
 <script>
-    var emotions = ["Ecstatic", "Funny", "Happy", "Happy", "Victorious", "Neutral", "/", "Sad", "Unhappy", "Angry"];
-
     $.ajax({
         type: "GET",
-        url: `/user_posts?start=${START}`
+        url: `/user_posts?email={{ data['email'] }}&start=${START}`
     }).complete(function(o){
        j = o.responseText;
        console.log(j);
@@ -149,43 +128,17 @@
        for (var i = 0; i < obj.length; i++) {
            $("#results").append($("<div>", {"class": "w3-container"}).append(
                $("<h5>",{"class":"w3-opacity", "style":"font-size: 1em;"}).append($("<b>", {"text":obj[i].title}))).append(
-               $("<h6>",{"class": "w3-text-teal"}).text("Feeling " + emotions[obj[i].feeling - 1])).append(
+               $("<h6>",{"class": "w3-text-teal"}).text("Feeling " + obj[i].feeling)).append(
                $("<p>", {"style": "font-size: 0.75em;"}).text(obj[i].content.slice(0.15) + "...")).append("<hr>")
            )
        }
+
     });
 
 
 
 </script>
-<script>
-    /* Helper Methods */
-    function showFields() {
-        $("#personal").append($("<input>", {"type":"text","class":"form-control", "placeholder":"School", "id":"school"}).prop("required",true));
-        $("#personal").append($("<input>", {"type":"text","class":"form-control", "placeholder":"Manager", "id":"manager"}).prop("required",true));
-        $("#personal").append($("<input>", {"type":"text","class":"form-control", "placeholder":"Project", "id":"project"}).prop("required",true));
-        $("#personal").append($("<a>", {"class":"btn btn-primary btn-block", "value":"Submit", "style":"height:10%", "onclick":"add_data()"}));
-        $("#continue").hide();
-    }
-    function add_data() {
-        fields = {
-                "school":$("#school").val(),
-                "manager": $("#manager").val(),
-                "project":$("#project").val()
-        };
-        if (fields['school'] && fields['manager'] && fields["project"]) {
-            $.ajax({
-                type: "POST",
-                url: "update-fields",
-                data: fields
-            });
-            location.reload();
-        }
-        else {
-            alert("please fill in all the fields")
-        }
-    }
-</script>
+
 
 <style>
     .form-control {

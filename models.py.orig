@@ -128,8 +128,18 @@ def top_4():
 	q = Posts.select().order_by(SQL('likes').desc()).limit(4)
 	return q.execute()
 
+<<<<<<< HEAD
+def users_most_likes():
+    q = User.select().order_by(fn.Random()).limit(3)
+    return q.execute()
+
+
+def get_user_posts(username):
+	posts = Posts.select().join(User).where(User.username == username)
+=======
 def get_user_posts(email,start):
 	posts = Posts.select().join(User).where(User.email == email).offset(start).limit(5)
+>>>>>>> e95bf55802c3c65878c8f05da1431ce9defc3c8c
 	return posts.execute()
 
 def get_user(email):
@@ -167,6 +177,11 @@ def add_user_data(school,manager,project,user):
 	query = User.update(school=school,manager=manager,project={"title":project}).where(User.email == user)
 	query.execute()
 
+<<<<<<< HEAD
+def postOfDay():
+    q = Posts.select().order_by(SQL('likes').desc()).limit(1)
+    return q.execute()
+=======
 def update_vote(user_email,id):
 	user = get_user(user_email).uniqueid
 	print(user)
@@ -176,6 +191,7 @@ def update_vote(user_email,id):
 	else:
 		Likes.create(user_like_id=user,post_like_id=id)
 		return 1
+>>>>>>> e95bf55802c3c65878c8f05da1431ce9defc3c8c
 
 
 

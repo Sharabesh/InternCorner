@@ -2,6 +2,10 @@
 	{% block css %}
 		<link href="static/css/styles.css" rel="stylesheet">
         <script src="static/js/jquery.js"></script>
+        <link rel="stylesheet" href="/static/css/form-button.css">
+        <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+
+
 	{% end %}
 
 {% block header %}
@@ -28,7 +32,7 @@
         <div class="row">
             <div class="col-lg-12 text-center">
                 <p class="lead">Your tool to query across our users and posts</p>
-                <form method="get" action="/search">
+
                     <div class="input-group">
                        <input id='searcher' type="text" name="q" style="width:90%" placeholder="Use the dropdown to search users or posts" class="form-control">
                        <select name="req" id="req" class="selectpicker form-control" style="width: 10%;">
@@ -36,10 +40,10 @@
                             <option value="p" id="experiments">Posts</option>
                        </select>
                        <span class="input-group-btn">
-                            <input type="submit" class="btn btn-default" value="Search" />
+                           <a class="btn btn-default" onclick="loadSearch()">Search</a>
                        </span>
                     </div>
-               </form>
+
             </div>
         </div>
         <br>
@@ -73,30 +77,7 @@
 {#  </div>#}
 {#</div>#}
 
-<!--post modal-->
-<div id="postModal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
-  <div class="modal-dialog">
-  <div class="modal-content">
-      <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-			Update Status
-      </div>
-      <div class="modal-body">
-          <form class="form center-block">
-            <div class="form-group">
-              <textarea class="form-control input-lg" autofocus="" placeholder="What do you want to share?"></textarea>
-            </div>
-          </form>
-      </div>
-      <div class="modal-footer">
-          <div>
-          <button class="btn btn-primary btn-sm" data-dismiss="modal" aria-hidden="true">Post</button>
-            <ul class="pull-left list-inline"><li><a href=""><i class="glyphicon glyphicon-upload"></i></a></li><li><a href=""><i class="glyphicon glyphicon-camera"></i></a></li><li><a href=""><i class="glyphicon glyphicon-map-marker"></i></a></li></ul>
-		  </div>
-      </div>
-  </div>
-  </div>
-</div>
+
     <script src="/static/js/scripts.js"></script>
      <script>
           $.ajax({
@@ -107,16 +88,99 @@
              console.log(j);
              obj = JSON.parse(j);
              for (var i = 0; i < obj.length; i++) {
-                 var panel = $("<div>", {"class": "panel panel-default"});
-                 panel.append($("<div>", {'class':'panel-heading'}).append(
-                     $("<h4>",{"text":obj[i].title + "\nPosted by " + obj[i].author}))).append(
+                 var panel = $("<div>", {"class": "w3-container w3-card-2 w3-white w3-margin-bottom"});
+                 panel.append($("<div>", {'class':'w3-container'}).append(
+                     $("<h4>",{"text":obj[i].title + "\nPosted by " + obj[i].author, "class":"w3-text-grey w3-padding-16"}))).append(
                         $("<div>", {"class": "panel-body"}).text(obj[i].content)
-                 ).append($("<a>",{"class":"btn btn-sm btn-primary","id":obj[i].id,"href":"#","text":"Likes: " + obj[i].likes + " ", "style":"margin-bottom:2%; margin-left:2%"}).append($("<span>",{"class":"glyphicon glyphicon-thumbs-up"})))
+                 ).append($("<a>",{
+                     "class":"btn btn-sm btn-primary",
+                     "id":obj[i].id,
+                     "href":"#",
+                     "onclick": "submitVote(this.id)",
+                     "text":"Likes: " + obj[i].likes + " ",
+                     "style":"margin-bottom:2%; margin-left:2%"
+                 }).append($("<span>",{"class":"glyphicon glyphicon-thumbs-up"})));
+
                  $("#results").append(panel);
              }
              $("#results").html($("#results").html().replace(/\n/g,'<br/>'));
           });
+
+
+          function loadSearch() {
+              var query = $("#searcher").val();
+              var req = $("#req").val();
+              $("#results").html("");
+              if (req === "p") {
+                  $.ajax({
+                      type: "GET",
+                      url: `/search?q=${query}&req=${req}`
+                  }).complete(function (o) {
+                      j = o.responseText;
+                      console.log(j);
+                      obj = JSON.parse(j);
+                      for (var i = 0; i < obj.length; i++) {
+
+                          var panel = $("<div>", {"class": "w3-container w3-card-2 w3-white w3-margin-bottom"});
+                          panel.append($("<div>", {'class': 'w3-container'}).append(
+                              $("<h4>", {"text": obj[i].title + "\nPosted by " + obj[i].author,"class":"w3-text-grey w3-padding-16"}))).append(
+                              $("<div>", {"class": "panel-body"}).text(obj[i].content)
+                          ).append($("<a>", {
+                              "class": "btn btn-sm btn-primary",
+                              "id": obj[i].id,
+                              "onclick": "submitVote(this.id)",
+                              "href": "#",
+                              "text": "Likes: " + obj[i].likes + " ",
+                              "style": "margin-bottom:2%; margin-left:2%"
+                          }).append($("<span>", {"class": "glyphicon glyphicon-thumbs-up"})))
+                          $("#results").append(panel);
+                      }
+                      $("#results").html($("#results").html().replace(/\n/g, '<br/>'));
+                  });
+              } else {
+                $.ajax({
+                  type: "GET",
+                  url: `/search?q=${query}&req=${req}`
+                  }).complete(function (o) {
+                      j = o.responseText;
+                      console.log(j);
+                      obj = JSON.parse(j);
+                      for (var i = 0; i < obj.length; i++) {
+                           var panel = $("<div>", {"class": "w3-container w3-card-2 w3-white w3-margin-bottom"});
+                          panel.append($("<div>", {'class': 'w3-container'}).append(
+                              $("<a>",{"href":`/view?email=${obj[i].email}`}).append(
+                              $("<h4>", {"text": obj[i].firstname + " " + obj[i].lastname,"class":"w3-text-grey w3-padding-16"})))
+                          ).append(
+                              $("<div>", {"class": "panel-body"}).text("Department: " + obj[i].department)
+                          ).append($("<div>", {
+                              "class":"panel-body",
+                              "text":
+                              "Email: " + obj[i].email + "\n" +
+                              "University: " + obj[i].school + "\n" +
+                              "Manager: " + obj[i].manager + "\n",
+                          }));
+                          $("#results").append(panel);
+                      }
+                      $("#results").html($("#results").html().replace(/\n/g, '<br/>'));
+                  });
+
+              }
+
+          }
       </script>
+
+<script>
+    function submitVote(id) {
+        $.ajax({
+            type:"POST",
+            url:"/like",
+            data: {
+                "id":id
+            }
+        })
+    }
+</script>
+
 {% end %}
 
 {% block footer %}{% end %}
