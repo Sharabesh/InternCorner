@@ -17,18 +17,20 @@ class BaseHandler(tornado.web.RequestHandler):
 		return self.get_secure_cookie("user")
 	def get_current_email(self):
 		return self.get_secure_cookie("email")
+	def is_superuser(self):
+		return self.get_secure_cookie("superuser")
 	def get(self):
 		self.set_header("Content-Type", "application/json")
 
 
 class IndexHandler(BaseHandler):
 	def get(self):
-		self.render("templates/html/index.html", message=0, user=self.get_current_user())
+		self.render("templates/html/index.html", message=0, user=self.get_current_user(),superuser=self.is_superuser())
 
 class CheckInHandler(BaseHandler):
 	@tornado.web.authenticated
 	def get(self):
-		self.render("templates/html/check-in.html", user=self.get_current_user())
+		self.render("templates/html/check-in.html", user=self.get_current_user(),superuser=self.is_superuser())
 
 class MyAccountHandler(BaseHandler):
 	@tornado.web.authenticated
@@ -36,25 +38,25 @@ class MyAccountHandler(BaseHandler):
 		user = get_user(self.get_current_email())
 		user.project = user.project if user.project else json.dumps({"title":""})
 
-		self.render("templates/html/my-account.html", user=self.get_current_user(),data=model_to_dict(user))
+		self.render("templates/html/my-account.html", user=self.get_current_user(),data=model_to_dict(user),superuser=self.is_superuser())
 
 class RegistrationHandler(BaseHandler):
 	def get(self):
-		self.render("templates/html/register.html",failure=0,user=self.get_current_user())
+		self.render("templates/html/register.html",failure=0,user=self.get_current_user(),superuser=self.is_superuser())
 
 class EngageHandler(BaseHandler):
 	@tornado.web.authenticated
 	def get(self):
-		self.render("templates/html/engage.html",user=self.get_current_user())
+		self.render("templates/html/engage.html",user=self.get_current_user(),superuser=self.is_superuser())
 
 class AnalyticsHandler(BaseHandler):
 	@tornado.web.authenticated
 	def get(self):
-		self.render("templates/html/analytics.html",user=self.get_current_user())
+		self.render("templates/html/analytics.html",user=self.get_current_user(),superuser=self.is_superuser())
 
 class LoginHandler(BaseHandler):
 	def get(self):
-		self.render("templates/html/login.html",failure=0,user=self.get_current_user())
+		self.render("templates/html/login.html",failure=0,user=self.get_current_user(),superuser=self.is_superuser())
 	def post(self):
 		username = self.get_body_argument("username")
 		password = self.get_body_argument("password")
@@ -63,10 +65,33 @@ class LoginHandler(BaseHandler):
 			values = list(values)[0]
 			self.set_secure_cookie("user",username)
 			self.set_secure_cookie("email",values.email)
+			self.set_secure_cookie("superuser",str(values.superuser))
 			update_streak_login(values.email)
 			self.redirect("/")
 		else:
-			self.render("templates/html/login.html",failure=1,user=self.get_current_user())
+			self.render("templates/html/login.html",failure=1,user=self.get_current_user(),superuser=self.is_superuser())
+
+class AdminHandler(BaseHandler):
+	def get(self):
+		self.render("templates/html/admin.html",user=self.get_current_user(),superuser=self.is_superuser())
+
+
+class AdminPostsEndpoint(BaseHandler):
+	def get(self):
+		results = get_admin_posts()
+		output_lst = []
+		for item in results:
+			article_dict = {}
+			article_dict["author"] = item.author
+			article_dict["likes"] = item.likes
+			article_dict["id"] = item.post_id
+			article_dict["feeling"] = item.feeling
+			article_dict["content"] = item.content
+			article_dict["title"] = item.title
+			article_dict["time_posted"] = (item.time_posted).strftime("%x")
+			output_lst.append(article_dict)
+		self.write(json.dumps(output_lst))
+
 
 class LoginHandlerExtEndpoint(BaseHandler):
 	def post(self):
@@ -82,6 +107,8 @@ class LoginHandlerExtEndpoint(BaseHandler):
 		else:
 			output_dic["success"] = 0
 		self.write(json.dumps(output_dic))
+
+
 
 
 class UserPageEndpoint(BaseHandler):
@@ -202,14 +229,14 @@ class NewUserEndpoint(BaseHandler):
 			self.set_secure_cookie("user",username)
 			self.redirect("/")
 		else:
-			self.render("templates/html/register.html",failure=1,user=self.get_current_user())
+			self.render("templates/html/register.html",failure=1,user=self.get_current_user(),superuser=self.is_superuser())
 
 class PostEndpoint(BaseHandler):
 	def post(self):
 		user = self.get_current_email()
 		print(user)
 		feeling = self.get_body_argument("feeling")
-		anon = self.get_body_argument("anon",default="false")
+		anon = self.get_body_argument("anon",default=False)
 		title = self.get_body_argument("title",default="")
 		message = self.get_body_argument("message",default="")
 		output_list = []
@@ -252,7 +279,7 @@ class ViewHandler(BaseHandler):
 		print("here")
 		user_email = self.get_argument("email")
 		user = get_user(user_email)
-		self.render("templates/html/view.html", user=self.get_current_user(), data=model_to_dict(user))
+		self.render("templates/html/view.html", user=self.get_current_user(), data=model_to_dict(user),superuser=self.is_superuser())
 
 
 class GetCookieEndpoint(BaseHandler):
@@ -286,8 +313,15 @@ class LogoutEndpoint(BaseHandler):
 	def get(self):
 		self.clear_cookie("user")
 		self.clear_cookie("email")
+		self.clear_cookie("superuser")
 		self.redirect('/')
 
+class AddAdminPostEndpoint(BaseHandler):
+	def post(self):
+		user = self.get_current_email()
+		title = self.get_argument("title")
+		content = self.get_argument("content")
+		add_admin_post(title,content,user)
 
 
 settings = {
@@ -312,6 +346,7 @@ def make_app():
 		(r"/analytics",AnalyticsHandler),
 		(r"/search",SearchHandler),
 		(r"/view",ViewHandler),
+		(r"/admin",AdminHandler),
 		#ENDPOINTS
 		(r"/newPost", PostEndpoint),
 		(r"/newUser",NewUserEndpoint),
@@ -324,7 +359,9 @@ def make_app():
 		(r"/get-cookie",GetCookieEndpoint),
 		(r"/login-ext", LoginHandlerExtEndpoint),
 		(r"/newPostExt", PostExtEndpoint),
-		(r"/like",LikeUpdateEndpoint)
+		(r"/like",LikeUpdateEndpoint),
+		(r"/admin-posts",AdminPostsEndpoint),
+		(r"/add-admin",AddAdminPostEndpoint),
 	], debug=True, **settings)
 
 

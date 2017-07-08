@@ -47,6 +47,7 @@ class User(BaseModel):
 	project = CharField(null=True)
 	streak = IntegerField(null=True)
 	streak_date = DateTimeField()
+	superuser = BooleanField(null=True)
 
 	class Meta:
 		db_table='user'
@@ -61,6 +62,7 @@ class Posts(BaseModel):
 	title = CharField(null=True)
 	likes = IntegerField(null=True)
 	time_posted = DateTimeField()
+	admin = BooleanField(null=True)
 
 	class Meta:
 		db_table='posts'
@@ -80,11 +82,11 @@ def login_user(username,password):
 	q = User.select().where((User.username == username) & (User.password == password)).execute()
 	return q
 
-def create_post(anonymous,feeling,message,user,title):
+def create_post(anonymous,feeling,message,user,title,admin=False):
 	correct_userid = User.select(User.uniqueid).where(User.email == user).execute()
 	correct_userid = list(correct_userid)[0]
 	userid = correct_userid.uniqueid
-	Posts.create(content=message,author=user,feeling=feeling,likes=0,userid=userid,anonymous=anonymous,title=title)
+	Posts.create(content=message,author=user,feeling=feeling,likes=0,userid=userid,anonymous=anonymous,title=title,admin=admin)
 	return True
 
 def update_streak_post(user):
@@ -177,7 +179,17 @@ def update_vote(user_email,id):
 		Likes.create(user_like_id=user,post_like_id=id)
 		return 1
 
+def get_admin_posts():
+	posts = Posts.select().where(Posts.admin == True).execute()
+	return posts
 
+def add_admin_post(title,content,user):
+	correct_userid = User.select(User.uniqueid).where(User.email == user).execute()
+	correct_userid = list(correct_userid)[0]
+	userid = correct_userid.uniqueid
+	Posts.create(content=content, author=user, feeling=0, likes=0, userid=userid, anonymous=False,
+				 title=title,admin=True)
+	return True
 
 def get_chart_posts(**kargs):
 	filters = []

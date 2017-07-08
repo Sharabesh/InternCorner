@@ -1,0 +1,122 @@
+{% extends "base.html" %}
+
+{% block css %}
+<script src="static/js/jquery.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="https://afeld.github.io/emoji-css/emoji.css" rel="stylesheet">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link href="https://afeld.github.io/emoji-css/emoji.css" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href= "static/css/emojiBar.css">
+<script src="static/js/jquery.js"></script>
+<style>
+    html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
+
+    .spac{
+        height: 10px;
+
+    }
+
+</style>
+<body class="w3-light-grey">
+{% end %}
+
+
+{% block header %}
+<header class="intro-header" style="background-image: url('static/img/post-bg.jpg')">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="site-heading">
+                    <h2>Admin Portal</h2>
+                    <hr class="small">
+                    <span id='description' class="subheading">Share Something with the Intern Community</span><br>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+{% end %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <h3 style="text-align:center">Current Administratrive Notifications</h3>
+        <div id="results"></div>
+        <p><strong>Update User Notification Base</strong></p>
+    </div>
+</div>
+<div class="container-fluid">
+    <div class="row">
+        <div class="w3-container w3-card-2 w3-white w3-margin-bottom">
+
+            <div class="row control-group">
+                <div class="form-group col-xs-12 floating-label-form-group controls">
+                    <label>Title</label>
+                    <input type='text' class="form-control" placeholder="Title your post" name="title" id="title">
+                    <p class="help-block text-danger"></p>
+                </div>
+            </div>
+            <div class="row control-group">
+                <div class="form-group col-xs-12 floating-label-form-group controls">
+                    <label>Tell us a little more?</label>
+                    <textarea rows="5" class="form-control" placeholder="Tell us a little more?" name="message" id="message"></textarea>
+                    <p class="help-block text-danger"></p>
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="form-group col-xs-12">
+                    <button type="button" id="submit" class="btn btn-block btn-default" onclick="submitAdmin();">Send</button>
+                </div>
+            </div>
+        </div>
+        <div id="success" class="alert alert-success" style="display: none">
+            <strong>Congrats!<br></strong>Your post should appear shortly.
+        </div>
+    </div>
+</div>
+<script>
+    function submitAdmin() {
+        $.ajax({
+            type:"POST",
+            url:"add-admin",
+            data: {
+                "title":$("#title").val(),
+                "content":$("#message").val()
+            }
+        }).complete(function(o) {
+            $("#success").fadeIn();
+        })
+    }
+</script>
+
+<script>
+      $.ajax({
+          type: "GET",
+          url: "/admin-posts"
+      }).complete(function(o) {
+         j = o.responseText;
+         console.log(j);
+         obj = JSON.parse(j);
+         for (var i = 0; i < obj.length; i++) {
+             var panel = $("<div>", {"class": "w3-container w3-card-2 w3-white w3-margin-bottom"});
+             panel.append($("<div>", {'class':'w3-container'}).append(
+                 $("<h4>",{"text":obj[i].title + "\nPosted by " + obj[i].author, "class":"w3-text-grey w3-padding-16"}))).append(
+                    $("<div>", {"class": "panel-body"}).text(obj[i].content)
+             ).append($("<a>",{
+                 "class":"btn btn-sm btn-primary",
+                 "id":obj[i].id,
+                 "href":"#",
+                 "onclick": "submitVote(this.id)",
+                 "text":"Likes: " + obj[i].likes + " ",
+                 "style":"margin-bottom:2%; margin-left:2%"
+             }).append($("<span>",{"class":"glyphicon glyphicon-thumbs-up"})));
+
+             $("#results").append(panel);
+         }
+         $("#results").html($("#results").html().replace(/\n/g,'<br/>'));
+      });
+
+</script>
+
+{% end %}

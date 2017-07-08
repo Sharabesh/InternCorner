@@ -71,17 +71,24 @@
                         <a href="/register">Register</a>
                     </li>
                     {% end %}
-
+                    {% if superuser %}
+                    <li>
+                        <a href="/admin">Admin</a>
+                    </li>
+                    {% end %}
                     {% if user %}
                     <li>
                         <a href="/analytics">Analytics</a>
                     </li>
+
                     <li>
                         <a href="/engage">Engage</a>
                     </li>
+                    {% if not superuser %}
                     <li>
                         <a href="/check-in">Check-In</a>
                     </li>
+                    {% end %}
                     <li>
                         <a href="/my-account?start=0">My Account</a>
                     </li>
