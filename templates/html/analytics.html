@@ -6,6 +6,15 @@
 <script src="static/js/moment.js"></script>
 <script src="static/js/jquery-ui.min.js"></script>
 <link href="static/css/jquery-ui.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.3/css/bootstrap-select.min.css">
+<script src="/static/js/departments.js"></script>
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.3/js/bootstrap-select.min.js"></script>
+
+<!-- (Optional) Latest compiled and minified JavaScript translation files -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.3/js/i18n/defaults-*.min.js"></script>
+
 {% end %}
 
 {% block header %}
@@ -47,8 +56,13 @@
 
             <div class="row">
                 <label for="department">Department </label>
-              <input id="department" style="width: 100%" />
+                <select data-width="100%" id="target" class="selectpicker show-tick show-menu-arrow changed" data-live-search="true" title="Department"></select>
             </div>
+              <script>
+                for (var i = 0; i < departments.length; i++) {
+                    $("#target").append($("<option>").text(departments[i]));
+                }
+            </script>
             <div class="row">
                 <label for="school">School </label>
               <input id="school" style="width: 100%" />
