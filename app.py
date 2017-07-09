@@ -45,6 +45,10 @@ class RegistrationHandler(BaseHandler):
 	def get(self):
 		self.render("templates/html/register.html",failure=0,user=self.get_current_user(),superuser=self.is_superuser())
 
+class VerificationHandler(BaseHandler):
+	def get(self):
+		self.render("templates/html/googleed00d654fc3d3ee6.html")
+
 class EngageHandler(BaseHandler):
 	@tornado.web.authenticated
 	def get(self):
@@ -364,6 +368,7 @@ def make_app():
 		(r"/like",LikeUpdateEndpoint),
 		(r"/admin-posts",AdminPostsEndpoint),
 		(r"/add-admin",AddAdminPostEndpoint),
+		(r"/googleed00d654fc3d3ee6.html",VerificationHandler),
 	], debug=True, **settings)
 
 
