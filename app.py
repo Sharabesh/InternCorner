@@ -12,6 +12,7 @@ from models import *
 from playhouse.shortcuts import *
 
 
+
 class BaseHandler(tornado.web.RequestHandler):
 	def get_current_user(self):
 		return self.get_secure_cookie("user")
@@ -322,6 +323,7 @@ class AddAdminPostEndpoint(BaseHandler):
 		title = self.get_argument("title")
 		content = self.get_argument("content")
 		add_admin_post(title,content,user)
+
 
 
 settings = {
