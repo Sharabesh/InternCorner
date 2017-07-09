@@ -18,7 +18,7 @@ body{
     left: -20px;
     right: -40px;
     bottom: -40px;
-    width: auto;
+    width: 100%;
     height: auto;
     background-image: url(https://g.foolcdn.com/editorial/images/441653/cisco-sign-is-cisco_large.jpg);
     background-size: cover;
