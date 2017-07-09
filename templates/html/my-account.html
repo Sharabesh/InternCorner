@@ -168,7 +168,7 @@
         $("#personal").append($("<input>", {"type":"text","class":"form-control", "placeholder":"School", "id":"school"}).prop("required",true));
         $("#personal").append($("<input>", {"type":"text","class":"form-control", "placeholder":"Manager", "id":"manager"}).prop("required",true));
         $("#personal").append($("<input>", {"type":"text","class":"form-control", "placeholder":"Project", "id":"project"}).prop("required",true));
-        $("#personal").append($("<a>", {"class":"btn btn-primary btn-block", "value":"Submit", "style":"height:10%", "onclick":"add_data()"}));
+        $("#personal").append($("<a>", {"class":"btn btn-primary btn-block", "value":"Submit", "onclick":"add_data()"}).text("Update"));
         $("#continue").hide();
     }
     function add_data() {
