@@ -6,7 +6,7 @@ import os
 
 
 """TODO: Generate Email Server Account"""
-EMAIL = None
+EMAIL = "ciscointerncorner@gmail.com"
 
 try:
 	password = os.environ["PASSWORD"]
