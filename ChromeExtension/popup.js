@@ -4,7 +4,6 @@
 $("#submit").click(function() {
   var username = $("#username").val();
   var password = $("#password").val();
-  console.log("HERE");
   $.ajax({
     type: "POST",
     url: "https://devinterncorner.herokuapp.com/login-ext",

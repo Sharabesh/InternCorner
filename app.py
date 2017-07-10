@@ -254,6 +254,9 @@ class ViewHandler(BaseHandler):
 		user = get_user(user_email)
 		self.render("templates/html/view.html", user=self.get_current_user(), data=model_to_dict(user))
 
+class ForgotPasswordHandler(BaseHandler):
+	def get(self):
+		self.render("templates/html/forgot_password.html", user=self.get_current_user())	
 
 class GetCookieEndpoint(BaseHandler):
 	def post(self):
@@ -312,6 +315,7 @@ def make_app():
 		(r"/analytics",AnalyticsHandler),
 		(r"/search",SearchHandler),
 		(r"/view",ViewHandler),
+		(r"/forgot_password",ForgotPasswordHandler),
 		#ENDPOINTS
 		(r"/newPost", PostEndpoint),
 		(r"/newUser",NewUserEndpoint),
