@@ -1,6 +1,6 @@
 {% extends base.html %}
 	{% block css %}
-		<link href="static/css/styles.css" rel="stylesheet">
+
         <script src="static/js/jquery.js"></script>
         <link rel="stylesheet" href="/static/css/form-button.css">
         <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
@@ -11,11 +11,11 @@
 {% block header %}
     <!-- Page Header -->
     <!-- Set your background image for this header on the line below. -->
-    <header class="intro-header" style="background-image: url('static/img/SF.jpg')">
+    <header class="intro-header" style="background-image: url('/static/img/SF.jpg')">
         <div class="container">
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-                    <div class="page-heading">
+                    <div class="site-heading">
                         <h2>The Core Directory</h2>
                         <hr class="small">
                         <span class="subheading">See what your fellow interns are up to</span>
@@ -95,7 +95,6 @@
                  ).append($("<a>",{
                      "class":"btn btn-sm btn-primary",
                      "id":obj[i].id,
-                     "href":"#",
                      "onclick": "submitVote(this.id)",
                      "text":"Likes: " + obj[i].likes + " ",
                      "style":"margin-bottom:2%; margin-left:2%"
@@ -129,7 +128,6 @@
                               "class": "btn btn-sm btn-primary",
                               "id": obj[i].id,
                               "onclick": "submitVote(this.id)",
-                              "href": "#",
                               "text": "Likes: " + obj[i].likes + " ",
                               "style": "margin-bottom:2%; margin-left:2%"
                           }).append($("<span>", {"class": "glyphicon glyphicon-thumbs-up"})))
@@ -163,9 +161,7 @@
                       }
                       $("#results").html($("#results").html().replace(/\n/g, '<br/>'));
                   });
-
               }
-
           }
       </script>
 
@@ -175,8 +171,15 @@
             type:"POST",
             url:"/like",
             data: {
-                "id":id
+                "vote_id":id
             }
+        }).complete(function (o) {
+            j = o.responseText;
+            console.log(j);
+            obj = JSON.parse(j);
+            var text = $("#" + id).text().split(": ");
+            $("#" + id).text(text[0] + ": " + (JSON.parse(text[1]) + obj) + " ").append($("<span>", {"class": "glyphicon glyphicon-thumbs-up"}));
+            console.log(text);
         })
     }
 </script>

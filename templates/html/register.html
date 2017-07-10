@@ -16,7 +16,6 @@
     body {
         padding-top: 50px;
     }
-
 </style>
 {% end %}
 
@@ -60,12 +59,12 @@ body {
                     <input type="e-mail" name="email" required autocomplete="off" placeholder="E-Mail"/>
                 </div>
                 <div class="field-wrap">
-                    <select data-width="100%" id="target" class="selectpicker show-tick show-menu-arrow changed" data-live-search="true" title="Department">
+                    <label for="department"></label><select data-width="100%" id="department" class="selectpicker show-tick show-menu-arrow changed" data-live-search="true" name="department">
                     </select>
                 </div>
                 <script>
                     for (var i = 0; i < departments.length; i++) {
-                        $("#target").append($("<option>").text(departments[i]));
+                        $("#department").append($("<option>").text(departments[i]));
                     }
                 </script>
 

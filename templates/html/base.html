@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
+    <meta name="google-site-verification" content="vo5GvMaOuuVErIuOPVCccW2enD8P2VUI8ZQ-cfQLdO4" />
 
     <title>Your Cisco Portal</title>
 
@@ -71,17 +72,24 @@
                         <a href="/register">Register</a>
                     </li>
                     {% end %}
-
+                    {% if superuser %}
+                    <li>
+                        <a href="/admin">Admin</a>
+                    </li>
+                    {% end %}
                     {% if user %}
                     <li>
                         <a href="/">Home</a>
                     </li>
+
                     <li>
                         <a href="/engage">Engage</a>
                     </li>
+                    {% if not superuser %}
                     <li>
                         <a href="/check-in">Check-In</a>
                     </li>
+                    {% end %}
                     <li>
                         <a href="/my-account?start=0">My Account</a>
                     </li>
