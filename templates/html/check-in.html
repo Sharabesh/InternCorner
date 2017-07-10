@@ -29,85 +29,84 @@
 {% block content %}
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-                <form name="sentMessage" id="contactForm">
-                    <div class="row control-group">
-                        <div class="form-group col-xs-12 floating-label-form-group controls">
-                            <h4 style="font-weight: normal; color: grey">How are you feeling?</h4>
-                            <div class="sameRow spacer high"></div>
+                <div class="row control-group">
+                    <div class="form-group col-xs-12 floating-label-form-group controls">
+                        <h4 style="font-weight: normal; color: grey">How are you feeling?</h4>
+                        <div class="sameRow spacer high"></div>
 
-                            <div class="sameRow spacer">
-                                <i class="em em-satisfied" id="10"></i>
-                            </div>
-
-                            <div class="sameRow spacer" >
-                                <i class="em em-stuck_out_tongue" id="9"></i>
-                            </div>
-
-                            <div class="sameRow spacer" >
-                                <i class="em em-relaxed" id="8"></i>
-                            </div>
-
-                            <div class="sameRow spacer" >
-                                <i class="em em-triumph" id="7"></i>
-                            </div>
-
-                            <div class="sameRow spacer" >
-                                <i class="em em-neutral_face" id="6"></i>
-                            </div>
-
-                            <div class="sameRow spacer" >
-                                <i class="em em-sweat_smile" id="5"></i>
-                            </div>
-
-                            <div class="sameRow spacer" >
-                                <i class="em em-unamused" id="4"></i>
-                            </div>
-
-                            <div class="sameRow spacer" >
-                                <i class="em em-worried" id="3"></i>
-                            </div>
-
-
-                            <div class="sameRow spacer" >
-                                <i class="em em-weary" id="2"></i>
-                            </div>
-
-                            <div class="sameRow spacer">
-                                <i class="em em-angry" id="1"></i>
-                            </div>
-
-                            <p class="help-block text-danger"></p>
+                        <div class="sameRow spacer">
+                            <i class="em em-satisfied" id="10"></i>
                         </div>
-                    </div>
 
-                    <div class="row control-group">
-                        <div class="form-group col-xs-12 floating-label-form-group controls">
-                            <button type="button" id="anon" class="btn btn-block btn-default form-button" name="button">Go Anonymous</button>
-                            <p class="help-block text-danger"></p>
+                        <div class="sameRow spacer" >
+                            <i class="em em-stuck_out_tongue" id="9"></i>
                         </div>
-                    </div>
 
-                    <div class="row control-group">
-                        <div class="form-group col-xs-12 floating-label-form-group controls">
-                            <label>Title</label>
-                            <input type='text' class="form-control" placeholder="Title your post" name="title" id="title">
-                            <p class="help-block text-danger"></p>
+                        <div class="sameRow spacer" >
+                            <i class="em em-relaxed" id="8"></i>
                         </div>
-                    </div>
-                    <div class="row control-group">
-                        <div class="form-group col-xs-12 floating-label-form-group controls">
-                            <label>Tell us a little more?</label>
-                            <textarea rows="5" class="form-control" placeholder="Tell us a little more?" name="message" id="message"></textarea>
-                            <p class="help-block text-danger"></p>
+
+                        <div class="sameRow spacer" >
+                            <i class="em em-triumph" id="7"></i>
                         </div>
-                    </div>
-                    <br>
-                    <div class="row">
-                        <div class="form-group col-xs-12">
-                            <button type="button" id="submit" class="btn btn-block btn-default">Send</button>
+
+                        <div class="sameRow spacer" >
+                            <i class="em em-neutral_face" id="6"></i>
                         </div>
+
+                        <div class="sameRow spacer" >
+                            <i class="em em-sweat_smile" id="5"></i>
+                        </div>
+
+                        <div class="sameRow spacer" >
+                            <i class="em em-unamused" id="4"></i>
+                        </div>
+
+                        <div class="sameRow spacer" >
+                            <i class="em em-worried" id="3"></i>
+                        </div>
+
+
+                        <div class="sameRow spacer" >
+                            <i class="em em-weary" id="2"></i>
+                        </div>
+
+                        <div class="sameRow spacer">
+                            <i class="em em-angry" id="1"></i>
+                        </div>
+
+                        <p class="help-block text-danger"></p>
                     </div>
-                </form>
+                </div>
+
+                <div class="row control-group">
+                    <div class="form-group col-xs-12 floating-label-form-group controls">
+                        <button type="button" id="anon" class="btn btn-block btn-default form-button" name="button">Go Anonymous</button>
+                        <p class="help-block text-danger"></p>
+                    </div>
+                </div>
+
+                <div class="row control-group">
+                    <div class="form-group col-xs-12 floating-label-form-group controls">
+                        <label>Title</label>
+                        <input type='text' class="form-control" placeholder="Title your post" name="title" id="title">
+                        <p class="help-block text-danger"></p>
+                    </div>
+                </div>
+                <div class="row control-group">
+                    <div class="form-group col-xs-12 floating-label-form-group controls">
+                        <label>Tell us a little more?</label>
+                        <textarea rows="5" class="form-control" placeholder="Tell us a little more?" name="message" id="message"></textarea>
+                        <p class="help-block text-danger"></p>
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="form-group col-xs-12">
+                        <button onclick="submitPost();" type="button" id="submit" class="btn btn-block btn-default">Send</button>
+                    </div>
+                </div>
+
             </div>
             <div id="success" class="alert alert-success" style="display: none">
                 <strong>Congrats!<br></strong>Your post should appear shortly.
@@ -115,7 +114,7 @@
         </div>
 <script>
     var feeling = -1;
-    var anonymous = 0;
+    var anonymous = false;
     var anonCSS = {
       "backgroundColor" : "blue",
       "color" : "white"
@@ -138,11 +137,12 @@
     $(".em").click(function() {
         makeBig(this.id);
         feeling = this.id;
-    })
+        console.log(feeling);
+    });
 
     $("#anon").click(function() {
-      anonymous = anonymous ^ 1;
-      if (anonymous == 1) {
+      anonymous = !anonymous;
+      if (anonymous) {
         $("#anon").css(anonCSS);
         $("#anon").text("Go Public")
       }
@@ -150,12 +150,9 @@
         $("#anon").css(publicCSS);
         $("#anon").text("Go Anonymous")
       }
-    })
-
-    $("#submit").click(function() {
+    });
+    function submitPost() {
       if (feeling < 0) { console.log("Feeling not selected"); return;}
-
-      var anon = anonymous;
       var title = $("#title").val() ? $("#title").val() : "";
       var message = $("#message").val() ? $("#message").val() : "";
       $.ajax({
@@ -163,7 +160,7 @@
         url:"/newPost",
         data: {
           "feeling": feeling,
-          "anon": anon,
+          "anon": anonymous,
           "title": title,
           "message": message
         }
@@ -171,11 +168,10 @@
         j = o.responseText;
         console.log(j);
         obj = JSON.parse(j);
-        if (obj[0]["success"] == "true") {
+        if (obj[0]["success"] === "true") {
           $("#success").show().delay(2000).fadeOut(1000);
         }
       });
-    });
-
+    }
 </script>
 {% end %}
