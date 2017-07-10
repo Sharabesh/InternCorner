@@ -157,7 +157,6 @@ def search(query,table,start):
 			Match(User.school,query) | (User.manager.contains(query))
 		return User.select().where(q).limit(10).offset(start).execute()
 
-	#Search entire table
 
 
 def get_random_10():
