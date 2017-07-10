@@ -36,11 +36,14 @@ i:hover{
     transform: scale(2,2);
 }
 
+<<<<<<< HEAD
+=======
 .emoj{
     padding-right: 15px;
 }
 
 
+>>>>>>> d6287dcd258cb1dc07abb9165d398380ca78e5f0
 pad{
     padding-bottom: 5%;
 }

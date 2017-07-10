@@ -142,6 +142,29 @@ class UserPageEndpoint(BaseHandler):
 			output_lst.append(article_dict)
 		self.write(json.dumps(output_lst))
 
+class TopStreaksEndpoint(BaseHandler):
+	def get(self):
+		results = topStreaks()
+		output_list = []
+		for item in results:
+			article_dict = {}
+			article_dict["firstname"] = item.firstname
+			article_dict["lastname"] = item.lastname
+			article_dict["streak"] = item.streak
+			output_list.append(article_dict)
+		self.write(json.dumps(output_list))
+
+class MostLikesEndpoint(BaseHandler):
+	def get(self):
+		results = mostLikes()
+		output_list = []
+		for item in results:
+			article_dict = {}
+			article_dict["content"] = item.content
+			article_dict["likes"] = item.likes
+			output_list.append(article_dict)
+		self.write(json.dumps(output_list))
+
 
 class RandomPostsEndpoint(BaseHandler):
 	def get(self):
@@ -216,6 +239,17 @@ class UserPostsEndpoint(BaseHandler):
 			output_lst.append(article_dict)
 		self.write(json.dumps(output_lst))
 
+class PostDayEndpoint(BaseHandler):
+	def get(self):
+		results = postOfDay()
+		output_list = []
+		for item in results:
+			article_dict = {}
+			article_dict["content"] = item.content
+			article_dict["title"] = item.title
+			article_dict["author"] = item.author
+			output_list.append(article_dict)
+		self.write(json.dumps(output_list))
 
 class NewChartEndpoint(BaseHandler):
 	def get(self):
@@ -420,6 +454,10 @@ def make_app():
 		(r"/get-cookie", GetCookieEndpoint),
 		(r"/login-ext", LoginHandlerExtEndpoint),
 		(r"/newPostExt", PostExtEndpoint),
+		(r"/like",LikeUpdateEndpoint),
+		(r"/topStreaks", TopStreaksEndpoint),
+		(r"/postOfDay", PostDayEndpoint),
+		(r"/mostLikes", MostLikesEndpoint)
 		(r"/like", LikeUpdateEndpoint),
 		(r"/admin-posts", AdminPostsEndpoint),
 		(r"/add-admin", AddAdminPostEndpoint),
@@ -440,3 +478,4 @@ if __name__ == "__main__":
 
 	print("Running at localhost:" + str(port))
 	tornado.ioloop.IOLoop.current().start()
+	print("running")
