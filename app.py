@@ -309,11 +309,10 @@ class ForgotPasswordHandler(BaseHandler):
 	def post(self):
 		self.render("templates/html/login.html", message="An email has been sent to the address provided.", success=1,
 					user=self.get_current_user(), superuser=self.is_superuser())
-		print("Here")
 		user_email = self.get_body_argument("email", default="")
 		if user_email and verify_user(user_email):
 			token = create_reset(user_email)
-			url = "http://interncorner.ml/reset_password?token=" + token
+			url = "https://interncorner.herokuapp.com/reset_password?token=" + token
 			subject = "Password Reset"
 			send_mail(user_email, subject, url)
 
