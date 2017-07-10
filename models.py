@@ -166,7 +166,7 @@ For our purposes this should work, but we need to heavily optimize this
 with any decent size user base
 """
 
-
+# Search entire table
 def search(query, table, start):
     print("QUERY IS: " + query)
     print("TABLE IS: " + table)
@@ -182,7 +182,7 @@ def search(query, table, start):
             Match(User.school, query) | (User.manager.contains(query))
         return User.select().where(q).limit(10).offset(start).execute()
 
-    # Search entire table
+    
 
 
 def get_random_10():
