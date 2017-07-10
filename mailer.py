@@ -6,7 +6,7 @@ import os
 
 
 """TODO: Generate Email Server Account"""
-EMAIL = "ciscointerncorner@gmail.com"
+GMAIL = "ciscointerncorner@gmail.com"
 
 try:
 	password = os.environ["PASSWORD"]
@@ -21,7 +21,7 @@ def send_mail(email,subject,text):
 	msg["To"] = email
 	msg["Subject"] = subject
 	body = "Hi from the Intern Corner Team! \n"
-	body += "You recently requested a password reset" \
+	body += "You recently requested a password reset." \
 			"Here is your verification code: \n"
 	body += text
 
@@ -31,12 +31,8 @@ def send_mail(email,subject,text):
 	#Issue server connection
 	server = smtplib.SMTP('smtp.gmail.com',587)
 	server.starttls()
-	server.login(EMAIL,password)
+	server.login(GMAIL,password)
 	text = msg.as_string()
 	server.sendmail("InternCorner@PasswordReset",
 					email,text)
 	server.quit()
-
-
-
-
