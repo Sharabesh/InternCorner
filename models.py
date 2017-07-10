@@ -37,33 +37,35 @@ class BaseModel(signals.Model):
 
 
 class User(BaseModel):
-    uniqueid = peewee.PrimaryKeyField()
-    username = CharField(null=True)
-    password = CharField(null=True)
-    department = CharField(null=True)
-    school = CharField(null=True)
-    firstname = CharField(null=True)
-    lastname = CharField(null=True)
-    email = CharField(null=True)
-    manager = CharField(null=True)
-    project = CharField(null=True)
-    streak = IntegerField(null=True)
-    streak_date = DateTimeField()
+	uniqueid = peewee.PrimaryKeyField()
+	username = CharField(null=True)
+	password = CharField(null=True)
+	department = CharField(null=True)
+	school = CharField(null=True)
+	firstname = CharField(null=True)
+	lastname = CharField(null=True)
+	email = CharField(null=True)
+	manager = CharField(null=True)
+	project = CharField(null=True)
+	streak = IntegerField(null=True)
+	streak_date = DateTimeField()
+	superuser = BooleanField(null=True)
 
     class Meta:
         db_table = 'user'
 
 
 class Posts(BaseModel):
-    post_id = peewee.PrimaryKeyField()
-    content = CharField(null=True)
-    author = CharField(null=True)
-    userid = ForeignKeyField(User, to_field='uniqueid', db_column='userid')
-    anonymous = BooleanField(null=True)
-    feeling = IntegerField(null=True)
-    title = CharField(null=True)
-    likes = IntegerField(null=True)
-    time_posted = DateTimeField()
+	post_id= peewee.PrimaryKeyField()
+	content = CharField(null=True)
+	author = CharField(null=True)
+	userid = ForeignKeyField(User,to_field='uniqueid', db_column='userid')
+	anonymous = BooleanField(null=True)
+	feeling = IntegerField(null=True)
+	title = CharField(null=True)
+	likes = IntegerField(null=True)
+	time_posted = DateTimeField()
+	admin = BooleanField(null=True)
 
     class Meta:
         db_table = 'posts'
@@ -77,23 +79,19 @@ class Likes(BaseModel):
         db_table = 'likes'
         primary_key = CompositeKey("user_like_id", "post_like_id")
 
+def login_user(username,password):
+	hasher = hashlib.sha1()
+	hasher.update(password.encode("utf-8"))
+	password = hasher.hexdigest()
+	q = User.select().where((User.username == username) & (User.password == password)).execute()
+	return q
 
-def login_user(username, password):
-    hasher = hashlib.sha1()
-    hasher.update(password.encode("utf-8"))
-    password = hasher.hexdigest()
-    q = User.select().where((User.username == username) & (User.password == password)).execute()
-    return q
-
-
-def create_post(anonymous, feeling, message, user, title):
-    correct_userid = User.select(User.uniqueid).where(User.email == user).execute()
-    correct_userid = list(correct_userid)[0]
-    userid = correct_userid.uniqueid
-    Posts.create(content=message, author=user, feeling=feeling, likes=0, userid=userid, anonymous=anonymous,
-                 title=title)
-    return True
-
+def create_post(anonymous,feeling,message,user,title,admin=False):
+	correct_userid = User.select(User.uniqueid).where(User.email == user).execute()
+	correct_userid = list(correct_userid)[0]
+	userid = correct_userid.uniqueid
+	Posts.create(content=message,author=user,feeling=feeling,likes=0,userid=userid,anonymous=anonymous,title=title,admin=admin)
+	return True
 
 def update_streak_post(user):
     correct_user = User.select(User.uniqueid, User.streak, User.streak_date).where(User.email == user).execute()
@@ -172,24 +170,35 @@ def search(query, table, start):
 
 
 def get_random_10():
-    q = Posts.select().where(Posts.content != "").order_by(fn.Random()).limit(10)
-    return q.execute()
+	q = Posts.select(Posts,User).join(User).where(Posts.content != "").order_by(fn.Random()).limit(10).naive()
+	return q.execute()
 
 def add_user_data(school, manager, project, user):
     print("ran")
     query = User.update(school=school, manager=manager, project={"title": project}).where(User.email == user)
     query.execute()
 
-def update_vote(user_email, id):
-    user = get_user(user_email).uniqueid
-    print(user)
-    print(id)
-    if Likes.select().where(Likes.user_like_id == user, Likes.post_like_id == id).count() > 0:
-        return -1
-    else:
-        Likes.create(user_like_id=user, post_like_id=id)
-        return 1
+def update_vote(user_email,id):
+	user = get_user(user_email).uniqueid
+	if Likes.select().where(Likes.user_like_id == user, Likes.post_like_id == id).count() > 0:
+		Posts.update(likes=Posts.likes - 1).where(Posts.post_id == id).execute()
+		return -1
+	else:
+		Likes.create(user_like_id=user,post_like_id=id)
+		Posts.update(likes=Posts.likes + 1).where(Posts.post_id == id).execute()
+		return 1
 
+def get_admin_posts():
+	posts = Posts.select().where(Posts.admin == True).execute()
+	return posts
+
+def add_admin_post(title,content,user):
+	correct_userid = User.select(User.uniqueid).where(User.email == user).execute()
+	correct_userid = list(correct_userid)[0]
+	userid = correct_userid.uniqueid
+	Posts.create(content=content, author=user, feeling=0, likes=0, userid=userid, anonymous=False,
+				 title=title,admin=True)
+	return True
 
 def get_chart_posts(**kargs):
     filters = []

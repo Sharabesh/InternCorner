@@ -82,7 +82,7 @@
 
                     <div class="row control-group">
                         <div class="form-group col-xs-12 floating-label-form-group controls">
-                            <button type="button" id="anon" class="btn btn-block btn-default form-button" name="button">Go Public</button>
+                            <button type="button" id="anon" class="btn btn-block btn-default form-button" name="button">Go Anonymous</button>
                             <p class="help-block text-danger"></p>
                         </div>
                     </div>
@@ -119,12 +119,12 @@
     var anonCSS = {
       "backgroundColor" : "blue",
       "color" : "white"
-    }
+    };
+
     var publicCSS = {
       "backgroundColor" : "white",
       "color" : "black"
-    }
-
+    };
     //TODO: Semi-Hacky and not very efficient find a better way to do this
     function makeBig(id) {
         for (var i = 1; i < 11; i++) {
@@ -144,11 +144,11 @@
       anonymous = anonymous ^ 1;
       if (anonymous == 1) {
         $("#anon").css(anonCSS);
-        $("#anon").text("Go Anonymous")
+        $("#anon").text("Go Public")
       }
       else {
         $("#anon").css(publicCSS);
-        $("#anon").text("Go Public")
+        $("#anon").text("Go Anonymous")
       }
     })
 
