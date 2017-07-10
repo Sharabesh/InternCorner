@@ -37,35 +37,35 @@ class BaseModel(signals.Model):
 
 
 class User(BaseModel):
-	uniqueid = peewee.PrimaryKeyField()
-	username = CharField(null=True)
-	password = CharField(null=True)
-	department = CharField(null=True)
-	school = CharField(null=True)
-	firstname = CharField(null=True)
-	lastname = CharField(null=True)
-	email = CharField(null=True)
-	manager = CharField(null=True)
-	project = CharField(null=True)
-	streak = IntegerField(null=True)
-	streak_date = DateTimeField()
-	superuser = BooleanField(null=True)
+    uniqueid = peewee.PrimaryKeyField()
+    username = CharField(null=True)
+    password = CharField(null=True)
+    department = CharField(null=True)
+    school = CharField(null=True)
+    firstname = CharField(null=True)
+    lastname = CharField(null=True)
+    email = CharField(null=True)
+    manager = CharField(null=True)
+    project = CharField(null=True)
+    streak = IntegerField(null=True)
+    streak_date = DateTimeField()
+    superuser = BooleanField(null=True)
 
     class Meta:
         db_table = 'user'
 
 
 class Posts(BaseModel):
-	post_id= peewee.PrimaryKeyField()
-	content = CharField(null=True)
-	author = CharField(null=True)
-	userid = ForeignKeyField(User,to_field='uniqueid', db_column='userid')
-	anonymous = BooleanField(null=True)
-	feeling = IntegerField(null=True)
-	title = CharField(null=True)
-	likes = IntegerField(null=True)
-	time_posted = DateTimeField()
-	admin = BooleanField(null=True)
+    post_id= peewee.PrimaryKeyField()
+    content = CharField(null=True)
+    author = CharField(null=True)
+    userid = ForeignKeyField(User,to_field='uniqueid', db_column='userid')
+    anonymous = BooleanField(null=True)
+    feeling = IntegerField(null=True)
+    title = CharField(null=True)
+    likes = IntegerField(null=True)
+    time_posted = DateTimeField()
+    admin = BooleanField(null=True)
 
     class Meta:
         db_table = 'posts'
