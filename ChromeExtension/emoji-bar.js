@@ -28,7 +28,7 @@ $(".em").click(function() {
     $(".em").unbind("mouseenter mouseleave");
 });
 
-$("#go").click(function() {
+function login() {
   if (feeling < 0) { console.log("Feeling not selected"); return;}
   var username = getParameterByName("username");
 
@@ -48,4 +48,4 @@ $("#go").click(function() {
     var failure = (j.success == "false");
     if (!failure) { window.close(); }
   });
-});
+}

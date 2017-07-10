@@ -1,7 +1,7 @@
 
 
 
-$("#go").click(function() {
+function submitLogin() {
   var username = $("#username").val();
   var password = $("#password").val();
   $.ajax({
@@ -21,4 +21,4 @@ $("#go").click(function() {
       window.location = "emoji-bar.html?username=" + obj.username;
     }
   });
-});
+}
