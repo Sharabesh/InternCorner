@@ -28,7 +28,7 @@ $(".em").click(function() {
     $(".em").unbind("mouseenter mouseleave");
 });
 
-function login() {
+$("#runEmoji").click(function() {
   if (feeling < 0) { console.log("Feeling not selected"); return;}
   var username = getParameterByName("username");
 
@@ -48,4 +48,4 @@ function login() {
     var failure = (j.success == "false");
     if (!failure) { window.close(); }
   });
-}
+});

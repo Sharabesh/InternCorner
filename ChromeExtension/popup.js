@@ -1,7 +1,7 @@
 
 
 
-function submitLogin() {
+$("#loginForExt").click(function() {
   var username = $("#username").val();
   var password = $("#password").val();
   $.ajax({
@@ -21,4 +21,4 @@ function submitLogin() {
       window.location = "emoji-bar.html?username=" + obj.username;
     }
   });
-}
+});
