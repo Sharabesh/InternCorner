@@ -9,6 +9,7 @@ import requests
 import datetime
 from bs4 import BeautifulSoup
 from models import *
+from mailer import *
 from playhouse.shortcuts import *
 
 
@@ -66,23 +67,23 @@ class AnalyticsHandler(BaseHandler):
 
 
 class LoginHandler(BaseHandler):
-    def get(self):
-        self.render("templates/html/login.html", failure=0, user=self.get_current_user(), superuser=self.is_superuser())
+	def get(self):
+		self.render("templates/html/login.html", message="", user=self.get_current_user(), superuser=self.is_superuser())
 
-    def post(self):
-        username = self.get_body_argument("username")
-        password = self.get_body_argument("password")
-        values = login_user(username, password)
-        if values.count > 0:
-            values = list(values)[0]
-            self.set_secure_cookie("user", username)
-            self.set_secure_cookie("email", values.email)
-            self.set_secure_cookie("superuser", str(values.superuser))
-            update_streak_login(values.email)
-            self.redirect("/")
-        else:
-            self.render("templates/html/login.html", failure=1, user=self.get_current_user(),
-                        superuser=self.is_superuser())
+	def post(self):
+		username = self.get_body_argument("username")
+		password = self.get_body_argument("password")
+		values = login_user(username, password)
+		if values.count > 0:
+			values = list(values)[0]
+			self.set_secure_cookie("user", username)
+			self.set_secure_cookie("email", values.email)
+			self.set_secure_cookie("superuser", str(values.superuser))
+			update_streak_login(values.email)
+			self.redirect("/")
+		else:
+			message = "Invalid Credentials!"
+			self.render("templates/html/login.html", message=message, success=0, user=self.get_current_user(),superuser=self.is_superuser())
 
 
 class AdminHandler(BaseHandler):
@@ -273,7 +274,6 @@ class PostEndpoint(BaseHandler):
 class PostExtEndpoint(BaseHandler):
     def post(self):
         user = self.get_body_argument("username")
-        print(user)
         feeling = self.get_body_argument("feeling")
         anon = self.get_body_argument("anon", default="false")
         title = self.get_body_argument("title", default="")
@@ -294,7 +294,6 @@ class PostExtEndpoint(BaseHandler):
 
 class ViewHandler(BaseHandler):
     def get(self):
-        print("here")
         user_email = self.get_argument("email")
         user = get_user(user_email)
         self.render("templates/html/view.html", user=self.get_current_user(), data=model_to_dict(user),
@@ -302,7 +301,40 @@ class ViewHandler(BaseHandler):
 
 class ForgotPasswordHandler(BaseHandler):
 	def get(self):
-		self.render("templates/html/forgot_password.html", user=self.get_current_user())	
+		self.render("templates/html/forgot_password.html", user="", superuser=self.is_superuser())
+	def post(self):
+		self.render("templates/html/login.html", message="An email has been sent to the address provided.", success=1, user=self.get_current_user(), superuser=self.is_superuser())
+		print("Here")
+		user_email = self.get_body_argument("email",default="")
+		if user_email and verify_user(user_email):
+			token = create_reset(user_email)
+			url = "http://interncorner.ml/reset_password?token=" + token
+			subject = "Password Reset"
+			send_mail(user_email, subject, url)
+
+class ResetPasswordHandler(BaseHandler):
+	def get(self):
+		token = self.get_argument("token", default="")
+		get_email_by_token(token);
+		email = get_email_by_token(token);
+		if email:
+			self.render("templates/html/reset_password.html", email=email, user="", superuser=False)
+		else:
+			self.render("templates/html/404_Error.html")
+
+	def post(self):
+		email = self.get_body_argument("email", default="")
+		password = self.get_body_argument("password", default="")
+		if reset_password(email, password):
+			message = "Password reset successful."
+			self.render("templates/html/login.html", message=message, success=1, user=self.get_current_user(), superuser=self.is_superuser())
+		else:
+			message = "Password reset was not successful."
+			self.render("templates/html/login.html", message=message, success=0, user=self.get_current_user(), superuser=self.is_superuser())
+
+
+
+
 
 class GetCookieEndpoint(BaseHandler):
     def post(self):
@@ -387,6 +419,8 @@ def make_app():
         (r"/like", LikeUpdateEndpoint),
         (r"/admin-posts", AdminPostsEndpoint),
         (r"/add-admin", AddAdminPostEndpoint),
+		(r"/forgot_password", ForgotPasswordHandler),
+		(r"/reset_password", ResetPasswordHandler)
     ], debug=True, **settings)
 
 

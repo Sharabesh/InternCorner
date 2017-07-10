@@ -70,6 +70,14 @@ class Posts(BaseModel):
     class Meta:
         db_table = 'posts'
 
+class Resets(BaseModel):
+    email = CharField(null=False, primary_key=True)
+    token = CharField(null=False)
+    timestamp = DateTimeField();
+
+    class Meta:
+        db_table = 'resets'
+
 
 class Likes(BaseModel):
     user_like_id = ForeignKeyField(User, to_field='uniqueid', db_column='user_like_id')
@@ -132,6 +140,12 @@ def register_user(firstname, lastname, username, email, password, department):
         return True
     return False
 
+def verify_user(email):
+    if User.select().where(User.email == email).execute().count == 1:
+        return True
+    else:
+        return False
+
 def top_4():
     q = Posts.select().order_by(SQL('likes').desc()).limit(4)
     return q.execute()
@@ -143,6 +157,8 @@ def get_user_posts(email, start):
 
 def get_user(email):
     return list(User.select().where(User.email == email).execute())[0]
+
+
 
 
 """
@@ -220,3 +236,28 @@ def get_chart_posts(**kargs):
 def search_posts(query):
     match = Match(Posts.title, query) | Match(Posts.content, query) | Match(Posts.author, query)
     return Posts.select().where(match).limit(10).execute()
+
+#Delete all old reset entries related to email, create new reset entry
+def create_reset(email):
+    Resets.delete().where(Resets.email == email).execute()
+    hasher = hashlib.sha1()
+    hasher.update(email.encode("utf-8"))
+    token = hasher.hexdigest()
+    Resets.create(email=email, token=token, timestamp=datetime.now())
+    return token
+
+def get_email_by_token(token):
+    if Resets.select().where((Resets.token == token)).execute().count > 0:
+        results = Resets.select().where(Resets.token == token).limit(1).execute()
+        return (list(results)[0]).email
+    else:
+        return False
+
+#Delete all old reset entries. Reset user passsword
+def reset_password(email, password):
+    Resets.delete().where(Resets.email == email).execute()
+    hasher = hashlib.sha1()
+    hasher.update(password.encode("utf-8"))
+    password = hasher.hexdigest()
+    User.update(password=password).where(User.email == email).execute()
+    return True
