@@ -236,7 +236,6 @@ class NewUserEndpoint(BaseHandler):
         last = self.get_body_argument("last")
         email = self.get_body_argument("email")
         department = self.get_body_argument("department")
-        print(department)
         username = self.get_body_argument("username")
         password = self.get_body_argument("password")
         if register_user(first, last, username, email, password, department):

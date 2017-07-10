@@ -35,7 +35,7 @@ $("#submit").click(function() {
   $.ajax({
     type: "POST",
     dataType: "json",
-    url: "https://devinterncorner.herokuapp.com/newPostExt",
+    url: "https://interncorner.herokuapp.com/newPostExt",
     data: {
       username: username,
       feeling: feeling,

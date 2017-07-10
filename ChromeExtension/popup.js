@@ -7,7 +7,7 @@ $("#submit").click(function() {
   console.log("HERE");
   $.ajax({
     type: "POST",
-    url: "https://devinterncorner.herokuapp.com/login-ext",
+    url: "https://interncorner.herokuapp.com/login-ext",
     data: {
       username: username,
       password: password

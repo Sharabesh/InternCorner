@@ -115,7 +115,7 @@
         </div>
 <script>
     var feeling = -1;
-    var anonymous = 0;
+    var anonymous = false;
     var anonCSS = {
       "backgroundColor" : "blue",
       "color" : "white"
@@ -138,11 +138,12 @@
     $(".em").click(function() {
         makeBig(this.id);
         feeling = this.id;
-    })
+        console.log(feeling);
+    });
 
     $("#anon").click(function() {
-      anonymous = anonymous ^ 1;
-      if (anonymous == 1) {
+      anonymous = !anonymous;
+      if (anonymous) {
         $("#anon").css(anonCSS);
         $("#anon").text("Go Public")
       }
@@ -150,12 +151,9 @@
         $("#anon").css(publicCSS);
         $("#anon").text("Go Anonymous")
       }
-    })
-
+    });
     $("#submit").click(function() {
       if (feeling < 0) { console.log("Feeling not selected"); return;}
-
-      var anon = anonymous;
       var title = $("#title").val() ? $("#title").val() : "";
       var message = $("#message").val() ? $("#message").val() : "";
       $.ajax({
@@ -163,7 +161,7 @@
         url:"/newPost",
         data: {
           "feeling": feeling,
-          "anon": anon,
+          "anon": anonymous,
           "title": title,
           "message": message
         }
@@ -171,7 +169,7 @@
         j = o.responseText;
         console.log(j);
         obj = JSON.parse(j);
-        if (obj[0]["success"] == "true") {
+        if (obj[0]["success"] === "true") {
           $("#success").show().delay(2000).fadeOut(1000);
         }
       });
