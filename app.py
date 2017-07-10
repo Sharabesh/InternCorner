@@ -100,20 +100,28 @@ class UserPageEndpoint(BaseHandler):
 			output_lst.append(article_dict)
 		self.write(json.dumps(output_lst))
 
-class MostLikesEndpoint(BaseHandler):
+class TopStreaksEndpoint(BaseHandler):
 	def get(self):
-		results = users_most_likes()
+		results = topStreaks()
 		output_list = []
 		for item in results:
 			article_dict = {}
 			article_dict["firstname"] = item.firstname
-			article_dict["department"] = item.department
+			article_dict["lastname"] = item.lastname
+			article_dict["streak"] = item.streak
 			output_list.append(article_dict)
 		self.write(json.dumps(output_list))
 
-class Test(BaseHandler):
+class MostLikesEndpoint(BaseHandler):
 	def get(self):
-		print("It's working")
+		results = mostLikes()
+		output_list = []
+		for item in results:
+			article_dict = {}
+			article_dict["content"] = item.content
+			article_dict["likes"] = item.likes
+			output_list.append(article_dict)
+		self.write(json.dumps(output_list))
 
 
 class RandomPostsEndpoint(BaseHandler):
@@ -351,7 +359,10 @@ def make_app():
 		(r"/get-cookie",GetCookieEndpoint),
 		(r"/login-ext", LoginHandlerExtEndpoint),
 		(r"/newPostExt", PostExtEndpoint),
-		(r"/like",LikeUpdateEndpoint)
+		(r"/like",LikeUpdateEndpoint),
+		(r"/topStreaks", TopStreaksEndpoint),
+		(r"/postOfDay", PostDayEndpoint),
+		(r"/mostLikes", MostLikesEndpoint)
 	], debug=True, **settings)
 
 

@@ -61,31 +61,19 @@
 </header>
 {% end %}
 
-
 <!-- Main Content -->
 {% block content %}
 
-<!--Quote of the Day-->
-<div id="quote">
-    <h2 style="text-align: center; color: teal">Quote of the Day</h2>
-    <hr>
-</div>
 
 
-
-<br><br><br><br><br><br><br><br>
-
-
-
-
-<h2 style="text-align: center; color: teal">Leaderboard</h2>
+<h1 style="text-align: center; color: teal">Leaderboards</h1>
 <hr>
 
 
 <!--Leaderboard-->
 
 
-<div class="col-md-2" style="padding-left: 350px">
+<div class="col-md-2" style="padding-left: 400px">
     <div class="w3-third mov sp">
         <div class="w3-white w3-text-grey w3-card-4" style="margin-top: -65px; margin-left: -400px;">
             <div class="w3-display-container" style="text-align: center">
@@ -98,7 +86,7 @@
                     <thead>
                     <tr>
                         <th>#</th>
-                        <th style="text-align: center">Name</th>
+                        <th style="text-align: center">Post</th>
                         <th style="text-align: center">Likes</th>
                     </tr>
                     </thead>
@@ -111,7 +99,7 @@
     </div>
 </div>
 
-<div class="col-md-2 col-md-offset-2" style="padding-left: 325px">
+<div class="col-md-2 col-md-offset-2" style="padding-left: 325px; margin-bottom: 100px">
     <div class="w3-third mov sp">
         <div class="w3-white w3-text-grey w3-card-4" style="margin-top: -65px; margin-left: -400px;">
             <div class="w3-display-container" style="text-align: center">
@@ -125,7 +113,7 @@
                     <tr>
                         <th>#</th>
                         <th style="text-align: center">Name</th>
-                        <th style="text-align: center">Likes</th>
+                        <th style="text-align: center">Streak</th>
                     </tr>
                     </thead>
                 </table>
@@ -137,14 +125,26 @@
     </div>
 </div>
 
-
-
-
-
-<!---->
-
 <br><br><br><br><br><br>
+<!--Quote of the Day-->
 
+
+<div class="col-md-offset-3" style="padding-left: 300px;">
+    <div class="w3-third mov sp">
+        <div class="w3-white w3-text-grey w3-card-4" style="margin-top: -65px; margin-left: -400px;">
+            <div class="w3-display-container" style="text-align: center">
+                <div class="w3-display-bottomleft w3-container w3-text-black" style="text-align: center">
+                    <h3 class="spac w3-text-teal" style="text-align: center">Post of the Day   ✏️</h3>
+                </div>
+            </div>
+            <div id="quote" class="w3-container w3-text-teal">
+                <!--<h3 style="text-align: center; padding-top: 20px; padding-bottom: 60px; color: teal"><i>Welcome to Cisco!</i></h3>-->
+                <!--<h4 style="text-align: left; padding-bottom: 60px; padding-left: 60px">❝Greatest Day of My Life❞</h4>-->
+                <!--<h4 style="text-align: center; padding-bottom: 20px; padding-left: 210px"><i>-Yash Bora</i></h4>-->
+            </div>
+        </div>
+    </div>
+</div>
 
 
 
@@ -154,16 +154,6 @@
 
 <script>
 
-    $.ajax({
-        type: "GET",
-        url: "/postOfDay"
-    }).complete(function (o) {
-        j = o.responseText;
-        console.log(j);
-        obj = JSON.parse(j);
-        $("#quote").append($("<div>").append($("<h4>", {"id":"target"}).text("Title: " + obj[0]["title"] + "\nPost: " + obj[0]["content"])));
-        $("#quote").html($("#quote").html().replace(/\n/g,'<br/>'));
-    });
 
 
 
@@ -179,8 +169,8 @@
         {
             var row = $("<tr>");
             row.append($("<td>").text(i+1))
-            row.append($("<td>").text(obj[i]["firstname"]));
-            row.append($("<td>").text(obj[i]["department"]));
+            row.append($("<td>").text(obj[i]["content"]));
+            row.append($("<td>").text(obj[i]["likes"]));
             $("#mostLikes").append(row);
         }
 
@@ -188,7 +178,7 @@
 
     $.ajax({
         type: "GET",
-        url: "/mostLikes",
+        url: "/topStreaks",
     }).complete(function (o) {
         j = o.responseText;
         console.log(j);
@@ -197,14 +187,30 @@
         {
             var row = $("<tr>");
             row.append($("<td>").text(i+1))
-            row.append($("<td>").text(obj[i]["firstname"]));
-            row.append($("<td>").text(obj[i]["department"]));
+            row.append($("<td>").text(obj[i]["firstname"] + " " + obj[i]["lastname"]));
+            row.append($("<td>").text(obj[i]["streak"]));
             $("#topStreaks").append(row);
         }
 
     });
 
 
+    $.ajax({
+        type: "GET",
+        url: "/postOfDay"
+    }).complete(function (o) {
+        j = o.responseText;
+        console.log(j);
+        obj = JSON.parse(j);
+        //$("#quote").append($("<div>").append($("<h4>", {"id":"target"}).text("Title: " + obj[0]["title"] + "\nPost: " + obj[0]["content"])));
+        //$("#quote").html($("#quote").html().replace(/\n/g,'<br/>'));
+
+        $("#quote").append($("<h2>", {"style":"text-align: center; padding-top: 20px; padding-bottom: 40px; color: teal; font-style: italic;"}).text(obj[0]["title"]));
+        $("#quote").append($("<h4>", {"stlye":"text-align: left; padding-bottom: 60px; padding-right: 80px"}).text("❝" + obj[0]["content"] + "❞"));
+        $("#quote").append($("<h4>", {"style": "text-align: center; padding-bottom: 40px; padding-left: 210px; padding-top: 40px"}).text("-" + obj[0]["author"]));
+
+
+    });
 
 
 </script>

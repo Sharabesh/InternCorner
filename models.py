@@ -128,6 +128,10 @@ def top_4():
 	q = Posts.select().order_by(SQL('likes').desc()).limit(4)
 	return q.execute()
 
+def postOfDay():
+	q = Posts.select().order_by(SQL('likes').desc()).limit(1)
+	return q.execute()
+
 def get_user_posts(email,start):
 	posts = Posts.select().join(User).where(User.email == email).offset(start).limit(5)
 	return posts.execute()
@@ -176,6 +180,14 @@ def update_vote(user_email,id):
 	else:
 		Likes.create(user_like_id=user,post_like_id=id)
 		return 1
+
+def topStreaks():
+	q = User.select().order_by(SQL('streak').desc()).limit(3)
+	return q.execute()
+
+def mostLikes():
+	q = Posts.select().order_by(SQL('likes').desc()).limit(3)
+	return q.execute()
 
 
 
