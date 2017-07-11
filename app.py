@@ -462,7 +462,11 @@ def make_app():
         (r"/admin-posts", AdminPostsEndpoint),
         (r"/add-admin", AddAdminPostEndpoint),
         (r"/forgot_password", ForgotPasswordHandler),
-        (r"/reset_password", ResetPasswordHandler)
+        (r"/reset_password", ResetPasswordHandler),
+		(r"/mostLikes", MostLikesEndpoint),
+		(r"/postOfDay", PostDayEndpoint),
+		(r"/topStreaks", TopStreaksEndpoint)
+
     ], debug=True, **settings)
 
 
