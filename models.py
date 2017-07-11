@@ -168,19 +168,17 @@ with any decent size user base
 
 # Search entire table
 def search(query, table, start):
-	print("QUERY IS: " + query)
-	print("TABLE IS: " + table)
-	print("START IS: " + str(start))
-	query = query.replace(" ", "%")
-	if table == "p":
-		q = Match(Posts.content, query) | Match(Posts.author, query) | Match(Posts.title, query)
-		return Posts.select().where(q).limit(10).offset(start).execute()
-	else:
-		q = Match(User.username, query) | \
-			Match(User.department, query) | (User.firstname.contains(query)) | \
-			(User.lastname.contains(query)) | Match(User.email, query) | \
-			Match(User.school, query) | (User.manager.contains(query))
-		return User.select().where(q).limit(10).offset(start).execute()
+    query = query.replace(" ", "%")
+    if table == "p":
+        q = Match(Posts.content, query) | Match(Posts.author, query) | Match(Posts.title, query)
+        return Posts.select(Posts, User).join(User).where(q).limit(10).offset(start).naive().execute()
+    else:
+        q = Match(User.username, query) | \
+            Match(User.department, query) | (User.firstname.contains(query)) | \
+            (User.lastname.contains(query)) | Match(User.email, query) | \
+            Match(User.school, query) | (User.manager.contains(query))
+        return User.select().where(q).limit(10).offset(start).execute()
+
 
 
 
