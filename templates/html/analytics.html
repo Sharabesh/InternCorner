@@ -1,19 +1,20 @@
 {% extends "base.html" %}
 
 {% block css %}
+<link href="static/css/jquery-ui.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.3/css/bootstrap-select.min.css">
+
 <script src="static/js/jquery.js"></script>
 <script src="static/js/Chart.bundle.min.js"></script>
 <script src="static/js/moment.js"></script>
 <script src="static/js/jquery-ui.min.js"></script>
-<link href="static/css/jquery-ui.min.css" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.3/css/bootstrap-select.min.css">
 <script src="/static/js/departments.js"></script>
 
 <!-- Latest compiled and minified JavaScript -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.3/js/bootstrap-select.min.js"></script>
 
 <!-- (Optional) Latest compiled and minified JavaScript translation files -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.3/js/i18n/defaults-*.min.js"></script>
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.3/js/i18n/defaults-*.min.js"></script> -->
 
 {% end %}
 
@@ -155,7 +156,6 @@ class ChartData {
         }
       }).complete(function(o){
         j = o.responseText;
-        console.log(j);
         obj = JSON.parse(j);
         var fmap = new FeelingMap();
         for (var i = 0; i < obj.length; i++) {
@@ -220,10 +220,8 @@ class ChartData {
     else if (end_date == "") { return true; } //No end date. There is a start date. Valid
 
     if (start_moment <= end_moment) { //Both dates exist. Start must be before end
-      console.log("Valid dates");
       return true;
     } else {
-      console.log("Not valid dates");
       return false;
     }
   }

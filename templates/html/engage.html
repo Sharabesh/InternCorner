@@ -2,6 +2,7 @@
 	{% block css %}
 
         <script src="static/js/jquery.js"></script>
+				<script src="static/js/moment.js"></script>
         <link rel="stylesheet" href="/static/css/form-button.css">
         <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 
@@ -87,10 +88,14 @@
              j = o.responseText;
              console.log(j);
              obj = JSON.parse(j);
+						 var now = moment();
              for (var i = 0; i < obj.length; i++) {
+							 	var time_posted = moment((obj[i].time_posted)); //Time Posted in seconds
+								var diff = getDateDiff(now, time_posted);
                  var panel = $("<div>", {"class": "w3-container w3-card-2 w3-white w3-margin-bottom"});
                  panel.append($("<div>", {'class':'w3-container'}).append(
-                     $("<h4>",{"text":obj[i].title + "\nPosted by " + obj[i].author, "class":"w3-text-grey w3-padding-16"}))).append(
+                     $("<h4>",{"text":obj[i].title + "\nPosted by " + obj[i].author + " ", "class":"w3-text-grey"}).append($("<span>", {"text": "\n" + diff, "style": "font-size: 12px"}))
+									 	 )).append(
                         $("<div>", {"class": "panel-body"}).text(obj[i].content)
                  ).append($("<a>",{
                      "class":"btn btn-sm btn-primary",
@@ -118,11 +123,13 @@
                       j = o.responseText;
                       console.log(j);
                       obj = JSON.parse(j);
+											var now = moment();
                       for (var i = 0; i < obj.length; i++) {
-
+													var time_posted = moment((obj[i].time_posted)); //Time Posted in seconds
+													var diff = getDateDiff(now, time_posted);
                           var panel = $("<div>", {"class": "w3-container w3-card-2 w3-white w3-margin-bottom"});
                           panel.append($("<div>", {'class': 'w3-container'}).append(
-                              $("<h4>", {"text": obj[i].title + "\nPosted by " + obj[i].author,"class":"w3-text-grey w3-padding-16"}))).append(
+                              $("<h4>", {"text": obj[i].title + "\nPosted by " + obj[i].author + ". " + diff,"class":"w3-text-grey w3-padding-16"}))).append(
                               $("<div>", {"class": "panel-body"}).text(obj[i].content)
                           ).append($("<a>", {
                               "class": "btn btn-sm btn-primary",
@@ -163,6 +170,21 @@
                   });
               }
           }
+
+					//Returns time elapsed between two dates
+					var units = ["years", "months", "weeks", "days", "hours", "minutes", "seconds"];
+					function getDateDiff(now, time_posted) {
+						for(var i = 0; i < units.length; ++i) {
+							var diff = now.diff(time_posted, units[i]);
+							if (diff) { return formatDateDiff(diff, units[i]); }
+						}
+					}
+
+					//Returns formatted date difference string
+					function formatDateDiff(diff, unit) {
+						if (diff == 1) { return diff + " " + unit.slice(0,unit.length-1) +  " ago."} //singular (take off 's')
+						else { return diff + " " + unit + " ago."} //plural
+					}
       </script>
 
 <script>
