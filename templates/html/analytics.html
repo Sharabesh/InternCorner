@@ -1,19 +1,20 @@
 {% extends "base.html" %}
 
 {% block css %}
+<link href="static/css/jquery-ui.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.3/css/bootstrap-select.min.css">
+
 <script src="static/js/jquery.js"></script>
 <script src="static/js/Chart.bundle.min.js"></script>
 <script src="static/js/moment.js"></script>
 <script src="static/js/jquery-ui.min.js"></script>
-<link href="static/css/jquery-ui.min.css" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.3/css/bootstrap-select.min.css">
 <script src="/static/js/departments.js"></script>
 
 <!-- Latest compiled and minified JavaScript -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.3/js/bootstrap-select.min.js"></script>
 
 <!-- (Optional) Latest compiled and minified JavaScript translation files -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.3/js/i18n/defaults-*.min.js"></script>
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.3/js/i18n/defaults-*.min.js"></script> -->
 
 {% end %}
 
@@ -73,7 +74,7 @@
         </div>
         <div class="row">
             <div class="form-group col-xs-12">
-                <button id="new-chart-button" type="button" class="btn btn-block btn-default">Send</button>
+                <button id="new-chart-button" type="button" class="btn btn-block btn-default">Generate</button>
             </div>
         </div>
         </form>
@@ -119,15 +120,15 @@ class ChartData {
   constructor() {
     this.feelings = [];
     this.labels = [];
-    this.bgColors = [];
-    this.brdrColors = [];
+    this.bgColor = [];
+    this.brdrColor = [];
   }
 
   reset() {
     this.feelings = [];
     this.labels = [];
-    this.bgColors = [];
-    this.brdrColors = [];
+    this.bgColor = [];
+    this.brdrColor = [];
   }
 }
 
@@ -155,18 +156,17 @@ class ChartData {
         }
       }).complete(function(o){
         j = o.responseText;
-        console.log(j);
         obj = JSON.parse(j);
         var fmap = new FeelingMap();
         for (var i = 0; i < obj.length; i++) {
             fmap.insert(obj[i].time_posted, obj[i].feeling);
         }
 
+        chart_data.bg_Color = "rgba(255, 99, 132, 0.2)";
+        chart_data.brdrColor = "rgba(255, 206, 86, 1)";
         for (var i in fmap.map) {
           chart_data.feelings.push(average(fmap.map[i])); //Push Avg feeling for a date
           chart_data.labels.push(i); //Push Date
-          chart_data.bgColors.push("rgba(255, 99, 132, 0.2)");
-          chart_data.brdrColors.push("rgba(255, 206, 86, 1)");
         }
         createChart(chart_data);
       });
@@ -181,8 +181,8 @@ class ChartData {
           datasets: [{
             label: "Intern Feelings",
             data: chart_data.feelings,
-            backgroundColor: chart_data.bgColors,
-            borderColor: chart_data.brdrColors,
+            backgroundColor: chart_data.bg_Color,
+            borderColor: chart_data.brdrColor,
             borderWidth: 1
           }]
         },
@@ -220,10 +220,8 @@ class ChartData {
     else if (end_date == "") { return true; } //No end date. There is a start date. Valid
 
     if (start_moment <= end_moment) { //Both dates exist. Start must be before end
-      console.log("Valid dates");
       return true;
     } else {
-      console.log("Not valid dates");
       return false;
     }
   }
