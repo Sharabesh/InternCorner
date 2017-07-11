@@ -154,6 +154,7 @@ class RandomPostsEndpoint(BaseHandler):
             article_dict["content"] = item.content
             article_dict["title"] = item.title
             article_dict["time_posted"] = (item.time_posted).strftime("%x")
+            article_dict["email"] = item.email
             output_lst.append(article_dict)
         self.write(json.dumps(output_lst))
 
@@ -168,13 +169,14 @@ class SearchHandler(BaseHandler):
         if table == "p":
             for item in results:
                 article_dict = {}
-                article_dict["author"] = item.author
+                article_dict["author"] = item.firstname + " " + item.lastname
                 article_dict["likes"] = item.likes
                 article_dict["id"] = item.post_id
                 article_dict["feeling"] = item.feeling
                 article_dict["content"] = item.content
                 article_dict["title"] = item.title
                 article_dict["time_posted"] = (item.time_posted).strftime("%x")
+                article_dict["email"] = item.email
                 output_lst.append(article_dict)
         else:
             for item in results:

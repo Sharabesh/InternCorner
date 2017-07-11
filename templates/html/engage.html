@@ -94,7 +94,7 @@
 								var diff = getDateDiff(now, time_posted);
                  var panel = $("<div>", {"class": "w3-container w3-card-2 w3-white w3-margin-bottom"});
                  panel.append($("<div>", {'class':'w3-container'}).append(
-                     $("<h4>",{"text":obj[i].title + "\nPosted by " + obj[i].author + " ", "class":"w3-text-grey"}).append($("<span>", {"text": "\n" + diff, "style": "font-size: 12px"}))
+                     $("<h4>",{"text":obj[i].title + "\nPosted by ", "class":"w3-text-grey"}).append($("<a>", {"href":`/view?email=${obj[i].email}`, "text": obj[i].author}), $("<span>", {"text": "\n" + diff, "style": "font-size: 12px"}))
 									 	 )).append(
                         $("<div>", {"class": "panel-body"}).text(obj[i].content)
                  ).append($("<a>",{
@@ -128,16 +128,17 @@
 													var time_posted = moment((obj[i].time_posted)); //Time Posted in seconds
 													var diff = getDateDiff(now, time_posted);
                           var panel = $("<div>", {"class": "w3-container w3-card-2 w3-white w3-margin-bottom"});
-                          panel.append($("<div>", {'class': 'w3-container'}).append(
-                              $("<h4>", {"text": obj[i].title + "\nPosted by " + obj[i].author + ". " + diff,"class":"w3-text-grey w3-padding-16"}))).append(
-                              $("<div>", {"class": "panel-body"}).text(obj[i].content)
-                          ).append($("<a>", {
-                              "class": "btn btn-sm btn-primary",
-                              "id": obj[i].id,
-                              "onclick": "submitVote(this.id)",
-                              "text": "Likes: " + obj[i].likes + " ",
-                              "style": "margin-bottom:2%; margin-left:2%"
-                          }).append($("<span>", {"class": "glyphicon glyphicon-thumbs-up"})))
+													panel.append($("<div>", {'class':'w3-container'}).append(
+				                      $("<h4>",{"text":obj[i].title + "\nPosted by ", "class":"w3-text-grey"}).append($("<a>", {"href":`/view?email=${obj[i].email}`, "text": obj[i].author}), $("<span>", {"text": "\n" + diff, "style": "font-size: 12px"}))
+				 									 	 )).append(
+				                         $("<div>", {"class": "panel-body"}).text(obj[i].content)
+				                  ).append($("<a>",{
+				                      "class":"btn btn-sm btn-primary",
+				                      "id":obj[i].id,
+				                      "onclick": "submitVote(this.id)",
+				                      "text":"Likes: " + obj[i].likes + " ",
+				                      "style":"margin-bottom:2%; margin-left:2%"
+				                  }).append($("<span>",{"class":"glyphicon glyphicon-thumbs-up"})));
                           $("#results").append(panel);
                       }
                       $("#results").html($("#results").html().replace(/\n/g, '<br/>'));
