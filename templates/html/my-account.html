@@ -140,6 +140,8 @@
     <!-- End Page Container -->
 
 <script>
+    var emotions = ["Ecstatic", "Funny", "Happy", "Happy", "Victorious", "Neutral", "/", "Sad", "Unhappy", "Angry"];
+
     $.ajax({
         type: "GET",
         url: `/user_posts?start=${START}`
@@ -153,7 +155,7 @@
        for (var i = 0; i < obj.length; i++) {
            $("#results").append($("<div>", {"class": "w3-container"}).append(
                $("<h5>",{"class":"w3-opacity", "style":"font-size: 1em;"}).append($("<b>", {"text":obj[i].title}))).append(
-               $("<h6>",{"class": "w3-text-teal"}).text("Feeling " + obj[i].feeling)).append(
+               $("<h6>",{"class": "w3-text-teal"}).text("Feeling " + emotions[obj[i].feeling - 1])).append(
                $("<p>", {"style": "font-size: 0.75em;"}).text(obj[i].content.slice(0.15) + "...")).append("<hr>")
            )
        }

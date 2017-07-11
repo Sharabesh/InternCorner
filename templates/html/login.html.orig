@@ -1,0 +1,54 @@
+{% extends base.html %}
+
+{% block css %}
+<link href="static/css/login.css" rel="stylesheet" type="text/css">
+{% end %}
+
+
+{% block content %}
+<div class="body"></div>
+<div class="grad"></div>
+<div class="header">
+    <div>Intern<span>Corner</span></div>
+</div>
+<br>
+<div class="login">
+    <form action="/login" method="post">
+        <input type="text" placeholder="username" name="username" id="username"><br>
+        <input type="password" placeholder="password" name="password" id="password"><br><br>
+<<<<<<< HEAD
+        <div>
+            <button type="submit" class="btn btn-default sameRow">Login</button>
+            <div class="sameRow">
+                Forgot Password?
+            </div>
+        </div>
+
+=======
+        <button type="submit" class="btn btn-default">Login</button>
+        <a href="/forgot_password"> Forgot Password </a>
+>>>>>>> cdcbaad2bb487ca3909c8dab9695740954ba88a2
+    </form>
+    {% if message %}
+    <br>
+      {% if success == 1 %}
+      <div class="row" >
+        <div class="alert alert-success">
+                <strong>Sucess!</strong> {{ message }}
+        </div>
+      </div>
+      {% elif success == 0%}
+      <div class="row" >
+        <div class="alert alert-danger">
+                <strong>Error!</strong> {{ message }}
+        </div>
+      </div>
+      {% end %}
+    {% end %}
+</div>
+
+{% end %}
+
+
+{% block footer %}
+{% end %}

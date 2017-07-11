@@ -4,6 +4,42 @@
 <script src="static/js/jquery.js"></script>
 <script src="static/js/Chart.bundle.min.js"></script>
 <script src="static/js/moment.js"></script>
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Roboto'>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
+
+
+<style>
+
+    .bacolor2{
+        background-color: lightgrey;
+    }
+
+    .balcol{
+        background-color: #c0a16b;
+    }
+
+    .sp{
+        margin-left: 130px;
+    }
+
+    .sp2{
+        margin-left: 70px;
+    }
+
+    .mov{
+        margin-top: 100px;
+        text-align: center;
+    }
+
+    .sR{
+        display: inline-block;
+    }
+
+</style>
+
 {% end %}
 
 {% block header %}
@@ -22,69 +58,199 @@
 </header>
 {% end %}
 
-
 <!-- Main Content -->
 {% block content %}
-<div class="row">
-  <div id="chart" class="col-lg-8 col-lg-offset-2">
-    <canvas id="feelings-chart" height="160"></canvas>
-  </div>
-</div>
 
-<div class="row">
-    <div id='results' class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+<!--Cisco Headlines-->
+
+<h1 style="text-align: center; color: teal">Cisco Headlines</h1>
+<hr>
+
+<div>
+    <div class="w3-third mov sp">
+        <div class="w3-white w3-text-grey w3-card-4" style="margin-top: -65px; margin-left: -100px;">
+            <div class="w3-display-container" style="text-align: center">
+            </div>
+            <div class="w3-container w3-text-teal">
+                <h3 style="text-align: center; padding-top: 20px; padding-bottom: 60px; color: teal"><i>Welcome to Cisco!</i></h3>
+                <h4 style="text-align: left; padding-bottom: 60px; padding-left: 60px">❝Greatest Day of My Life❞</h4>
+                <h4 style="text-align: center; padding-bottom: 20px; padding-left: 210px"><i>-Yash Bora</i></h4>
+            </div>
+        </div>
     </div>
 </div>
 
+<div class="col-md-offset-4">
+    <div class="w3-third mov sp">
+        <div class="w3-white w3-text-grey w3-card-4" style="margin-top: -65px; margin-left: -100px; margin-right: 100px">
+            <div class="w3-display-container" style="text-align: center">
+            </div>
+            <div class="w3-container w3-text-teal">
+                <h3 style="text-align: center; padding-top: 20px; padding-bottom: 60px; color: teal"><i>Welcome to Cisco!</i></h3>
+                <h4 style="text-align: left; padding-bottom: 60px; padding-left: 60px">❝Greatest Day of My Life❞</h4>
+                <h4 style="text-align: center; padding-bottom: 20px; padding-left: 210px"><i>-Yash Bora</i></h4>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div style="padding-bottom: 600px"></div>
+
+
+
+<!--Leaderboard Section-->
+
+<h1 style="text-align: center; color: teal">Leaderboards</h1>
+<hr>
+
+
+<div class="col-md-2" style="padding-left: 400px">
+    <div class="w3-third mov sp">
+        <div class="w3-white w3-text-grey w3-card-4" style="margin-top: -65px; margin-left: -400px;">
+            <div class="w3-display-container" style="text-align: center">
+                <div class="w3-display-bottomleft w3-container w3-text-black" style="text-align: center">
+                    <h3 class="spac w3-text-teal" style="text-align: center">Most Likes   👍</h3>
+                </div>
+            </div>
+            <div class="w3-container w3-text-teal">
+                <table id="mostLikes" class="table">
+                    <thead>
+                    <tr>
+                        <th>#</th>
+                        <th style="text-align: center">Post</th>
+                        <th style="text-align: center">Likes</th>
+                    </tr>
+                    </thead>
+                </table>
+
+                <hr>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="col-md-2 col-md-offset-2" style="padding-left: 325px; margin-bottom: 100px">
+    <div class="w3-third mov sp">
+        <div class="w3-white w3-text-grey w3-card-4" style="margin-top: -65px; margin-left: -400px;">
+            <div class="w3-display-container" style="text-align: center">
+                <div class="w3-display-bottomleft w3-container w3-text-black" style="text-align: center">
+                    <h3 class="spac w3-text-teal" style="text-align: center">Top Streaks   🔥</h3>
+                </div>
+            </div>
+            <div class="w3-container w3-text-teal">
+                <table id="topStreaks" class="table">
+                    <thead>
+                    <tr>
+                        <th>#</th>
+                        <th style="text-align: center">Name</th>
+                        <th style="text-align: center">Streak</th>
+                    </tr>
+                    </thead>
+                </table>
+
+                <hr>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<br><br><br><br><br><br>
+<!--Quote of the Day-->
+
+
+<div class="col-md-offset-3" style="padding-left: 300px;">
+    <div class="w3-third mov sp">
+        <div class="w3-white w3-text-grey w3-card-4" style="margin-top: -65px; margin-left: -400px;">
+            <div class="w3-display-container" style="text-align: center">
+                <div class="w3-display-bottomleft w3-container w3-text-black" style="text-align: center">
+                    <h3 class="spac w3-text-teal" style="text-align: center">Post of the Day   ✏️</h3>
+                </div>
+            </div>
+            <div id="quote" class="w3-container w3-text-teal">
+                <!--<h3 style="text-align: center; padding-top: 20px; padding-bottom: 60px; color: teal"><i>Welcome to Cisco!</i></h3>-->
+                <!--<h4 style="text-align: left; padding-bottom: 60px; padding-left: 60px">❝Greatest Day of My Life❞</h4>-->
+                <!--<h4 style="text-align: center; padding-bottom: 20px; padding-left: 210px"><i>-Yash Bora</i></h4>-->
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
 <script>
-    var feelingsData = [];
-    var labelsData = [];
-    var bgColorData = [];
-    var brdrColorData = [];
+
+
+
+
 
     $.ajax({
-        type:"GET",
-        url:"/top"
-    }).complete(function(o){
+        type: "GET",
+        url: "/mostLikes",
+    }).complete(function (o) {
         j = o.responseText;
         console.log(j);
         obj = JSON.parse(j);
-        $("#results").html("");
-        for (var i = 0; i < obj.length; i++) {
-            feelingsData.push(obj[i].feeling);
-            labelsData.push(i);
-            bgColorData.push("rgba(255, 99, 132, 0.2)");
-            brdrColorData.push("rgba(255, 206, 86, 1)");
+        for(var i=0; i<3; i++)
+        {
+            var row = $("<tr>");
+            row.append($("<td>").text(i+1))
+            row.append($("<td>").text(obj[i]["content"]));
+            row.append($("<td>").text(obj[i]["likes"]));
+            $("#mostLikes").append(row);
         }
-        createChart(feelingsData, labelsData);
+
+    });
+
+    $.ajax({
+        type: "GET",
+        url: "/topStreaks",
+    }).complete(function (o) {
+        j = o.responseText;
+        console.log(j);
+        obj = JSON.parse(j);
+        for(var i=0; i<3; i++)
+        {
+            var row = $("<tr>");
+            row.append($("<td>").text(i+1))
+            row.append($("<td>").text(obj[i]["firstname"] + " " + obj[i]["lastname"]));
+            row.append($("<td>").text(obj[i]["streak"]));
+            $("#topStreaks").append(row);
+        }
+
     });
 
 
-    function createChart(feelingsData, labelsData) {
-      var ctx = document.getElementById("feelings-chart");
-      var myChart = new Chart(ctx, {
-        type: 'line',
-        data: {
-          labels: labelsData,
-          datasets: [{
-            label: "Intern Feelings Over Time",
-            data: feelingsData,
-            backgroundColor: "rgba(255, 99, 132, 0.2)",
-            borderColor: "rgba(255, 206, 86, 1)",
-            borderWidth: 1
-          }]
-        },
-        options: {
-          scales: {
-            yAxes: [{
-              ticks: {
-                beginAtZero:true
-              }
-            }]
-          },
-          responsive:true
-        }
-      });
-  }
+    $.ajax({
+        type: "GET",
+        url: "/postOfDay"
+    }).complete(function (o) {
+        j = o.responseText;
+        console.log(j);
+        obj = JSON.parse(j);
+        //$("#quote").append($("<div>").append($("<h4>", {"id":"target"}).text("Title: " + obj[0]["title"] + "\nPost: " + obj[0]["content"])));
+        //$("#quote").html($("#quote").html().replace(/\n/g,'<br/>'));
+
+        $("#quote").append($("<h2>", {"style":"text-align: center; padding-top: 20px; padding-bottom: 40px; color: teal; font-style: italic;"}).text(obj[0]["title"]));
+        $("#quote").append($("<h4>", {"stlye":"text-align: left; padding-bottom: 60px; padding-right: 80px"}).text("❝" + obj[0]["content"] + "❞"));
+        $("#quote").append($("<h4>", {"style": "text-align: center; padding-bottom: 40px; padding-left: 210px; padding-top: 40px"}).text("-" + obj[0]["author"]));
+
+
+    });
+
+
 </script>
+
+
+
+
+
+
 {% end %}
