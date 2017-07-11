@@ -119,15 +119,15 @@ class ChartData {
   constructor() {
     this.feelings = [];
     this.labels = [];
-    this.bgColors = [];
-    this.brdrColors = [];
+    this.bgColor = [];
+    this.brdrColor = [];
   }
 
   reset() {
     this.feelings = [];
     this.labels = [];
-    this.bgColors = [];
-    this.brdrColors = [];
+    this.bgColor = [];
+    this.brdrColor = [];
   }
 }
 
@@ -162,11 +162,11 @@ class ChartData {
             fmap.insert(obj[i].time_posted, obj[i].feeling);
         }
 
+        chart_data.bg_Color = "rgba(255, 99, 132, 0.2)";
+        chart_data.brdrColor = "rgba(255, 206, 86, 1)";
         for (var i in fmap.map) {
           chart_data.feelings.push(average(fmap.map[i])); //Push Avg feeling for a date
           chart_data.labels.push(i); //Push Date
-          chart_data.bgColors.push("rgba(255, 99, 132, 0.2)");
-          chart_data.brdrColors.push("rgba(255, 206, 86, 1)");
         }
         createChart(chart_data);
       });
@@ -181,8 +181,8 @@ class ChartData {
           datasets: [{
             label: "Intern Feelings",
             data: chart_data.feelings,
-            backgroundColor: chart_data.bgColors,
-            borderColor: chart_data.brdrColors,
+            backgroundColor: chart_data.bg_Color,
+            borderColor: chart_data.brdrColor,
             borderWidth: 1
           }]
         },
