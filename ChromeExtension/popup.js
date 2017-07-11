@@ -1,7 +1,5 @@
+$("#submit").click(function() {
 
-
-
-$("#go").click(function() {
   var username = $("#username").val();
   var password = $("#password").val();
   console.log("HERE");

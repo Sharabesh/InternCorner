@@ -1,3 +1,16 @@
+@import url(https://fonts.googleapis.com/css?family=Exo:100,200,400);
+
+.header div{
+    float: left;
+    color: rgb(0,80,115);
+    font-size: 35px;
+    font-weight: 200;
+}
+
+.header div span{
+    color: #5379fa !important;
+}
+
 #playground-container {
     height: 500px;
     overflow: hidden !important;
@@ -5,19 +18,18 @@
 }
 
 #failure {
-  margin-top: 10px;
+  margin-top: 50px;
   margin-bottom: 10px;
   padding-top: 5px;
   padding-bottom: 5px;
   text-align: center;
 }
 body, html{
-     height: 100%;
+    height: 100%;
     min-width:200px;
  	background-repeat: no-repeat;
- 	background:url(https://i.ytimg.com/vi/4kfXjatgeEU/maxresdefault.jpg);
- 	font-family: 'Oxygen', sans-serif;
-	    background-size: cover;
+ 	background-image: url(https://t3.ftcdn.net/jpg/01/22/51/02/240_F_122510298_dYMGNeazi72SWgySZtfbWQ2f0EyBr46K.jpg);
+    background-size: cover;
 }
 
 .main{
@@ -30,9 +42,15 @@ h1.title {
 	font-weight: 400;
 }
 
+
 hr{
 	width: 10%;
 	color: #fff;
+}
+
+
+a {
+    color: rgb(0,80,115);
 }
 
 .form-group{
@@ -117,3 +135,10 @@ span.input-group-addon i {
 	font-size: 11px;
 	text-align: center;
 }
+
+img {
+    float: right;
+    width: 50px;
+    height: auto;
+}
+

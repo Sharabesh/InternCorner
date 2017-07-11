@@ -1,3 +1,13 @@
+@import url(https://fonts.googleapis.com/css?family=Exo:100,200,400);
+
+body {
+    height: 100%;
+    min-width: 600px;
+}
+
+#status {
+    text-align: center;
+}
 .sameRow{
     display: inline;
 }
@@ -16,6 +26,12 @@
     margin-right: 25px;
 }
 
+
+#em-bar {
+    text-align: center;
+    padding-bottom: 10px;
+}
+
 i{
     width: auto;
     height: auto;
@@ -27,4 +43,8 @@ i:hover{
 
 pad{
     padding-bottom: 5%;
+}
+
+.bottom {
+    text-align: center;
 }
