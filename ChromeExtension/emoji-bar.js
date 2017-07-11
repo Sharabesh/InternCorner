@@ -28,7 +28,7 @@ $(".em").click(function() {
     $(".em").unbind("mouseenter mouseleave");
 });
 
-$("#go").click(function() {
+$("#runEmoji").click(function() {
   if (feeling < 0) { console.log("Feeling not selected"); return;}
   var username = getParameterByName("username");
 

@@ -1,7 +1,7 @@
 
 
 
-$("#go").click(function() {
+$("#loginForExt").click(function() {
   var username = $("#username").val();
   var password = $("#password").val();
   $.ajax({
