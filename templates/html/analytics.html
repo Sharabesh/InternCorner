@@ -15,7 +15,16 @@
 
 <!-- (Optional) Latest compiled and minified JavaScript translation files -->
 <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.3/js/i18n/defaults-*.min.js"></script> -->
-
+<style media="screen">
+  #invalidDates {
+    display: inline-block;
+    line-height: normal;
+    font-size: 14px;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    visibility: hidden;
+  }
+</style>
 {% end %}
 
 {% block header %}
@@ -39,7 +48,14 @@
 {% block content %}
 <div class="container-fluid">
 <div class="row">
-    <p style="font-size:0.75em">Sort the Intern Experience by Dates, Department, or School</p>
+    <p style="font-size:0.75em">
+      Sort the Intern Experience by Dates, Department, or School
+    </p>
+    
+    <div id="invalidDates" class="alert alert-danger">
+        Invalid Dates
+    </div>
+
     <form name="sentMessage" id="chartForm" novalidate>
     <div class="col-lg-5">
             <div class="row">
@@ -222,6 +238,7 @@ class ChartData {
     if (start_moment <= end_moment) { //Both dates exist. Start must be before end
       return true;
     } else {
+      $("#invalidDates").css('visibility','visible').hide().fadeIn();
       return false;
     }
   }
