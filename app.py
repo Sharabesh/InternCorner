@@ -27,6 +27,11 @@ class BaseHandler(tornado.web.RequestHandler):
         self.set_header("Content-Type", "application/json")
 
 
+class NotFoundHandler(tornado.web.ErrorHandler,BaseHandler):
+    def prepare(self):
+        self.set_status(404)
+        self.render("templates/html/404.html",user=self.get_current_user(),superuser=self.is_superuser())
+
 class IndexHandler(BaseHandler):
     def get(self):
         self.render("templates/html/index.html", message=0, user=self.get_current_user(), superuser=self.is_superuser())
@@ -428,7 +433,9 @@ class AddAdminPostEndpoint(BaseHandler):
 settings = {
     "login_url": "/login",
     "compress_reponse": True,
-    "cookie_secret": "b'4rp+0kDTQ8m5wgZ7F2eRYg0NXlVoF0IYmL9Z2GrpUdA='"
+    "cookie_secret": "b'4rp+0kDTQ8m5wgZ7F2eRYg0NXlVoF0IYmL9Z2GrpUdA='",
+    'default_handler_class': NotFoundHandler,
+    'default_handler_args': dict(status_code=404),
 }
 
 
@@ -467,7 +474,8 @@ def make_app():
         (r"/reset_password", ResetPasswordHandler),
 		(r"/mostLikes", MostLikesEndpoint),
 		(r"/postOfDay", PostDayEndpoint),
-		(r"/topStreaks", TopStreaksEndpoint)
+		(r"/topStreaks", TopStreaksEndpoint),
+
 
     ], debug=True, **settings)
 
