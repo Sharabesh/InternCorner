@@ -1,8 +1,7 @@
-$("#submit").click(function() {
 
+$("#loginForExt").click(function() {
   var username = $("#username").val();
   var password = $("#password").val();
-  console.log("HERE");
   $.ajax({
     type: "POST",
     url: "https://interncorner.herokuapp.com/login-ext",
