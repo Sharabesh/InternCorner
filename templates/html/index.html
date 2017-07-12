@@ -66,37 +66,53 @@
 <h1 style="text-align: center; color: teal">Cisco Headlines</h1>
 <hr>
 
-<div>
+<div style="margin-left: 50px">
     <div class="w3-third mov sp">
         <div class="w3-white w3-text-grey w3-card-4" style="margin-top: -65px; margin-left: -100px;">
             <div class="w3-display-container" style="text-align: center">
             </div>
-            <div class="w3-container w3-text-teal">
-                <h3 style="text-align: center; padding-top: 20px; padding-bottom: 60px; color: teal"><i>Welcome to Cisco!</i></h3>
-                <h4 style="text-align: left; padding-bottom: 60px; padding-left: 60px">❝Greatest Day of My Life❞</h4>
-                <h4 style="text-align: center; padding-bottom: 20px; padding-left: 210px"><i>-Yash Bora</i></h4>
+            <div id="news1" class="w3-container w3-text-teal">
             </div>
         </div>
     </div>
 </div>
 
-<div class="col-md-offset-4">
+<div class="col-md-offset-4" style="margin-left: 40px">
     <div class="w3-third mov sp">
-        <div class="w3-white w3-text-grey w3-card-4" style="margin-top: -65px; margin-left: -100px; margin-right: 100px">
+        <div class="w3-white w3-text-grey w3-card-4" style="margin-top: -65px; margin-left: -100px;">
             <div class="w3-display-container" style="text-align: center">
             </div>
-            <div class="w3-container w3-text-teal">
-                <h3 style="text-align: center; padding-top: 20px; padding-bottom: 60px; color: teal"><i>Welcome to Cisco!</i></h3>
-                <h4 style="text-align: left; padding-bottom: 60px; padding-left: 60px">❝Greatest Day of My Life❞</h4>
-                <h4 style="text-align: center; padding-bottom: 20px; padding-left: 210px"><i>-Yash Bora</i></h4>
+            <div id="news2" class="w3-container w3-text-teal">
             </div>
         </div>
     </div>
 </div>
 
 
+<div style="margin-left: 50px">
+    <div class="w3-third mov sp">
+        <div class="w3-white w3-text-grey w3-card-4" style="margin-top: -65px; margin-left: -100px;">
+            <div class="w3-display-container" style="text-align: center">
+            </div>
+            <div id="news3" class="w3-container w3-text-teal">
+            </div>
+        </div>
+    </div>
+</div>
 
-<div style="padding-bottom: 600px"></div>
+<div class="col-md-offset-4" style="margin-left: 40px">
+    <div class="w3-third mov sp">
+        <div class="w3-white w3-text-grey w3-card-4" style="margin-top: -65px; margin-left: -100px;">
+            <div class="w3-display-container" style="text-align: center">
+            </div>
+            <div id="news4" class="w3-container w3-text-teal">
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div style="padding-bottom: 525px"></div>
 
 
 
@@ -187,9 +203,25 @@
 
 <script>
 
+<!--Cisco Headlines-->
 
 
+    $.ajax({
+        type: "GET",
+        url: "/admin-posts",
+    }).complete(function (o) {
+        j = o.responseText;
+        console.log(j)
+        obj = JSON.parse(j)
+        for(var i = 0; i<4; i++)
+        {
+            $("#news" + (i+1)).append($("<h2>", {"style":"text-align: center; padding-top: 20px; padding-bottom: 40px; color: teal;"}).text(obj[i]["title"]));
+            $("#news" + (i+1)).append($("<h4>", {"stlye":"text-align: left; padding-bottom: 60px; padding-right: 80px"}).text(obj[i]["content"]));
+        }
+    });
 
+
+<!--Leaderboards-->
 
     $.ajax({
         type: "GET",
@@ -201,8 +233,18 @@
         for(var i=0; i<3; i++)
         {
             var row = $("<tr>");
-            row.append($("<td>").text(i+1))
-            row.append($("<td>").text(obj[i]["content"]));
+            row.append($("<td>").text(i+1));
+
+
+//            This is to truncate the amount of characters
+            ana = obj[i]["content"];
+            if(ana.length>85)
+            {
+                ana = ana.substring(0,85) + "...";
+            }
+
+
+            row.append($("<td>").text(ana));
             row.append($("<td>").text(obj[i]["likes"]));
             $("#mostLikes").append(row);
         }
