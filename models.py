@@ -214,7 +214,7 @@ def topStreaks():
 	q = User.select().order_by(SQL('streak').desc()).limit(3)
 	return q.execute()
 def get_admin_posts():
-	posts = Posts.select().where(Posts.admin == True).execute()
+	posts = Posts.select(Posts, User.firstname, User.lastname).join(User).where(Posts.admin == True).naive().execute()
 	return posts
 
 def mostLikes():

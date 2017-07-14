@@ -104,7 +104,7 @@ class AdminPostsEndpoint(BaseHandler):
         output_lst = []
         for item in results:
             article_dict = {}
-            article_dict["author"] = item.author
+            article_dict["author"] = item.firstname + " " + item.lastname
             article_dict["likes"] = item.likes
             article_dict["id"] = item.post_id
             article_dict["feeling"] = item.feeling
