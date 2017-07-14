@@ -13,29 +13,16 @@
 
 <style>
 
-    .bacolor2{
-        background-color: lightgrey;
+    .top-buffer {
+      margin-top: 15px;
     }
 
-    .balcol{
-        background-color: #c0a16b;
+    body {
+      color: teal;
     }
 
-    .sp{
-        margin-left: 130px;
-    }
-
-    .sp2{
-        margin-left: 70px;
-    }
-
-    .mov{
-        margin-top: 100px;
-        text-align: center;
-    }
-
-    .sR{
-        display: inline-block;
+    h1, h3, th {
+      text-align: center;
     }
 
 </style>
@@ -62,167 +49,90 @@
 {% block content %}
 
 <!--Cisco Headlines-->
-
-<h1 style="text-align: center; color: teal">Cisco Headlines</h1>
+<div class="container">
+<h1>Cisco Headlines</h1>
 <hr>
-<div class="container-fluid">
-<div class="row">
-<div id="newsBox">
-    <div style="margin-left: 50px">
-        <div class="w3-third mov sp">
-            <div class="w3-white w3-text-grey w3-card-4" style="margin-top: -65px; margin-left: -100px; padding-bottom: 50px">
-                <div class="w3-display-container" style="text-align: center">
-                </div>
-                <div id="news1" class="w3-container w3-text-teal">
-                </div>
-            </div>
+  <div class="row top-buffer">
+    <div class="col-lg-5 w3-card-4">
+        <div id="news1">
         </div>
     </div>
 
-    <div class="col-md-offset-4" style="margin-left: 40px">
-        <div class="w3-third mov sp">
-            <div class="w3-white w3-text-grey w3-card-4" style="margin-top: -65px; margin-left: -100px; padding-bottom: 50px">
-                <div class="w3-display-container" style="text-align: center">
-                </div>
-                <div id="news2" class="w3-container w3-text-teal">
-                </div>
-            </div>
+    <div class="col-lg-2">
+    </div>
+
+    <div class="col-lg-5 w3-card-4">
+        <div id="news2">
+        </div>
+    </div>
+  </div>
+
+  <div class="row top-buffer">
+    <div class="col-lg-5 w3-card-4">
+        <div id="news3">
         </div>
     </div>
 
-
-    <div style="margin-left: 50px">
-        <div class="w3-third mov sp">
-            <div class="w3-white w3-text-grey w3-card-4" style="margin-top: -65px; margin-left: -100px; padding-bottom: 40px">
-                <div class="w3-display-container" style="text-align: center">
-                </div>
-                <div id="news3" class="w3-container w3-text-teal">
-                </div>
-            </div>
-        </div>
+    <div class="col-lg-2">
     </div>
 
-    <div class="col-md-offset-4" style="margin-left: 40px">
-        <div class="w3-third mov sp">
-            <div class="w3-white w3-text-grey w3-card-4" style="margin-top: -65px; margin-left: -100px; padding-bottom: 50px">
-                <div class="w3-display-container" style="text-align: center">
-                </div>
-                <div id="news4" class="w3-container w3-text-teal">
-                </div>
-            </div>
+    <div class="col-lg-5 w3-card-4">
+        <div id="news4">
         </div>
     </div>
+  </div>
 </div>
-</div>
-</div>
-
-
-
-<!--Second set of Headlines-->
-
-
-<!--<span id="new" class="col-md-offset-4" style="margin-left: 40px">-->
-    <!--<div class="w3-third mov sp">-->
-        <!--<div class="w3-white w3-text-grey w3-card-4" style="margin-top: -65px; margin-left: -100px;">-->
-            <!--<div class="w3-display-container" style="text-align: center">-->
-            <!--</div>-->
-            <!--<div id="news5" class="w3-container w3-text-teal">-->
-            <!--</div>-->
-        <!--</div>-->
-    <!--</div>-->
-<!--</span>-->
-
-
-
-
-
 
 <!--Leaderboard Section-->
-
-<h1 style="text-align: center; color: teal">Leaderboards</h1>
+<div class="container top-buffer">
+<h1>Leaderboards</h1>
 <hr>
 
-<div class="container-fluid row" style="text-align:center">
-    <div class="col-md-5">
-        <div class="w3-third mov sp">
-            <div class="w3-white w3-text-grey w3-card-4">
-                <div class="w3-display-container" style="text-align: center">
-                    <div class="w3-display-bottomleft w3-container w3-text-black" style="text-align: center">
-                        <h3 class="spac w3-text-teal" style="text-align: center">Most Likes   👍</h3>
-                    </div>
-                </div>
-                <div class="w3-container w3-text-teal">
-                    <table id="mostLikes" class="table">
-                        <thead>
-                        <tr>
-                            <th>#</th>
-                            <th style="text-align: center">Post</th>
-                            <th style="text-align: center">Likes</th>
-                        </tr>
-                        </thead>
-                    </table>
-
-                    <hr>
-
-                </div>
-            </div>
-        </div>
+  <div class="row top-buffer">
+    <div class="col-lg-5 ">
+      <h3>Most Likes   👍</h3>
+        <table id="mostLikes" class="table w3-card-4">
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>Post</th>
+                <th>Likes</th>
+            </tr>
+            </thead>
+        </table>
     </div>
 
-    <div class="col-md-5 col-md-offset-2">
-        <div class="w3-third mov sp">
-            <div class="w3-white w3-text-grey w3-card-4">
-                <div class="w3-display-container" style="text-align: center">
-                    <div class="w3-display-bottomleft w3-container w3-text-black" style="text-align: center">
-                        <h3 class="spac w3-text-teal" style="text-align: center">Top Streaks   🔥</h3>
-                    </div>
-                </div>
-                <div class="w3-container w3-text-teal">
-                    <table id="topStreaks" class="table">
-                        <thead>
-                        <tr>
-                            <th>#</th>
-                            <th style="text-align: center">Name</th>
-                            <th style="text-align: center">Streak</th>
-                        </tr>
-                        </thead>
-                    </table>
-
-                    <hr>
-
-                </div>
-            </div>
-        </div>
+    <div class="col-lg-2">
     </div>
 
-
-
-
-    <!--Post of the Day-->
-
-
-    <div class="col-md-10">
-        <div class="w3-third mov sp">
-            <div class="w3-white w3-text-grey w3-card-4">
-                <div class="w3-display-container" style="text-align: center">
-                    <div class="w3-display-bottomleft w3-container w3-text-black" style="text-align: center">
-                        <h3 class="spac w3-text-teal" style="text-align: center">Post of the Day   ✏️</h3>
-                    </div>
-                </div>
-                <div id="quote" class="w3-container w3-text-teal">
-                    <!--<h3 style="text-align: center; padding-top: 20px; padding-bottom: 60px; color: teal"><i>Welcome to Cisco!</i></h3>-->
-                    <!--<h4 style="text-align: left; padding-bottom: 60px; padding-left: 60px">❝Greatest Day of My Life❞</h4>-->
-                    <!--<h4 style="text-align: center; padding-bottom: 20px; padding-left: 210px"><i>-Yash Bora</i></h4>-->
-                </div>
-            </div>
-        </div>
+    <div class="col-lg-5 ">
+      <h3>Top Streaks   🔥</h3>
+        <table id="topStreaks" class="table w3-card-4">
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>Name</th>
+                <th>Streak</th>
+            </tr>
+            </thead>
+        </table>
     </div>
+
+  </div>
+
+  <div class="row top-buffer">
+    <div class="col-lg-3"></div>
+
+    <div class="col-lg-6">
+      <h3>Post of the Day   ✏️</h3>
+      <div class=" w3-card-4">
+        <div id="quote" class="w3-container"></div>
+      </div>
+    </div>
+
+    <div class="col-lg-3"></div>
+  </div>
 </div>
-
-
-
-
-
 
 
 <script>
