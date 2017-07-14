@@ -28,7 +28,7 @@ class BaseHandler(tornado.web.RequestHandler):
 
 
 class NotFoundHandler(tornado.web.ErrorHandler,BaseHandler):
-    def prepare(self):
+    def write_error(self,status_code,**kwargs):
         self.set_status(404)
         self.render("templates/html/404.html",user=self.get_current_user(),superuser=self.is_superuser())
 
