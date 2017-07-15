@@ -125,10 +125,13 @@
        for (var i = 0; i < obj.length; i++) {
          obj[i]["content"] = obj[i]["content"].replace(/([\"\'])/g,'\\');
          var extra = $("<a>",{"onclick":`openModal('${obj[i]["author"]}','${obj[i]["content"]}')`,"style":"font-size:0.5em"});
+         if (obj[i]["content"].length > 35) {
+             extra.text("See More");
+         }
            $("#results").append($("<div>", {"class": "w3-container"}).append(
                $("<h5>",{"class":"w3-opacity", "style":"font-size: 1em;"}).append($("<b>", {"text":obj[i].title}))).append(
                $("<h6>",{"class": "w3-text-teal"}).text("Feeling " + obj[i].feeling)).append(
-               $("<p>", {"style": "font-size: 0.75em;"}).text(obj[i].content.slice(0.15) + "...")).append(extra).append("<hr>")
+               $("<p>", {"style": "font-size: 0.75em;"}).text(obj[i].content.slice(0,35) + "...")).append(extra).append("<hr>")
            )
        }
 

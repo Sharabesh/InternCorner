@@ -71,7 +71,7 @@
                  var extra = $("<a>",{"onclick":`openModal('${obj[i]["author"]}','${obj[i]["content"]}')`,"style":"font-size:0.75em"});
                  var time_posted = moment((obj[i].time_posted)); //Time Posted in seconds
                  var diff = getDateDiff(now, time_posted);
-                 if (obj[i]["content"].length > 40) {
+                 if (obj[i]["content"].length > 35) {
                     extra.text("See More...")
                  }
                  var panel = $("<div>", {"class": "w3-container w3-card-2 w3-white w3-margin-bottom"});
