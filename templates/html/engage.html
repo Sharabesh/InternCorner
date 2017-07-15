@@ -71,11 +71,9 @@
                  var extra = $("<a>",{"onclick":`openModal('${obj[i]["author"]}','${obj[i]["content"]}')`,"style":"font-size:0.75em"});
                  var time_posted = moment((obj[i].time_posted)); //Time Posted in seconds
                  var diff = getDateDiff(now, time_posted);
-                 if (obj[i]["content"].length > 4) {
-                    console.log("LENGTH OF CONTENT: "+ obj[i].content + " IS: " + obj[i].content.length + " SO extra is " + extra);
+                 if (obj[i]["content"].length > 40) {
                     extra.text("See More...")
                  }
-
                  var panel = $("<div>", {"class": "w3-container w3-card-2 w3-white w3-margin-bottom"});
                  panel.append($("<div>", {'class':'w3-container'}).append(
                      $("<h4>",{"text":obj[i].title + "\nPosted by ", "class":"w3-text-grey"}).append($("<a>", {"href":`/view?email=${obj[i].email}`, "text": obj[i].author}), $("<span>", {"text": "\n" + diff, "style": "font-size: 12px"}))
@@ -109,8 +107,10 @@
                       obj = JSON.parse(j);
                       var now = moment();
                       for (var i = 0; i < obj.length; i++) {
-                      if (obj[i].content.length > 4) {
-                        extra = $("<a>",{"onclick":`openModal('${obj[i].author}','${obj[i].content}')`,"style":"font-size:0.75em"}).text("See More...")
+                      obj[i]["content"] = obj[i]["content"].replace(/([\"\'])/g,'\\');
+                      var extra = $("<a>",{"onclick":`openModal('${obj[i]["author"]}','${obj[i]["content"]}')`,"style":"font-size:0.75em"});
+                      if (obj[i].content.length > 35) {
+                        extra.text("See More...")
                       }
                       var time_posted = moment((obj[i].time_posted)); //Time Posted in seconds
                       var diff = getDateDiff(now, time_posted);
@@ -118,7 +118,7 @@
 													panel.append($("<div>", {'class':'w3-container'}).append(
 				                      $("<h4>",{"text":obj[i].title + "\nPosted by ", "class":"w3-text-grey"}).append($("<a>", {"href":`/view?email=${obj[i].email}`, "text": obj[i].author}), $("<span>", {"text": "\n" + diff, "style": "font-size: 12px"}))
 				 									 	 )).append(
-				                         $("<div>", {"class": "panel-body"}).text(obj[i].content.slice(0,35) + " ").append(extra)
+				                         $("<div>", {"class": "panel-body"}).text(obj[i].content.slice(0,35) + " ").append($(extra))
 				                  ).append($("<a>",{
 				                      "class":"btn btn-sm btn-primary",
 				                      "id":obj[i].id,
