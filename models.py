@@ -213,8 +213,8 @@ def update_vote(user_email,id):
 def topStreaks():
 	q = User.select().order_by(SQL('streak').desc()).limit(3)
 	return q.execute()
-def get_admin_posts():
-	posts = Posts.select().where(Posts.admin == True).execute()
+def get_admin_posts(limit):
+	posts = Posts.select().where(Posts.admin == True).limit(limit).execute()
 	return posts
 
 def mostLikes():
