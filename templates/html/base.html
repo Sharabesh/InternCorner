@@ -119,6 +119,7 @@
     </div>
     <script>
     function openModal(author,content) {
+        content = content.replace(/^\s+|\s+$/g, ''); // Remove whitespace
         console.log("RAN");
         // we need obj.modalTitle and an obj.modalContent [an array] to build this properly
         var modalObj = {},
@@ -126,7 +127,7 @@
             $modalFooter=$('<div></div>').addClass('modal-footer').html('<button type="button" class="btn btn-link" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>');
         modalObj.modalTitle=author;
         // add some content to $modalBody;
-        $modalBody.html('<p>' + content + "</p>");
+        $modalBody.html('<p style="word-wrap:break-word">' + content + "</p>");
         // finish modalObj
         modalObj.modalContent=[$modalBody,$modalFooter];
         ALBA.ModalBuilder.buildModal(modalObj);
