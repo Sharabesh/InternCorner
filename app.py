@@ -95,12 +95,15 @@ class LoginHandler(BaseHandler):
 
 class AdminHandler(BaseHandler):
 	def get(self):
-		self.render("templates/html/admin.html", user=self.get_current_user(), superuser=self.is_superuser())
+		if self.is_superuser():
+			self.render("templates/html/admin.html", user=self.get_current_user(), superuser=self.is_superuser())
+		else:
+			self.redirect("/")
 
 
 class AdminPostsEndpoint(BaseHandler):
 	def get(self):
-		limit = self.get_argument("limit")
+		limit = self.get_argument("limit",100)
 		print(limit)
 		results = get_admin_posts(limit)
 		output_lst = []
