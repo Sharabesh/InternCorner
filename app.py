@@ -20,9 +20,9 @@ class BaseHandler(tornado.web.RequestHandler):
 	def get_current_email(self):
 		return self.get_secure_cookie("email")
 
-    def is_superuser(self):
-        cookie = self.get_secure_cookie("superuser") #Returns Byte string
-        return True if cookie == ("True").encode() else False
+	def is_superuser(self):
+		cookie = self.get_secure_cookie("superuser") #Returns Byte string
+		return True if cookie == ("True").encode() else False
 
 	def get(self):
 		self.set_header("Content-Type", "application/json")
@@ -96,13 +96,13 @@ class LoginHandler(BaseHandler):
 
 class AdminHandler(BaseHandler):
 
-    @tornado.web.authenticated
-    def get(self):
-        superuser = self.is_superuser()
-        if superuser:
-            self.render("templates/html/admin.html", user=self.get_current_user(), superuser=superuser)
-        else:
-            self.redirect("/")
+	@tornado.web.authenticated
+	def get(self):
+		superuser = self.is_superuser()
+		if superuser:
+			self.render("templates/html/admin.html", user=self.get_current_user(), superuser=superuser)
+		else:
+			self.redirect("/")
 
 class AdminPostsEndpoint(BaseHandler):
 	def get(self):
@@ -169,12 +169,13 @@ class TopStreaksEndpoint(BaseHandler):
 		self.write(json.dumps(output_list))
 
 class DeletePostEndpoint(BaseHandler):
-    def post(self):
-        post_id = self.get_body_argument("post_id")
-        # results = deletePost(post_id) Sharabesh implement this plz. :)
-        article_dict = {}
-        article_dict["success"] = "true" #Change this too plz
-        self.write(json.dumps(article_dict))
+	def post(self):
+		post_id = self.get_body_argument("post_id")
+		results = delete_post(post_id)
+		response = {"success":0}
+		if results:
+			response["success"] = 1
+		self.write(json.dumps(response))
 
 
 class MostLikesEndpoint(BaseHandler):
@@ -491,8 +492,8 @@ def make_app():
 		(r"/mostLikes", MostLikesEndpoint),
 		(r"/postOfDay", PostDayEndpoint),
 		(r"/topStreaks", TopStreaksEndpoint),
-        (r"/deletePost", DeletePostEndpoint),
-        ("r/404_Error", NotFoundHandler)
+		(r"/deletePost", DeletePostEndpoint),
+		("r/404_Error", NotFoundHandler)
 
 
 	], debug=True, **settings)
