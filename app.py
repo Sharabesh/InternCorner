@@ -14,18 +14,18 @@ from playhouse.shortcuts import *
 
 
 class BaseHandler(tornado.web.RequestHandler):
-	def get_current_user(self):
-		return self.get_secure_cookie("user")
+    def get_current_user(self):
+    	return self.get_secure_cookie("user")
 
-	def get_current_email(self):
-		return self.get_secure_cookie("email")
+    def get_current_email(self):
+    	return self.get_secure_cookie("email")
 
     def is_superuser(self):
         cookie = self.get_secure_cookie("superuser") #Returns Byte string
         return True if cookie == ("True").encode() else False
 
-	def get(self):
-		self.set_header("Content-Type", "application/json")
+    def get(self):
+    	self.set_header("Content-Type", "application/json")
 
 
 class NotFoundHandler(tornado.web.ErrorHandler,BaseHandler):
