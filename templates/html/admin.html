@@ -16,6 +16,12 @@
 
     }
 
+    .alert {
+      padding-top: 5px;
+      padding-bottom: 5px;
+      margin-bottom: 5px;
+    }
+
 </style>
 <body class="w3-light-grey">
 {% end %}
@@ -41,6 +47,9 @@
 <div class="container-fluid">
     <div class="row">
         <h3 style="text-align:center">Current Administrative Notifications</h3>
+        <div id="delete-message" class="alert alert-danger" style="visibility: hidden;">
+          <h6>Error! Post not deleted.</h4>
+        </div>
         <div id="results"></div>
         <p><strong>Update User Notification Base</strong></p>
     </div>
@@ -66,7 +75,7 @@
             <br>
             <div class="row">
                 <div class="form-group col-xs-12">
-                    <button type="button" id="submit" class="btn btn-block btn-default" onclick="submitAdmin();">Send</button>
+                    <button type="button" id="submit" class="btn btn-block btn-default" onclick="submitAdmin();"><span class="glyphicon glyphicon-send"></span> Send</button>
                 </div>
             </div>
         </div>
@@ -91,6 +100,47 @@
 </script>
 
 <script>
+      function areYouSure(post_id) {
+        if ($("#" + post_id + ".option").css('opacity') == "0") {
+            $("#" + post_id + ".option").fadeTo(1000, 1);
+            $("#" + post_id + ".option").removeAttr("disabled");
+        }
+      }
+
+      function continueDelete(post_id) {
+        $.ajax({
+          type: "POST",
+          url: "/deletePost",
+          data: {
+            "post_id": post_id
+          }
+        }).complete(function(o) {
+          j = o.responseText;
+          obj = JSON.parse(j);
+          if (obj.success == "true") { //Hide card from list
+            $("#" + post_id + ".panel").animate({
+              height: 0,
+              border: 0,
+              padding: 0
+            }, function() {
+                $("#" + post_id + ".panel").css("display", "none");
+            });
+          } else { //Show error message. Then fade out error message
+            $("#delete-message").css('visibility','visible').hide().fadeTo(1000, 1, function() {
+              $(this).delay(3000).fadeTo(1000, 0, function() {
+                $(this).css('visibility', 'hidden')
+              });
+            });
+          }
+        });
+
+      }
+
+      function cancelDelete(post_id) {
+        $("#" + post_id + ".option").fadeTo(500, 0);
+        $("#" + post_id + ".option").attr('disabled','disabled');
+      }
+
       $.ajax({
           type: "GET",
           url: "/admin-posts"
@@ -99,24 +149,57 @@
          console.log(j);
          obj = JSON.parse(j);
          for (var i = 0; i < obj.length; i++) {
-             var panel = $("<div>", {"class": "w3-container w3-card-2 w3-white w3-margin-bottom"});
-             panel.append($("<div>", {'class':'w3-container'}).append(
-                 $("<h4>",{"text":obj[i].title + "\nPosted by " + obj[i].author, "class":"w3-text-grey w3-padding-16"}))).append(
-                    $("<div>", {"class": "panel-body"}).text(obj[i].content)
-             ).append($("<a>",{
+
+             var panel = $("<div>", {
+               "class": "panel w3-container w3-card-2 w3-white w3-margin-bottom",
+               "id": obj[i].id
+             });
+             var w3_container = $("<div>", {'class':'w3-container'});
+             var author = $("<h4>",{"text":obj[i].title + "\nPosted by " + obj[i].author, "class":"w3-text-grey w3-padding-16"});
+             var body = $("<div>", {"class": "panel-body"}).text(obj[i].content)
+             var like_button = $("<a>",{
                  "class":"btn btn-sm btn-primary",
                  "id":obj[i].id,
                  "href":"#",
                  "onclick": "submitVote(this.id)",
                  "text":"Likes: " + obj[i].likes + " ",
                  "style":"margin-bottom:2%; margin-left:2%"
-             }).append($("<span>",{"class":"glyphicon glyphicon-thumbs-up"})));
+             });
+             var thumbs_up = $("<span>",{"class":"glyphicon glyphicon-thumbs-up"});
+             var delete_span = $("<span>", {
+               "class": "delete_buttons",
+               "id": obj[i].id,
+               "style": "float: right;"
+             });
+             var yes = $("<button>", {
+               "class": "glyphicon glyphicon-ok option",
+               "id": obj[i].id,
+               "onclick": "continueDelete(" + obj[i].id + ")",
+               "style": "color: green; opacity: 0;",
+               "disabled": "disabled"
+             });
+             var no = $("<button>", {
+               "class": "glyphicon glyphicon-remove option",
+               "id": obj[i].id,
+               "onclick": "cancelDelete(" + obj[i].id + ")",
+               "style": "color: red; opacity: 0;",
+               "disabled": "disabled"
+             });
+             var delete_button = $("<button>", {
+               "class": "glyphicon glyphicon-trash",
+               "onclick": "areYouSure(" + obj[i].id + ")",
+               "style": "padding-top: 4px; padding-bottom: 2px;"
+             });
+             delete_span.append(yes, delete_button, no);
+             var div_row = $("<div>", {"class": "row"});
+             panel.append(
+               w3_container.append(author)
+            ).append(body).append(like_button.append(thumbs_up), delete_span);
 
              $("#results").append(panel);
          }
          $("#results").html($("#results").html().replace(/\n/g,'<br/>'));
       });
-
 </script>
 
 {% end %}

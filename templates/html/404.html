@@ -3,28 +3,37 @@
 {% block css %}
 <script src="static/js/jquery.js"></script>
 <link href="/static/css/404.css" rel="stylesheet">
+
+<style media="screen">
+
+
+.message {
+  color: white;
+  margin-top: 20px;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+
+.message > h4 {
+  font-size: 24px;
+}
+
+.message > p {
+  font-size: 16px;
+}
+</style>
 {% end %}
 
-{% block header %}
-<header class="intro-header" style="background-image: url('static/img/post-bg.jpg')">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-                <div class="site-heading">
-                    <span class="subheading">404 Not Found</span>
-                    <hr class="small">
-                    <span id='description' class="subheading">This link is no longer valid.</span><br>
-                </div>
-            </div>
-        </div>
-    </div>
-</header>
+{% block nav %}
 {% end %}
-
 
 {% block content %}
   <body class="opening hide-UI view-2D zoom-large data-close controls-close">
-
+    <div class="message">
+      <h4>404</h4>
+      <p>That page is floating around somewhere else in the universe.</p>
+    </div>
     <div id="data">
       <a class="sun" title="sun" href="#sunspeed">Sun</a>
       <a class="mercury" title="mercury" href="#mercuryspeed">Mercury</a>

@@ -47,6 +47,8 @@
 </head>
 
 <body>
+  {% block nav %}
+
     <!-- Navigation -->
     <nav class="navbar navbar-default navbar-custom navbar-fixed-top" style="z-index: 9999;">
         <div class="container-fluid">
@@ -79,12 +81,11 @@
                     <li>
                         <a href="/admin">Admin</a>
                     </li>
-                    {% end %}
-                    {% if user %}
                     <li>
                         <a href="/analytics">Analytics</a>
                     </li>
-
+                    {% end %}
+                    {% if user %}
                     <li>
                         <a href="/engage">Engage</a>
                     </li>
@@ -106,7 +107,7 @@
         </div>
         <!-- /.container -->
     </nav>
-
+    {% end %}
     <!-- Page Header -->
     <!-- Set your background image for this header on the line below. -->
     {% block header %}
