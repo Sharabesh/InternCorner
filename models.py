@@ -56,10 +56,10 @@ class User(BaseModel):
 
 
 class Posts(BaseModel):
-	post_id= peewee.PrimaryKeyField()
+	post_id = peewee.PrimaryKeyField()
 	content = CharField(null=True)
 	author = CharField(null=True)
-	userid = ForeignKeyField(User,to_field='uniqueid', db_column='userid')
+	userid = ForeignKeyField(User, to_field='uniqueid', db_column='userid')
 	anonymous = BooleanField(null=True)
 	feeling = IntegerField(null=True)
 	title = CharField(null=True)
@@ -69,6 +69,7 @@ class Posts(BaseModel):
 
 	class Meta:
 		db_table = 'posts'
+
 
 class Resets(BaseModel):
 	email = CharField(null=False, primary_key=True)
@@ -87,19 +88,23 @@ class Likes(BaseModel):
 		db_table = 'likes'
 		primary_key = CompositeKey("user_like_id", "post_like_id")
 
-def login_user(username,password):
+
+def login_user(username, password):
 	hasher = hashlib.sha1()
 	hasher.update(password.encode("utf-8"))
 	password = hasher.hexdigest()
 	q = User.select().where((User.username == username) & (User.password == password)).execute()
 	return q
 
-def create_post(anonymous,feeling,message,user,title,admin=False):
+
+def create_post(anonymous, feeling, message, user, title, admin=False):
 	correct_userid = User.select(User.uniqueid).where(User.email == user).execute()
 	correct_userid = list(correct_userid)[0]
 	userid = correct_userid.uniqueid
-	Posts.create(content=message,author=user,feeling=feeling,likes=0,userid=userid,anonymous=anonymous,title=title,admin=admin)
+	Posts.create(content=message, author=user, feeling=feeling, likes=0, userid=userid, anonymous=anonymous,
+				 title=title, admin=admin)
 	return True
+
 
 def update_streak_post(user):
 	correct_user = User.select(User.uniqueid, User.streak, User.streak_date).where(User.email == user).execute()
@@ -140,32 +145,36 @@ def register_user(firstname, lastname, username, email, password, department):
 		return True
 	return False
 
+
 def verify_user(email):
 	if User.select().where(User.email == email).execute().count == 1:
 		return True
 	else:
 		return False
 
+
 def top_4():
 	q = Posts.select().order_by(SQL('likes').desc()).limit(4)
 	return q.execute()
+
 
 def postOfDay():
 	q = Posts.select().order_by(SQL('likes').desc()).limit(1)
 	return q.execute()
 
-def get_user_posts(email,start):
-	posts = Posts.select().join(User).where(User.email == email).offset(start).limit(5)
-	return posts.execute()
 
 def get_user_posts(email, start):
 	posts = Posts.select().join(User).where(User.email == email).offset(start).limit(5)
 	return posts.execute()
 
+
+def get_user_posts(email, start):
+	posts = Posts.select().join(User).where(User.email == email).offset(start).limit(5)
+	return posts.execute()
+
+
 def get_user(email):
 	return list(User.select().where(User.email == email).execute())[0]
-
-
 
 
 """
@@ -173,63 +182,69 @@ For our purposes this should work, but we need to heavily optimize this
 with any decent size user base
 """
 
+
 # Search entire table
 def search(query, table, start):
-    query = query.replace(" ", "%")
-    if table == "p":
-        q = Match(Posts.content, query) | Match(Posts.author, query) | Match(Posts.title, query)
-        return Posts.select(Posts, User).join(User).where(q).limit(10).offset(start).naive().execute()
-    else:
-        q = Match(User.username, query) | \
-            Match(User.department, query) | (User.firstname.contains(query)) | \
-            (User.lastname.contains(query)) | Match(User.email, query) | \
-            Match(User.school, query) | (User.manager.contains(query))
-        return User.select().where(q).limit(10).offset(start).execute()
-
-
-
+	query = query.replace(" ", "%")
+	if table == "p":
+		q = Match(Posts.content, query) | Match(Posts.author, query) | Match(Posts.title, query)
+		return Posts.select(Posts, User).join(User).where(q).limit(10).offset(start).naive().execute()
+	else:
+		q = Match(User.username, query) | \
+			Match(User.department, query) | (User.firstname.contains(query)) | \
+			(User.lastname.contains(query)) | Match(User.email, query) | \
+			Match(User.school, query) | (User.manager.contains(query))
+		return User.select().where(q,Posts.anonymous == False).limit(10).offset(start).execute()
 
 
 def get_random_10():
-	q = Posts.select(Posts,User).join(User).where(Posts.content != "").order_by(fn.Random()).limit(10).naive()
+	q = Posts.select(Posts, User).join(User).where(Posts.content != "", Posts.anonymous == False).order_by(
+		fn.Random()).limit(10).naive()
 	return q.execute()
+
 
 def add_user_data(school, manager, project, user):
 	print("ran")
 	query = User.update(school=school, manager=manager, project={"title": project}).where(User.email == user)
 	query.execute()
 
-def update_vote(user_email,id):
+
+def update_vote(user_email, id):
 	user = get_user(user_email).uniqueid
 	if Likes.select().where(Likes.user_like_id == user, Likes.post_like_id == id).count() > 0:
 		Posts.update(likes=Posts.likes - 1).where(Posts.post_id == id).execute()
 		Likes.delete().where(Likes.post_like_id == id).execute()  # Remove user from likes table
 		return -1
 	else:
-		Likes.create(user_like_id=user,post_like_id=id)
+		Likes.create(user_like_id=user, post_like_id=id)
 		Posts.update(likes=Posts.likes + 1).where(Posts.post_id == id).execute()
 		return 1
+
 
 def topStreaks():
 	q = User.select().order_by(SQL('streak').desc()).limit(3)
 	return q.execute()
 
+
 def get_admin_posts(limit):
-	posts = Posts.select(Posts, User.firstname, User.lastname).join(User).where(Posts.admin == True).naive().limit(limit).execute()
+	posts = Posts.select(Posts, User.firstname, User.lastname).join(User).where(Posts.admin == True).naive().limit(
+		limit).execute()
 
 	return posts
+
 
 def mostLikes():
 	q = Posts.select().order_by(SQL('likes').desc()).limit(3)
 	return q.execute()
-def add_admin_post(title,content,user):
+
+
+def add_admin_post(title, content, user):
 	correct_userid = User.select(User.uniqueid).where(User.email == user).execute()
 	correct_userid = list(correct_userid)[0]
 	userid = correct_userid.uniqueid
 	Posts.create(content=content, author=user, feeling=0, likes=0, userid=userid, anonymous=False,
-				 title=title,admin=True)
+				 title=title, admin=True)
 	return True
-
 
 
 def get_chart_posts(**kargs):
@@ -253,7 +268,8 @@ def search_posts(query):
 	match = Match(Posts.title, query) | Match(Posts.content, query) | Match(Posts.author, query)
 	return Posts.select().where(match).limit(10).execute()
 
-#Delete all old reset entries related to email, create new reset entry
+
+# Delete all old reset entries related to email, create new reset entry
 def create_reset(email):
 	Resets.delete().where(Resets.email == email).execute()
 	hasher = hashlib.sha1()
@@ -275,7 +291,8 @@ def get_email_by_token(token):
 	else:
 		return False
 
-#Delete all old reset entries. Reset user passsword
+
+# Delete all old reset entries. Reset user passsword
 def reset_password(email, password):
 	Resets.delete().where(Resets.email == email).execute()
 	hasher = hashlib.sha1()

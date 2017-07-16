@@ -8,6 +8,14 @@
 <link href="https://afeld.github.io/emoji-css/emoji.css" rel="stylesheet">
 <link rel="stylesheet" type="text/css" href= "static/css/emojiBar.css">
 <script src="static/js/jquery.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.3/css/bootstrap-select.min.css">
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.3/js/bootstrap-select.min.js"></script>
+
+<!-- (Optional) Latest compiled and minified JavaScript translation files -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.3/js/i18n/defaults-*.min.js"></script>
+
 <style>
     html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
 
@@ -48,7 +56,7 @@
     <div class="row">
         <h3 style="text-align:center">Current Administrative Notifications</h3>
         <div id="delete-message" class="alert alert-danger" style="visibility: hidden;">
-          <h6>Error! Post not deleted.</h4>
+          <h4>Error! Post not deleted.</h4>
         </div>
         <div id="results"></div>
         <p><strong>Update User Notification Base</strong></p>
@@ -84,6 +92,55 @@
         </div>
     </div>
 </div>
+
+
+<div class="container-fluid">
+    <div class="row">
+
+        <div style="padding-bottom:2%"  class="w3-container w3-card-2 w3-white w3-margin-bottom">
+            <p style="text-decoration: underline;"><strong>Control InternCorner User Base</strong></p>
+
+            <div class="field-wrap">
+                <label for="Operation">Operation to Perform</label>
+                <select data-width="100%" id="target" class="selectpicker show-tick show-menu-arrow changed" data-live-search="true" title="Operation">
+                    <option>Delete Users</option>
+                    <option>Grant Admin Access</option>
+                </select>
+            </div>
+
+            <div class="field-wrap">
+                <div class="col-lg-5">
+                    <div class="row">
+                        <label for="start-date">Start </label>
+                      <input id="start-date" class="datepicker" style="width: 100%" />
+                    </div>
+                </div>
+            </div>
+            <div class="field-wrap">
+                <div class="col-lg-5 col-lg-offset-2">
+                    <div class="row">
+                        <label for="end-date">End </label>
+                      <input id="end-date" class="datepicker" style="width: 100%" />
+                    </div>
+                </div>
+            </div>
+            <div style="padding-top:2%" class="row">
+                <div class="form-group col-xs-12">
+                    <button type="button" id="submit" class="btn btn-block btn-default" onclick="submitAdmin();"><span class="glyphicon glyphicon-send"></span> Send</button>
+                </div>
+            </div>
+
+
+
+        </div>
+
+
+    </div>
+
+
+</div>
+
+
 <script>
     function submitAdmin() {
         $.ajax({
