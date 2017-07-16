@@ -47,43 +47,47 @@
 <div class="container-fluid">
     <div class="row">
         <h3 style="text-align:center">Current Administrative Notifications</h3>
+
+        <div id="success" class="alert alert-success" style="visibility: hidden">
+            <strong>Congrats!<br></strong>Your post should appear shortly.
+        </div>
+        <p><strong>Create New Notification Post</strong></p>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="w3-container w3-card-2 w3-white w3-margin-bottom">
+
+                    <div class="row control-group">
+                        <div class="form-group col-xs-12 floating-label-form-group controls">
+                            <label>Title</label>
+                            <input type='text' class="form-control" placeholder="Title your post" name="title" id="title">
+                            <p class="help-block text-danger"></p>
+                        </div>
+                    </div>
+                    <div class="row control-group">
+                        <div class="form-group col-xs-12 floating-label-form-group controls">
+                            <label>Tell us a little more?</label>
+                            <textarea rows="5" class="form-control" placeholder="Tell us a little more?" name="message" id="message"></textarea>
+                            <p class="help-block text-danger"></p>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="form-group col-xs-12">
+                            <button type="button" id="submit" class="btn btn-block btn-default" onclick="submitAdmin();"><span class="glyphicon glyphicon-send"></span> Create</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
         <div id="delete-message" class="alert alert-danger" style="visibility: hidden;">
           <h6>Error! Post not deleted.</h4>
         </div>
+        <p><strong>Current Notifications</strong></p>
         <div id="results"></div>
-        <p><strong>Update User Notification Base</strong></p>
     </div>
 </div>
-<div class="container-fluid">
-    <div class="row">
-        <div class="w3-container w3-card-2 w3-white w3-margin-bottom">
 
-            <div class="row control-group">
-                <div class="form-group col-xs-12 floating-label-form-group controls">
-                    <label>Title</label>
-                    <input type='text' class="form-control" placeholder="Title your post" name="title" id="title">
-                    <p class="help-block text-danger"></p>
-                </div>
-            </div>
-            <div class="row control-group">
-                <div class="form-group col-xs-12 floating-label-form-group controls">
-                    <label>Tell us a little more?</label>
-                    <textarea rows="5" class="form-control" placeholder="Tell us a little more?" name="message" id="message"></textarea>
-                    <p class="help-block text-danger"></p>
-                </div>
-            </div>
-            <br>
-            <div class="row">
-                <div class="form-group col-xs-12">
-                    <button type="button" id="submit" class="btn btn-block btn-default" onclick="submitAdmin();"><span class="glyphicon glyphicon-send"></span> Send</button>
-                </div>
-            </div>
-        </div>
-        <div id="success" class="alert alert-success" style="display: none">
-            <strong>Congrats!<br></strong>Your post should appear shortly.
-        </div>
-    </div>
-</div>
 <script>
     function submitAdmin() {
         $.ajax({
@@ -94,7 +98,11 @@
                 "content":$("#message").val()
             }
         }).complete(function(o) {
-            $("#success").fadeIn();
+          $("#success").css('visibility','visible').hide().fadeTo(1000, 1, function() {
+            $(this).delay(3000).fadeTo(1000, 0, function() {
+              $(this).css('visibility', 'hidden');
+            });
+          });
         })
     }
 </script>
