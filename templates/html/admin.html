@@ -125,7 +125,7 @@
         }).complete(function(o) {
           j = o.responseText;
           obj = JSON.parse(j);
-          if (obj.success == "true") { //Hide card from list
+          if (obj.success === 1) { //Hide card from list
             $("#" + post_id + ".panel").animate({
               height: 0,
               border: 0,

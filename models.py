@@ -262,6 +262,12 @@ def create_reset(email):
 	Resets.create(email=email, token=token, timestamp=datetime.now())
 	return token
 
+
+def delete_post(id):
+	Posts.delete().where(Posts.post_id == id).execute()
+	return True
+
+
 def get_email_by_token(token):
 	if Resets.select().where((Resets.token == token)).execute().count > 0:
 		results = Resets.select().where(Resets.token == token).limit(1).execute()
