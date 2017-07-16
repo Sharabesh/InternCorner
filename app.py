@@ -20,9 +20,9 @@ class BaseHandler(tornado.web.RequestHandler):
     def get_current_email(self):
     	return self.get_secure_cookie("email")
 
-	def is_superuser(self):
-		cookie = self.get_secure_cookie("superuser") #Returns Byte string
-		return True if cookie == ("True").encode() else False
+    def is_superuser(self):
+    	cookie = self.get_secure_cookie("superuser") #Returns Byte string
+    	return True if cookie == ("True").encode() else False
 
     def get(self):
     	self.set_header("Content-Type", "application/json")
@@ -224,7 +224,7 @@ class SearchHandler(BaseHandler):
 				article_dict["feeling"] = item.feeling
 				article_dict["content"] = item.content
 				article_dict["title"] = item.title
-				article_dict["time_posted"] = (item.time_posted).strftime("%x")
+				article_dict["time_posted"] = str((item.time_posted))
 				article_dict["email"] = item.email
 				output_lst.append(article_dict)
 		else:
