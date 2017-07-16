@@ -21,7 +21,8 @@ class BaseHandler(tornado.web.RequestHandler):
         return self.get_secure_cookie("email")
 
     def is_superuser(self):
-        return self.get_secure_cookie("superuser")
+        cookie = self.get_secure_cookie("superuser") #Returns Byte string
+        return True if cookie == ("True").encode() else False
 
     def get(self):
         self.set_header("Content-Type", "application/json")
@@ -94,8 +95,13 @@ class LoginHandler(BaseHandler):
 
 
 class AdminHandler(BaseHandler):
+    @tornado.web.authenticated
     def get(self):
-        self.render("templates/html/admin.html", user=self.get_current_user(), superuser=self.is_superuser())
+        superuser = self.is_superuser()
+        if superuser:
+            self.render("templates/html/admin.html", user=self.get_current_user(), superuser=superuser)
+        else:
+            self.redirect("/404_Error")
 
 
 class AdminPostsEndpoint(BaseHandler):
@@ -159,6 +165,14 @@ class TopStreaksEndpoint(BaseHandler):
             article_dict["streak"] = item.streak
             output_list.append(article_dict)
         self.write(json.dumps(output_list))
+
+class DeletePostEndpoint(BaseHandler):
+    def post(self):
+        post_id = self.get_body_argument("post_id")
+        # results = deletePost(post_id) Sharabesh implement this plz. :)
+        article_dict = {}
+        article_dict["success"] = "true" #Change this too plz
+        self.write(json.dumps(article_dict))
 
 
 class MostLikesEndpoint(BaseHandler):
@@ -475,6 +489,8 @@ def make_app():
 		(r"/mostLikes", MostLikesEndpoint),
 		(r"/postOfDay", PostDayEndpoint),
 		(r"/topStreaks", TopStreaksEndpoint),
+        (r"/deletePost", DeletePostEndpoint),
+        ("r/404_Error", NotFoundHandler)
 
 
     ], debug=True, **settings)
