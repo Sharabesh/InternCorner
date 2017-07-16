@@ -5,6 +5,7 @@
 				<script src="static/js/moment.js"></script>
         <link rel="stylesheet" href="/static/css/form-button.css">
         <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+        <script src="/static/js/modalBuild.js"></script>
 
 
 	{% end %}
@@ -37,8 +38,8 @@
                     <div class="input-group">
                        <input id='searcher' type="text" name="q" style="width:90%" placeholder="Use the dropdown to search users or posts" class="form-control">
                        <select name="req" id="req" class="selectpicker form-control" style="width: 10%;">
-                            <option value="p" id="experiments">Posts</option>
-                           <option selected value="u" id="default">Users</option>
+                            <option selected value="p" id="experiments">Posts</option>
+                           <option  value="u" id="default">Users</option>
                        </select>
                        <span class="input-group-btn">
                            <a class="btn btn-default" onclick="loadSearch()">Search</a>
@@ -53,30 +54,6 @@
     </div>
             <!-- /main -->
 
-{#<!--post modal-->#}
-{#<div id="postModal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">#}
-{#  <div class="modal-dialog">#}
-{#  <div class="modal-content">#}
-{#      <div class="modal-header">#}
-{#          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>#}
-{#			Update Status#}
-{#      </div>#}
-{#      <div class="modal-body">#}
-{#          <form class="form center-block">#}
-{#            <div class="form-group">#}
-{#              <textarea class="form-control input-lg" autofocus="" placeholder="What do you want to share?"></textarea>#}
-{#            </div>#}
-{#          </form>#}
-{#      </div>#}
-{#      <div class="modal-footer">#}
-{#          <div>#}
-{#          <button class="btn btn-primary btn-sm" data-dismiss="modal" aria-hidden="true">Post</button>#}
-{#            <ul class="pull-left list-inline"><li><a href=""><i class="glyphicon glyphicon-upload"></i></a></li><li><a href=""><i class="glyphicon glyphicon-camera"></i></a></li><li><a href=""><i class="glyphicon glyphicon-map-marker"></i></a></li></ul>#}
-{#		  </div>	#}
-{#      </div>#}
-{#  </div>#}
-{#  </div>#}
-{#</div>#}
 
 
     <script src="/static/js/scripts.js"></script>
@@ -88,15 +65,20 @@
              j = o.responseText;
              console.log(j);
              obj = JSON.parse(j);
-						 var now = moment();
+             var now = moment();
              for (var i = 0; i < obj.length; i++) {
-							 	var time_posted = moment((obj[i].time_posted)); //Time Posted in seconds
-								var diff = getDateDiff(now, time_posted);
+                 obj[i]["content"] = obj[i]["content"].replace(/([\"\'])/g,'\\');
+                 var extra = $("<a>",{"onclick":`openModal('${obj[i]["author"]}','${obj[i]["content"]}')`,"style":"font-size:0.75em"});
+                 var time_posted = moment((obj[i].time_posted)); //Time Posted in seconds
+                 var diff = getDateDiff(now, time_posted);
+                 if (obj[i]["content"].length > 35) {
+                    extra.text("See More...")
+                 }
                  var panel = $("<div>", {"class": "w3-container w3-card-2 w3-white w3-margin-bottom"});
                  panel.append($("<div>", {'class':'w3-container'}).append(
                      $("<h4>",{"text":obj[i].title + "\nPosted by ", "class":"w3-text-grey"}).append($("<a>", {"href":`/view?email=${obj[i].email}`, "text": obj[i].author}), $("<span>", {"text": "\n" + diff, "style": "font-size: 12px"}))
 									 	 )).append(
-                        $("<div>", {"class": "panel-body"}).text(obj[i].content)
+                        $("<div>", {"class": "panel-body","text":obj[i].content.slice(0,35) + " "}).append($(extra))
                  ).append($("<a>",{
                      "class":"btn btn-sm btn-primary",
                      "id":obj[i].id,
@@ -123,15 +105,20 @@
                       j = o.responseText;
                       console.log(j);
                       obj = JSON.parse(j);
-											var now = moment();
+                      var now = moment();
                       for (var i = 0; i < obj.length; i++) {
-													var time_posted = moment((obj[i].time_posted)); //Time Posted in seconds
-													var diff = getDateDiff(now, time_posted);
+                      obj[i]["content"] = obj[i]["content"].replace(/([\"\'])/g,'\\');
+                      var extra = $("<a>",{"onclick":`openModal('${obj[i]["author"]}','${obj[i]["content"]}')`,"style":"font-size:0.75em"});
+                      if (obj[i].content.length > 35) {
+                        extra.text("See More...")
+                      }
+                      var time_posted = moment((obj[i].time_posted)); //Time Posted in seconds
+                      var diff = getDateDiff(now, time_posted);
                           var panel = $("<div>", {"class": "w3-container w3-card-2 w3-white w3-margin-bottom"});
 													panel.append($("<div>", {'class':'w3-container'}).append(
 				                      $("<h4>",{"text":obj[i].title + "\nPosted by ", "class":"w3-text-grey"}).append($("<a>", {"href":`/view?email=${obj[i].email}`, "text": obj[i].author}), $("<span>", {"text": "\n" + diff, "style": "font-size: 12px"}))
 				 									 	 )).append(
-				                         $("<div>", {"class": "panel-body"}).text(obj[i].content)
+				                         $("<div>", {"class": "panel-body"}).text(obj[i].content.slice(0,35) + " ").append($(extra))
 				                  ).append($("<a>",{
 				                      "class":"btn btn-sm btn-primary",
 				                      "id":obj[i].id,
@@ -206,6 +193,10 @@
         })
     }
 </script>
+
+
+
+
 
 {% end %}
 

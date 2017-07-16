@@ -8,9 +8,6 @@
 <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Roboto'>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
-
-
-
 <style>
 
     .top-buffer {
@@ -50,37 +47,19 @@
 
 <!--Cisco Headlines-->
 <div class="container">
-<h1>Cisco Headlines</h1>
-<hr>
-  <div class="row top-buffer">
-    <div class="col-lg-5 w3-card-4">
-        <div id="news1">
-        </div>
-    </div>
+    <h1>Cisco Headlines</h1>
+    <hr>
+    <div id="target"></div>
+</div>
 
-    <div class="col-lg-2">
-    </div>
 
-    <div class="col-lg-5 w3-card-4">
-        <div id="news2">
-        </div>
-    </div>
-  </div>
+<div class="container-fluid row">
+    <p><br></p>
+<button id="more" onclick="showMore()" class="btn btn-default" style="margin-top:3%; display:block">More</button>
+<button id="less" onclick="showLess()" class="btn btn-default" style="margin-top:3%; margin-left:2%;">Less</button>
+</div>
 
-  <div class="row top-buffer">
-    <div class="col-lg-5 w3-card-4">
-        <div id="news3">
-        </div>
-    </div>
 
-    <div class="col-lg-2">
-    </div>
-
-    <div class="col-lg-5 w3-card-4">
-        <div id="news4">
-        </div>
-    </div>
-  </div>
 </div>
 
 <!--Leaderboard Section-->
@@ -136,59 +115,61 @@
 
 
 <script>
-
-<!--Cisco Headlines-->
-
-
+    var urlParams = new URLSearchParams(window.location.search);
+    var LIMIT = JSON.parse(urlParams.get("limit"));
+    if (LIMIT == null) {
+        LIMIT = 4;
+    }
     $.ajax({
         type: "GET",
-        url: "/admin-posts",
+        url: `/admin-posts?limit=${LIMIT}`,
     }).complete(function (o) {
-        var now = moment();
+        const now = moment();
         j = o.responseText;
-        console.log(j)
-        obj = JSON.parse(j)
-        for(var i = 0; i<4; i++)
-        {
-            $("#news" + (i+1)).append($("<h2>", {"style":"text-align: center; padding-top: 20px; padding-bottom: 40px; color: teal;"}).text(obj[i]["title"]));
-            $("#news" + (i+1)).append($("<h4>", {"stlye":"text-align: left; padding-bottom: 60px; padding-right: 80px"}).text(obj[i]["content"]));
-            var time_posted = moment((obj[i].time_posted)); //Time Posted in seconds
-            var diff = getDateDiff(now, time_posted);
-            console.log(diff);
-            $("#news" + (i+1)).append($("<p>", {"stlye":"text-align: left; padding-bottom: 60px; padding-right: 80px"}).text(diff));
+        console.log(j);
+        obj = JSON.parse(j);
+        if (obj.length < LIMIT) {
+            $("#more").hide();
+        }
+        if (LIMIT <= 4) {
+            $("#less").hide();
+        }
+        for(var i = 0; i<obj.length; i++) {
+            var time_posted = moment(obj[i].time_posted);
+            var diff = getDateDiff(now,time_posted);
+            var classes = "col-lg-5 w3-card-4";
+            var style='margin-top:30px;';
+            if (i % 2 === 1) {
+                classes += " col-lg-offset-2";
+
+            }
+            if (i === obj.length -1 && i%2 === 0) {
+                style += " text-align:center;";
+                classes = "w3-card-4 col-lg-12"
+            }
+            $("#target").append($("<div>",{"class": classes,"style":style}).append(
+                $("<h2>", {"style":"text-align: center; padding-top: 20px; padding-bottom: 40px; color: teal;"}).text(obj[i]["title"])).append(
+                $("<h4>", {"stlye":"text-align: left; padding-bottom: 60px; padding-right: 80px"}).text(obj[i]["content"])).append(
+                $("<p>", {"stlye":"text-align: left; padding-bottom: 60px; padding-right: 80px"}).text(diff))
+            );
+            $("#target").append($("<br>"));
+
+
 
         }
     });
 
-    $("#more").append($("<button>", {"id": "but", "style": "width: 300px"}).text("More"));
-
-    $(function(){
-
-        $("#but").click(function(event){
-
-            event.preventDefault();
-            $(this).id("new").show();
-
-        });
-
-    });
+    function showMore() {
+        LIMIT += 4;
+        window.location.search=`limit=${LIMIT}`;
+    }
+    function showLess() {
+        LIMIT -= 4;
+        window.location.search=`limit=${LIMIT}`;
+    }
 
 
 
-//    $.ajax({
-//        type: "GET",
-//        url: "/admin-posts",
-//    }).complete(function (o) {
-//        var now = moment();
-//        j = o.responseText;
-//        console.log(j)
-//        obj = JSON.parse(j)
-//        $("#news5").append($("<h2>", {"style":"text-align: center; padding-top: 20px; padding-bottom: 40px; color: teal;"}).text(obj[0]["title"]));
-//        $("#news5").append($("<h4>", {"stlye":"text-align: left; padding-bottom: 60px; padding-right: 80px"}).text(obj[0]["content"]));
-//        var time_posted = moment((obj[i].time_posted)); //Time Posted in seconds
-//        var diff = getDateDiff(now, time_posted);
-//        $("#news5").append($("<p>", {"stlye":"text-align: left; padding-bottom: 60px; padding-right: 80px"}).text(diff));
-//    });
 
 
     //Returns time elapsed between two dates
