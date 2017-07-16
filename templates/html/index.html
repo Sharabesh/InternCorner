@@ -135,7 +135,7 @@
             $("#less").hide();
         }
         for(var i = 0; i<obj.length; i++) {
-            var time_posted = moment(obj[i].time_posted);
+            var time_posted = moment.utc((obj[i].time_posted));
             var diff = getDateDiff(now,time_posted);
             var classes = "col-lg-5 w3-card-4";
             var style='margin-top:30px;';
@@ -186,9 +186,6 @@
         if (diff == 1) { return diff + " " + unit.slice(0,unit.length-1) +  " ago."} //singular (take off 's')
         else { return diff + " " + unit + " ago."} //plural
     }
-
-
-<!--Leaderboards-->
 
     $.ajax({
         type: "GET",
@@ -245,8 +242,6 @@
         j = o.responseText;
         console.log(j);
         obj = JSON.parse(j);
-        //$("#quote").append($("<div>").append($("<h4>", {"id":"target"}).text("Title: " + obj[0]["title"] + "\nPost: " + obj[0]["content"])));
-        //$("#quote").html($("#quote").html().replace(/\n/g,'<br/>'));
 
         $("#quote").append($("<h2>", {"style":"text-align: center; padding-top: 20px; padding-bottom: 40px; color: teal; font-style: italic;"}).text(obj[0]["title"]));
         $("#quote").append($("<h4>", {"stlye":"text-align: left; padding-bottom: 60px; padding-right: 80px"}).text("❝" + obj[0]["content"] + "❞"));
