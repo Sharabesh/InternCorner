@@ -73,11 +73,11 @@
 
             <div class="row">
                 <label for="department">Department </label>
-                <select data-width="100%" id="target" class="selectpicker show-tick show-menu-arrow changed" data-live-search="true" title="Department"></select>
+                <select data-width="100%" id="department" class="selectpicker show-tick show-menu-arrow changed" data-live-search="true" title="Department"></select>
             </div>
               <script>
                 for (var i = 0; i < departments.length; i++) {
-                    $("#target").append($("<option>").text(departments[i]));
+                    $("#department").append($("<option>").text(departments[i]));
                 }
             </script>
             <div class="row">
