@@ -222,9 +222,8 @@
              var author = $("<h4>",{"text":obj[i].title + "\nPosted by " + obj[i].author, "class":"w3-text-grey w3-padding-16"});
              var body = $("<div>", {"class": "panel-body"}).text(obj[i].content)
              var like_button = $("<a>",{
-                 "class":"btn btn-sm btn-primary",
+                 "class":"btn btn-sm btn-primary like-button",
                  "id":obj[i].id,
-                 "href":"#",
                  "onclick": "submitVote(this.id)",
                  "text":"Likes: " + obj[i].likes + " ",
                  "style":"margin-bottom:2%; margin-left:2%"
@@ -264,6 +263,22 @@
          }
          $("#results").html($("#results").html().replace(/\n/g,'<br/>'));
       });
+</script>
+<script>
+    function submitVote(id) {
+        $.ajax({
+            type:"POST",
+            url:"/like",
+            data: {
+                "vote_id":id
+            }
+        }).complete(function (o) {
+            j = o.responseText;
+            obj = JSON.parse(j);
+            var text = $("#" + id + ".like-button").text().split(": ");
+            $("#" + id + ".like-button").text("Likes: " + (JSON.parse(text[1]) + obj) + " ").append($("<span>", {"class": "glyphicon glyphicon-thumbs-up"}));
+        })
+    }
 </script>
 
 {% end %}
