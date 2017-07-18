@@ -34,6 +34,11 @@
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
                 <div class="row control-group">
+                  <div class="row">
+                    <div id="success" class="alert alert-success" style="display: none">
+                        <strong>Congrats!<br></strong>Your post should appear shortly.
+                    </div>
+                  </div>
                     <div class="form-group col-xs-12 floating-label-form-group controls">
                         <h4 style="font-weight: normal; color: grey">How are you feeling?</h4>
                         <div class="sameRow spacer high"></div>
@@ -86,6 +91,14 @@
 
                 <div class="row control-group">
                     <div class="form-group col-xs-12 floating-label-form-group controls">
+                        <button type="button" id="anon" class="btn btn-block btn-default form-button" name="button">Go Anonymous</button>
+                        <p class="help-block text-danger"></p>
+                    </div>
+                </div>
+
+
+                <div class="row control-group">
+                    <div class="form-group col-xs-12 floating-label-form-group controls">
                         <label>Title</label>
                         <input type='text' class="form-control" placeholder="Title your post" name="title" id="title">
                         <p class="help-block text-danger"></p>
@@ -116,13 +129,8 @@
                         <button onclick="submitPost();" type="button" id="submit" class="btn btn-block btn-default"><span class="glyphicon glyphicon-send"></span> Send</button>
                     </div>
                 </div>
-
-
-
             </div>
-            <div id="success" class="alert alert-success" style="display: none">
-                <strong>Congrats!<br></strong>Your post should appear shortly.
-            </div>
+
         </div>
 <script>
     var feeling = -1;
@@ -162,6 +170,14 @@
         }
     }
 
+    function resetForm() {
+      $(".em").css("transform","scale(1,1)");
+      $("#anon").css(publicCSS);
+      $("#anon").text("Go Anonymous")
+      $("#message").val("");
+      $("#title").val("");
+    }
+
     $(".em").click(function() {
         makeBig(this.id);
         feeling = this.id;
@@ -187,6 +203,7 @@
         console.log(j);
         obj = JSON.parse(j);
         if (obj[0]["success"] === "true") {
+          resetForm();
           $("#success").show().delay(2000).fadeOut(1000);
         }
       });
