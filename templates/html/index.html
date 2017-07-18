@@ -53,13 +53,12 @@
 </div>
 
 
-<div class="container-fluid row">
-    <p><br></p>
-<button id="more" onclick="showMore()" class="btn btn-default" style="margin-top:3%; display:block">More</button>
-<button id="less" onclick="showLess()" class="btn btn-default" style="margin-top:3%; margin-left:2%;">Less</button>
-</div>
-
-
+<div class="container-fluid">
+    <div class="row" >
+        <br>
+        <button id="more" onclick="showMore()" class="btn btn-default" style="margin-top:3%; display:inline-block">More</button>
+        <button id="less" onclick="showLess()" class="btn btn-default" style="margin-top:3%; margin-left:2%; display:inline-block">Less</button>
+    </div>
 </div>
 
 <!--Leaderboard Section-->
@@ -137,8 +136,8 @@
         for(var i = 0; i<obj.length; i++) {
             var time_posted = moment.utc((obj[i].time_posted));
             var diff = getDateDiff(now,time_posted);
-            var classes = "col-lg-5 w3-card-4";
-            var style='margin-top:30px;';
+            var classes = "col-md-5 w3-card-4";
+            var style='margin-top:30px; height:300px';
             if (i % 2 === 1) {
                 classes += " col-lg-offset-2";
 
@@ -152,7 +151,7 @@
                 $("<h4>", {"stlye":"text-align: left; padding-bottom: 60px; padding-right: 80px"}).text(obj[i]["content"])).append(
                 $("<p>", {"stlye":"text-align: left; padding-bottom: 60px; padding-right: 80px"}).text(diff))
             );
-            $("#target").append($("<br>"));
+
 
 
 
