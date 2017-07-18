@@ -7,6 +7,14 @@
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <link href="https://afeld.github.io/emoji-css/emoji.css" rel="stylesheet">
 <script src="static/js/jquery.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.3/css/bootstrap-select.min.css">
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.3/js/bootstrap-select.min.js"></script>
+
+<!-- (Optional) Latest compiled and minified JavaScript translation files -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.3/js/i18n/defaults-*.min.js"></script>
+
 <style>
     html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
 
@@ -87,6 +95,54 @@
     </div>
 </div>
 
+
+<div class="container-fluid">
+    <div class="row">
+
+        <div style="padding-bottom:2%"  class="w3-container w3-card-2 w3-white w3-margin-bottom">
+            <p style="text-decoration: underline;"><strong>Control InternCorner User Base</strong></p>
+
+            <div class="field-wrap">
+                <label for="Operation">Operation to Perform</label>
+                <select data-width="100%" id="target" class="selectpicker show-tick show-menu-arrow changed" data-live-search="true" title="Operation">
+                    <option>Delete Users</option>
+                    <option>Grant Admin Access</option>
+                </select>
+            </div>
+
+            <div class="field-wrap">
+                <div class="col-lg-5">
+                    <div class="row">
+                        <label for="start-date">Start </label>
+                      <input id="start-date" class="datepicker" style="width: 100%" />
+                    </div>
+                </div>
+            </div>
+            <div class="field-wrap">
+                <div class="col-lg-5 col-lg-offset-2">
+                    <div class="row">
+                        <label for="end-date">End </label>
+                      <input id="end-date" class="datepicker" style="width: 100%" />
+                    </div>
+                </div>
+            </div>
+            <div style="padding-top:2%" class="row">
+                <div class="form-group col-xs-12">
+                    <button type="button" id="submit" class="btn btn-block btn-default" onclick="submitAdmin();"><span class="glyphicon glyphicon-send"></span> Send</button>
+                </div>
+            </div>
+
+
+
+        </div>
+
+
+    </div>
+
+
+</div>
+
+
 <script>
     function submitAdmin() {
         $.ajax({
@@ -165,9 +221,8 @@
              var author = $("<h4>",{"text":obj[i].title + "\nPosted by " + obj[i].author, "class":"w3-text-grey w3-padding-16"});
              var body = $("<div>", {"class": "panel-body"}).text(obj[i].content)
              var like_button = $("<a>",{
-                 "class":"btn btn-sm btn-primary",
+                 "class":"btn btn-sm btn-primary like-button",
                  "id":obj[i].id,
-                 "href":"#",
                  "onclick": "submitVote(this.id)",
                  "text":"Likes: " + obj[i].likes + " ",
                  "style":"margin-bottom:2%; margin-left:2%"
@@ -207,6 +262,22 @@
          }
          $("#results").html($("#results").html().replace(/\n/g,'<br/>'));
       });
+</script>
+<script>
+    function submitVote(id) {
+        $.ajax({
+            type:"POST",
+            url:"/like",
+            data: {
+                "vote_id":id
+            }
+        }).complete(function (o) {
+            j = o.responseText;
+            obj = JSON.parse(j);
+            var text = $("#" + id + ".like-button").text().split(": ");
+            $("#" + id + ".like-button").text("Likes: " + (JSON.parse(text[1]) + obj) + " ").append($("<span>", {"class": "glyphicon glyphicon-thumbs-up"}));
+        })
+    }
 </script>
 
 {% end %}
