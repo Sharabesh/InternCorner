@@ -8,6 +8,7 @@ from urllib.parse import urlparse
 import playhouse
 import hashlib
 from playhouse.postgres_ext import *
+from playhouse.csv_loader import *
 import re
 from functools import reduce
 import json
@@ -247,7 +248,8 @@ def add_admin_post(title, content, user):
 	return True
 
 
-def get_chart_posts(**kargs):
+
+def get_chart_data(**kargs):
 	filters = []
 	for i in kargs:
 		if kargs[i] != "":
@@ -261,6 +263,16 @@ def get_chart_posts(**kargs):
 				filters.append((Posts.time_posted <= kargs[i]))
 	q = Posts.select(Posts.feeling, Posts.time_posted).join(User).where((reduce(operator.and_, filters))).order_by(
 		SQL('time_posted').asc())
+	return q
+
+def export_all_data():
+	link = "/static/excel/newcsv.csv"
+	q = Posts.select(Posts.author, User.lastname, User.firstname, Posts.feeling, Posts.title, Posts.content, Posts.anonymous, Posts.likes, Posts.time_posted).join(User).naive().order_by(SQL('time_posted').asc())
+	dump_csv(q, link)
+	return "/static/excel/newcsv.csv"
+
+def get_chart_posts(**kargs):
+	q = get_chart_data(**kargs)
 	return q.execute()
 
 

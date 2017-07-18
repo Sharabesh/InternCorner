@@ -106,7 +106,8 @@
         <div class="w3-twothird">
             <!-- Posts Page -->
             <div class="w3-container w3-card-2 w3-white w3-margin-bottom">
-                <h2 id='results' class="w3-text-grey w3-padding-16"><i class="fa fa-certificate fa-fw w3-margin-right w3-xxlarge w3-text-teal"></i>Posts <br></h2>
+                <h2 class="w3-text-grey w3-padding-16"><i class="fa fa-certificate fa-fw w3-margin-right w3-xxlarge w3-text-teal"></i>Posts <br></h2>
+                <h2 id='results' class="w3-text-grey w3-padding-16"></h2>
                 <div class="container" style="padding-bottom:30px;" id="navButtons">
                     <div class="btn-group" role="group">
                       <a id="backBtn" style="display:inline-block;" onclick="goback();" ><button type="button" class="btn btn-default">Back</button></a>
@@ -124,15 +125,13 @@
         <!-- End Grid -->
     </div>
 <script>
-    if (START === 0) {
-        $("#backBtn").hide();
-    }
     function goback() {
-
-        window.location.search=`start=${START - 5}`
+      START = START - 5;
+      showPosts();
     }
     function goforward() {
-        window.location.search=`start=${START + 5}`
+      START = START + 5
+      showPosts();
     }
 </script>
 
@@ -142,29 +141,44 @@
 <script>
     var emotions = ["Ecstatic", "Funny", "Happy", "Happy", "Victorious", "Neutral", "/", "Sad", "Unhappy", "Angry"];
 
-    $.ajax({
-        type: "GET",
-        url: `/user_posts?start=${START}`
-    }).complete(function(o){
-       j = o.responseText;
-       console.log(j);
-       obj = JSON.parse(j);
-       if (obj.length < 5) {
-           $("#nextBtn").hide();
-       }
-       for (var i = 0; i < obj.length; i++) {
-        obj[i]["content"] = obj[i]["content"].replace(/([\"\'])/g,'\\');
-         var extra = $("<a>",{"onclick":`openModal('${obj[i]["author"]}','${obj[i]["content"]}')`,"style":"font-size:0.5em"});
-         if (obj[i]["content"].length > 40) {
-             extra.text("See more...");
+    //Show posts when page loads
+    showPosts();
+
+    function showPosts() {
+      if (START === 0) {
+          $("#backBtn").hide();
+      } else {
+        $("#backBtn").show();
+      }
+
+      $.ajax({
+          type: "GET",
+          url: `/user_posts?start=${START}`
+      }).complete(function(o){
+         j = o.responseText;
+         console.log(j);
+         obj = JSON.parse(j);
+         if (obj.length < 5) {
+             $("#nextBtn").hide();
+         } else {
+           $("#nextBtn").show();
          }
-           $("#results").append($("<div>", {"class": "w3-container"}).append(
-               $("<h5>",{"class":"w3-opacity", "style":"font-size: 1em;"}).append($("<b>", {"text":obj[i].title}))).append(
-               $("<h6>",{"class": "w3-text-teal"}).text("Feeling " + emotions[obj[i].feeling - 1])).append(
-               $("<p>", {"style": "font-size: 0.75em;"}).text(obj[i].content.slice(0,40) + "...")).append(extra).append("<hr>")
-           )
-       }
-    });
+         $("#results").html("");
+         for (var i = 0; i < obj.length; i++) {
+          obj[i]["content"] = obj[i]["content"].replace(/([\"\'])/g,'\\');
+           var extra = $("<a>",{"onclick":`openModal('${obj[i]["author"]}','${obj[i]["content"]}')`,"style":"font-size:0.5em"});
+           if (obj[i]["content"].length > 40) {
+               extra.text("See more...");
+           }
+             $("#results").append($("<div>", {"class": "w3-container"}).append(
+                 $("<h5>",{"class":"w3-opacity", "style":"font-size: 1em;"}).append($("<b>", {"text":obj[i].title}))).append(
+                 $("<h6>",{"class": "w3-text-teal"}).text("Feeling " + emotions[obj[i].feeling - 1])).append(
+                 $("<p>", {"style": "font-size: 0.75em;"}).text(obj[i].content.slice(0,40) + "...")).append(extra).append("<hr>")
+             )
+         }
+      });
+    }
+
 
 
 
