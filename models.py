@@ -268,7 +268,7 @@ def get_chart_data(**kargs):
 def export_all_data():
 	link = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'static', 'excel', 'newcsv.csv')
 	q = Posts.select(Posts.author, User.lastname, User.firstname, Posts.feeling, Posts.title, Posts.content, Posts.anonymous, Posts.likes, Posts.time_posted).join(User).naive().order_by(SQL('time_posted').asc())
-	dump_csv(q, link)
+	dump_csv(q, link, append=False)
 	return "/static/excel/newcsv.csv"
 
 def get_chart_posts(**kargs):
