@@ -169,11 +169,6 @@ def get_user_posts(email, start):
 	return posts.execute()
 
 
-def get_user_posts(email, start):
-	posts = Posts.select().join(User).where(User.email == email).offset(start).limit(5)
-	return posts.execute()
-
-
 def get_user(email):
 	return list(User.select().where(User.email == email).execute())[0]
 
