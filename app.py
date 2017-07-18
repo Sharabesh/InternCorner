@@ -177,6 +177,17 @@ class DeletePostEndpoint(BaseHandler):
 			response["success"] = 1
 		self.write(json.dumps(response))
 
+class ExportDataEndpoint(BaseHandler):
+    def post(self):
+        link = export_all_data()
+        response = {
+            "success": 1,
+            "link": link
+        }
+        self.write(json.dumps(response))
+
+
+
 
 class MostLikesEndpoint(BaseHandler):
 	def get(self):
@@ -202,7 +213,7 @@ class RandomPostsEndpoint(BaseHandler):
 			article_dict["feeling"] = item.feeling
 			article_dict["content"] = item.content
 			article_dict["title"] = item.title
-			article_dict["time_posted"] = (item.time_posted).strftime("%x")
+			article_dict["time_posted"] = str((item.time_posted))
 			article_dict["email"] = item.email
 			output_lst.append(article_dict)
 		self.write(json.dumps(output_lst))
@@ -493,6 +504,7 @@ def make_app():
 		(r"/postOfDay", PostDayEndpoint),
 		(r"/topStreaks", TopStreaksEndpoint),
 		(r"/deletePost", DeletePostEndpoint),
+        (r"/exportData", ExportDataEndpoint),
 		("r/404_Error", NotFoundHandler)
 
 

@@ -24,6 +24,21 @@
     padding-bottom: 8px;
     visibility: hidden;
   }
+
+
+  .buttonCSS {
+    font-family: 'Open Sans','Helvetica Neue',Helvetica,Arial,sans-serif;
+    text-transform: uppercase;
+    font-weight: 800;
+    letter-spacing: 1px;
+    font-size: 14px;
+  }
+
+  .disabled {
+   pointer-events: none;
+   cursor: default;
+ }
+
 </style>
 {% end %}
 
@@ -51,7 +66,7 @@
     <p style="font-size:0.75em">
       Sort the Intern Experience by Dates, Department, or School
     </p>
-    
+
     <div id="invalidDates" class="alert alert-danger">
         Invalid Dates
     </div>
@@ -98,10 +113,25 @@
 </div>
 
 <div class="row">
+  <button type="button" name="button" class="btn btn-info" id="export-all-btn" onclick="exportAll()">Export All to Excel</button>
+  <button type="button" name="button" class="btn btn-info" style="display: none; disabled: disabled;" id="export-chart-btn">Export Chart to Excel</button>
+  <a href="/static/excel/newcsv.csv" id="downloadLink" class="buttonCSS" download="newFile.csv"> <span class="glyphicon glyphicon-link"></span> Download Excel File </a>
+  <a id="errorMessage" class="buttonCSS disabled" style="display: none">Sorry! An Error Occured</a>
+
+
+
+</div>
+
+<div class="row">
   <div id="chart" class="col-lg-8 col-lg-offset-2">
     <canvas id="feelings-chart" height="160"></canvas>
   </div>
 </div>
+
+
+
+
+
 
 
 
@@ -151,6 +181,37 @@ class ChartData {
   $(document).ready(function() {
     $(".datepicker").datepicker();
   });
+
+    function exportAll() {
+      $.ajax({
+        type: "POST",
+        url: "/exportData",
+        data: {
+          "export_all": "true"
+        }
+      }).complete(function(o) {
+        console.log("Hello");
+        j = o.responseText;
+        obj = JSON.parse(j);
+        if (obj.success == "1") {
+          console.log("Success!");
+          prefix = "Intern_Data_";
+          time_stamp = moment().format("YYYYMMDD_hhmmss");
+          ext = ".csv";
+          filename = prefix + time_stamp.toString() + ext;
+          $("#downloadLink").attr({
+            "href": obj.link,
+            "download": filename
+          });
+          $("#downloadLink").hide().fadeIn();
+        }
+        else {
+          console.log("Failed.");
+          $("#errorMessage").hide().fadeIn();
+
+        }
+      });
+    }
 
     $("#new-chart-button").click(function() {
       var start_date = $("#start-date").val();
@@ -217,6 +278,7 @@ class ChartData {
           }
         }
       });
+      $("#export-chart-btn").css('display','inline-block').hide().fadeIn();
   }
 
   //Returns true if form fields are valid. false otherwise
