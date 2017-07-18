@@ -179,7 +179,9 @@ class DeletePostEndpoint(BaseHandler):
 
 class ExportDataEndpoint(BaseHandler):
     def post(self):
+        print("Exporting data")
         link = export_all_data()
+        print(link)
         response = {
             "success": 1,
             "link": link
