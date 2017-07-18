@@ -56,8 +56,8 @@
 <div class="container-fluid">
     <div class="row" >
         <br>
+        <button id="less" onclick="showLess()" class="btn btn-default" style="margin-top:3%; display:inline-block">Less</button>
         <button id="more" onclick="showMore()" class="btn btn-default" style="margin-top:3%; display:inline-block">More</button>
-        <button id="less" onclick="showLess()" class="btn btn-default" style="margin-top:3%; margin-left:2%; display:inline-block">Less</button>
     </div>
 </div>
 
@@ -119,52 +119,60 @@
     if (LIMIT == null) {
         LIMIT = 4;
     }
-    $.ajax({
-        type: "GET",
-        url: `/admin-posts?limit=${LIMIT}`,
-    }).complete(function (o) {
-        const now = moment();
-        j = o.responseText;
-        console.log(j);
-        obj = JSON.parse(j);
-        if (obj.length < LIMIT) {
-            $("#more").hide();
-        }
-        if (LIMIT <= 4) {
-            $("#less").hide();
-        }
-        for(var i = 0; i<obj.length; i++) {
-            var time_posted = moment.utc((obj[i].time_posted));
-            var diff = getDateDiff(now,time_posted);
-            var classes = "col-md-5 w3-card-4";
-            var style='margin-top:30px; height:300px';
-            if (i % 2 === 1) {
-                classes += " col-lg-offset-2";
 
-            }
-            if (i === obj.length -1 && i%2 === 0) {
-                style += " text-align:center;";
-                classes = "w3-card-4 col-lg-12"
-            }
-            $("#target").append($("<div>",{"class": classes,"style":style}).append(
-                $("<h2>", {"style":"text-align: center; padding-top: 20px; padding-bottom: 40px; color: teal;"}).text(obj[i]["title"])).append(
-                $("<h4>", {"stlye":"text-align: left; padding-bottom: 60px; padding-right: 80px"}).text(obj[i]["content"])).append(
-                $("<p>", {"stlye":"text-align: left; padding-bottom: 60px; padding-right: 80px"}).text(diff))
-            );
+    //Show posts when page loads.
+    showPosts();
 
+    function showPosts() {
+      $.ajax({
+          type: "GET",
+          url: `/admin-posts?limit=${LIMIT}`,
+      }).complete(function (o) {
+          const now = moment();
+          j = o.responseText;
+          console.log(j);
+          obj = JSON.parse(j);
+          if (obj.length < LIMIT) {
+              $("#more").hide();
+          } else {
+            $("#more").show();
+          }
+          if (LIMIT <= 4) {
+              $("#less").hide();
+          } else {
+            $("#less").show();
+          }
+          $("#target").html("");
+          for(var i = 0; i<obj.length; i++) {
+              var time_posted = moment.utc((obj[i].time_posted));
+              var diff = getDateDiff(now,time_posted);
+              var classes = "col-md-5 w3-card-4";
+              var style='margin-top:30px; height:300px';
+              if (i % 2 === 1) {
+                  classes += " col-lg-offset-2";
 
+              }
+              if (i === obj.length -1 && i%2 === 0) {
+                  style += " text-align:center;";
+                  classes = "w3-card-4 col-lg-12"
+              }
+              $("#target").append($("<div>",{"class": classes,"style":style}).append(
+                  $("<h2>", {"style":"text-align: center; padding-top: 20px; padding-bottom: 40px; color: teal;"}).text(obj[i]["title"])).append(
+                  $("<h4>", {"stlye":"text-align: left; padding-bottom: 60px; padding-right: 80px"}).text(obj[i]["content"])).append(
+                  $("<p>", {"stlye":"text-align: left; padding-bottom: 60px; padding-right: 80px"}).text(diff))
+              );
+          }
+      });
+    }
 
-
-        }
-    });
 
     function showMore() {
         LIMIT += 4;
-        window.location.search=`limit=${LIMIT}`;
+        showPosts();
     }
     function showLess() {
         LIMIT -= 4;
-        window.location.search=`limit=${LIMIT}`;
+        showPosts();
     }
 
 
@@ -185,6 +193,7 @@
         if (diff == 1) { return diff + " " + unit.slice(0,unit.length-1) +  " ago."} //singular (take off 's')
         else { return diff + " " + unit + " ago."} //plural
     }
+
 
     $.ajax({
         type: "GET",
