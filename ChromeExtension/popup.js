@@ -1,11 +1,4 @@
-$("#submit").click(function() {
-
-<<<<<<< HEAD
-=======
-
-
 $("#loginForExt").click(function() {
->>>>>>> 80686fa7c4fd60824bd1ad03cd83a4dc9f7bcc0e
   var username = $("#username").val();
   var password = $("#password").val();
   $.ajax({
