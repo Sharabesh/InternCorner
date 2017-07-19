@@ -292,6 +292,8 @@ def create_reset(email):
 
 
 def delete_post(id):
+	print("HERE")
+	Likes.delete().where(Likes.post_like_id == id).execute()
 	Posts.delete().where(Posts.post_id == id).execute()
 	return True
 
