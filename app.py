@@ -14,24 +14,25 @@ from playhouse.shortcuts import *
 
 
 class BaseHandler(tornado.web.RequestHandler):
-    def get_current_user(self):
-    	return self.get_secure_cookie("user")
+	def get_current_user(self):
+		return self.get_secure_cookie("user")
 
-    def get_current_email(self):
-    	return self.get_secure_cookie("email")
+	def get_current_email(self):
+		return self.get_secure_cookie("email")
 
-    def is_superuser(self):
-    	cookie = self.get_secure_cookie("superuser") #Returns Byte string
-    	return True if cookie == ("True").encode() else False
+	def is_superuser(self):
+		cookie = self.get_secure_cookie("superuser")  # Returns Byte string
+		return True if cookie == ("True").encode() else False
 
-    def get(self):
-    	self.set_header("Content-Type", "application/json")
+	def get(self):
+		self.set_header("Content-Type", "application/json")
 
 
-class NotFoundHandler(tornado.web.ErrorHandler,BaseHandler):
-	def write_error(self,status_code,**kwargs):
+class NotFoundHandler(tornado.web.ErrorHandler, BaseHandler):
+	def write_error(self, status_code, **kwargs):
 		self.set_status(404)
-		self.render("templates/html/404.html",user=self.get_current_user(),superuser=self.is_superuser())
+		self.render("templates/html/404.html", user=self.get_current_user(), superuser=self.is_superuser())
+
 
 class IndexHandler(BaseHandler):
 	def get(self):
@@ -95,7 +96,6 @@ class LoginHandler(BaseHandler):
 
 
 class AdminHandler(BaseHandler):
-
 	@tornado.web.authenticated
 	def get(self):
 		superuser = self.is_superuser()
@@ -104,9 +104,10 @@ class AdminHandler(BaseHandler):
 		else:
 			self.redirect("/")
 
+
 class AdminPostsEndpoint(BaseHandler):
 	def get(self):
-		limit = self.get_argument("limit",100)
+		limit = self.get_argument("limit", 100)
 		print(limit)
 		results = get_admin_posts(limit)
 		output_lst = []
@@ -168,27 +169,27 @@ class TopStreaksEndpoint(BaseHandler):
 			output_list.append(article_dict)
 		self.write(json.dumps(output_list))
 
+
 class DeletePostEndpoint(BaseHandler):
 	def post(self):
 		post_id = self.get_body_argument("post_id")
 		results = delete_post(post_id)
-		response = {"success":0}
+		response = {"success": 0}
 		if results:
 			response["success"] = 1
 		self.write(json.dumps(response))
 
+
 class ExportDataEndpoint(BaseHandler):
-    def post(self):
-        print("Exporting data")
-        link = export_all_data()
-        print(link)
-        response = {
-            "success": 1,
-            "link": link
-        }
-        self.write(json.dumps(response))
-
-
+	def post(self):
+		print("Exporting data")
+		link = export_all_data()
+		print(link)
+		response = {
+			"success": 1,
+			"link": link
+		}
+		self.write(json.dumps(response))
 
 
 class MostLikesEndpoint(BaseHandler):
@@ -506,9 +507,7 @@ def make_app():
 		(r"/postOfDay", PostDayEndpoint),
 		(r"/topStreaks", TopStreaksEndpoint),
 		(r"/deletePost", DeletePostEndpoint),
-        (r"/exportData", ExportDataEndpoint),
-		("r/404_Error", NotFoundHandler)
-
+		(r"/exportData", ExportDataEndpoint),
 
 	], debug=True, **settings)
 
