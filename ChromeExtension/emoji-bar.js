@@ -28,9 +28,10 @@ $(".em").click(function() {
     $(".em").unbind("mouseenter mouseleave");
 });
 
-$("#runEmoji").click(function() {
+$("#submit").click(function() {
   if (feeling < 0) { console.log("Feeling not selected"); return;}
   var username = getParameterByName("username");
+  var message = $("#message").val();
 
   $.ajax({
     type: "POST",
@@ -41,7 +42,7 @@ $("#runEmoji").click(function() {
       feeling: feeling,
       anon: "",
       title: "",
-      message: ""
+      message: message
     }
   }).complete(function(o) {
     j = o.responseText;
