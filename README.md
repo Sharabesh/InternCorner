@@ -3,6 +3,7 @@
 
 ## Technical Details 
 * InternCorner is written in Python's tornado framework 
+* API Endpoints are designated by \*Endpoint classes while classes designated to rendering HTML files are designated by \*Handler 
 * All user data is securely stored in a postgres management portal 
 * The website is hosted on heroku at https://interncorner.herokuapp.com
 
