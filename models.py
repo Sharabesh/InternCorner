@@ -188,8 +188,8 @@ with any decent size user base
 def search(query, table, start):
 	query = query.replace(" ", "%")
 	if table == "p":
-		q = Match(Posts.content, query) | Match(Posts.author, query) | Match(Posts.title, query)
-		return Posts.select(Posts, User).join(User).where(q,Posts.anonymous == False,User.firstname.contains(query),User.lastname.contains(query)).limit(10).offset(start).naive().execute()
+		q = Match(Posts.content, query) | Match(Posts.author, query) | Match(Posts.title, query) | (User.firstname.contains(query)) |(User.lastname.contains(query))
+		return Posts.select(Posts, User).join(User).where(q,Posts.anonymous == False).limit(10).offset(start).naive().execute()
 	else:
 		q = Match(User.username, query) | \
 			Match(User.department, query) | (User.firstname.contains(query)) | \
