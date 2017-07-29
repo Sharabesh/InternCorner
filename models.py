@@ -165,7 +165,7 @@ def postOfDay():
 
 
 def get_user_posts(email, start):
-	posts = Posts.select().join(User).where(User.email == email).offset(start).limit(5)
+	posts = Posts.select().join(User).where(User.email == email).offset(start).order_by(SQL('time_posted').desc()).limit(5)
 	return posts.execute()
 
 
