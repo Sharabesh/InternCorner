@@ -257,9 +257,9 @@
         console.log(j);
         obj = JSON.parse(j);
 
-        $("#quote").append($("<h2>", {"style":"text-align: center; padding-top: 20px; padding-bottom: 40px; color: teal; font-style: italic;"}).text(obj[0]["title"]));
-        $("#quote").append($("<h4>", {"stlye":"text-align: left; padding-bottom: 60px; padding-right: 80px"}).text("❝" + obj[0]["content"] + "❞"));
-        $("#quote").append($("<h4>", {"style": "text-align: center; padding-bottom: 40px; padding-left: 210px; padding-top: 40px"}).text("-" + obj[0]["author"]));
+        $("#quote").append($("<h2>", {"style":"text-align: center; color: teal; font-style: italic;"}).text(obj[0]["title"]));
+        $("#quote").append($("<h4>").text("❝" + obj[0]["content"] + "❞"));
+        $("#quote").append($("<h4>", {"style": "text-align: right;"}).text("-" + obj[0]["author"]));
 
 
     });
