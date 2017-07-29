@@ -156,15 +156,7 @@
 
 
     var clickText = "<br/>";
-    var emo = ["Angry", "Unhappy", "Sad", "Annoyed", "Nervous", "Neutral", "Victorious", "Happy", "Silly", "Ecstatic"];
-    function emojiText(id) {
-        if (id < 0) {
-            $("#eText").html(clickText);
-        }
-        else {
-            $("#eText").html(emo[id-1]);
-        }
-    }
+
 
     function resetForm() {
       $(".em").css("transform","scale(1,1)");
