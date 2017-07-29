@@ -9,23 +9,24 @@
   <link rel="stylesheet" href="popup.css">
     <style>
       body {
-        font-family: "Segoe UI", "Lucida Grande", Tahoma, sans-serif;
+        font-family: "Exo", "Open Sans", Tahoma, sans-serif;
         font-size: 100%;
       }
     </style>
   </head>
 <body>
-
 <div class="container-fluid">
+    <div class="background-img"></div>
     <div class="row main">
-
-        <h3>InternCorner</h3>
+        <div class="header">
+            <div>Intern<span>Corner</span></div>
+        </div>
         <div class="alert alert-danger" id="failure" style="visibility: hidden">Invalid Credentials!</div>
         <div class="form-group">
             <div class="cols-xs-10">
                 <div class="input-group">
                     <span class="input-group-addon"><i class="fa fa-user fa" aria-hidden="true"></i></span>
-                    <input type="text" class="form-control" name="username" id="username"  placeholder="Name"/>
+                    <input type="text" class="form-control" name="username" id="username"  placeholder="Username"/>
                 </div>
             </div>
         </div>
@@ -39,11 +40,12 @@
         </div>
         <div class="form-group ">
             <button type="button" id="loginForExt" class="btn btn-primary btn-block login-button">Login</button>
-            <a href="https://interncorner.herokuapp.com/register">Or Register Here</a>
+            <a href="https://interncorner.herokuapp.com/register" target="_blank">Or Register Here</a>
         </div>
+        <div class="bottom">
+            <img src="Cisco_Logo_31px.png" alt="Cisco_Logo">
     </div>
 </div>
-
     <script type="text/javascript" src="jquery-2.2.1.js"></script>
     <script type="text/javascript" src="popup.js"></script>
   </body>

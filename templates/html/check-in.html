@@ -2,16 +2,26 @@
 
 {% block css %}
 <link href="https://afeld.github.io/emoji-css/emoji.css" rel="stylesheet">
+
 <link rel="stylesheet" type="text/css" href= static/css/emojiBar.css>
-<link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
-<script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
 <script src="static/js/jquery.js"></script>
+<link href="/static/css/check-in.css" rel="stylesheet">
+
+<style>
+    .contrast{
+        color: cornsilk;
+    }
+    .bac{
+        background-color: inherit;
+    }
+</style>
+
 {% end %}
 
 {% block header %}
     <!-- Page Header -->
     <!-- Set your background image for this header on the line below. -->
-    <header class="intro-header" style="background-image: url('static/img/SF.jpg')">
+    <header class="intro-header" style="background-image: url('https://upload.wikimedia.org/wikipedia/commons/b/bf/Sunset_in_a_plane.JPG')">
         <div class="container">
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
@@ -31,6 +41,8 @@
 
 
 {% block content %}
+
+
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
                 <div class="row control-group">
@@ -88,12 +100,6 @@
                     </div>
                 </div>
 
-                <div class="row control-group">
-                    <div class="form-group col-xs-12 floating-label-form-group controls">
-                        <button type="button" id="anon" class="btn btn-block btn-default form-button" name="button">Go Anonymous</button>
-                        <p class="help-block text-danger"></p>
-                    </div>
-                </div>
 
                 <div class="row control-group">
                     <div class="form-group col-xs-12 floating-label-form-group controls">
@@ -109,6 +115,17 @@
                         <p class="help-block text-danger"></p>
                     </div>
                 </div>
+                <br>
+                <div class="row control-group">
+                    <div class="form-group col-xs-12">
+                        <label for="anon"></label>
+                        <button onclick="toggleAnon();" id="anon" type="button" class="btn btn-lg btn-toggle" data-toggle="button" aria-pressed="false" autocomplete="off">
+                            <div class="handle"></div>
+                        </button>
+                    </div>
+                </div>
+
+
 
                 <br>
                 <div class="row">
@@ -122,16 +139,11 @@
 <script>
     var feeling = -1;
     var anonymous = false;
-    var anonCSS = {
-      "backgroundColor" : "blue",
-      "color" : "white"
-    };
 
-    var publicCSS = {
-      "backgroundColor" : "white",
-      "color" : "black"
-    };
-    //TODO: Semi-Hacky and not very efficient find a better way to do this
+    function toggleAnon() {
+        anonymous = !anonymous;
+    }
+
     function makeBig(id) {
         for (var i = 1; i < 11; i++) {
             makeSmall(i);
@@ -156,8 +168,6 @@
 
     function resetForm() {
       $(".em").css("transform","scale(1,1)");
-      $("#anon").css(publicCSS);
-      $("#anon").text("Go Anonymous")
       $("#message").val("");
       $("#title").val("");
     }
@@ -168,17 +178,7 @@
         console.log(feeling);
     });
 
-    $("#anon").click(function() {
-      anonymous = !anonymous;
-      if (anonymous) {
-        $("#anon").css(anonCSS);
-        $("#anon").text("Go Public")
-      }
-      else {
-        $("#anon").css(publicCSS);
-        $("#anon").text("Go Anonymous")
-      }
-    });
+
     function submitPost() {
       if (feeling < 0) { console.log("Feeling not selected"); return;}
       var title = $("#title").val() ? $("#title").val() : "";
@@ -203,4 +203,8 @@
       });
     }
 </script>
+
+<style>
+
+</style>
 {% end %}

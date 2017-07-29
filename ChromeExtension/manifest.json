@@ -3,13 +3,18 @@
 
   "name": "InternCorner",
   "description": "The Cisco Intern Experience",
-  "version": "1.1",
+  "version": "2.0",
   "content_scripts":[{
     "js":["jquery-2.2.1.js","popup.js","emoji-bar.js"],
     "matches":["http://*/*","https://*/*"]
   }],
+
   "browser_action" : {
-    "default_icon": "suitcase.png",
+    "default_icon": "Icon-16.png",
     "default_popup": "popup.html"
-  }
+  },
+
+  "icons": { "16": "Icon-16.png",
+           "48": "Icon-48.png",
+          "128": "Icon-128.png" }
 }

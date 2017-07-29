@@ -183,14 +183,14 @@ with any decent size user base
 def search(query, table, start):
 	query = query.replace(" ", "%")
 	if table == "p":
-		q = Match(Posts.content, query) | Match(Posts.author, query) | Match(Posts.title, query)
-		return Posts.select(Posts, User).join(User).where(q).limit(10).offset(start).naive().execute()
+		q = Match(Posts.content, query) | Match(Posts.author, query) | Match(Posts.title, query) | (User.firstname.contains(query)) |(User.lastname.contains(query))
+		return Posts.select(Posts, User).join(User).where(q,Posts.anonymous == False).limit(10).offset(start).naive().execute()
 	else:
 		q = Match(User.username, query) | \
 			Match(User.department, query) | (User.firstname.contains(query)) | \
 			(User.lastname.contains(query)) | Match(User.email, query) | \
 			Match(User.school, query) | (User.manager.contains(query))
-		return User.select().where(q,Posts.anonymous == False).limit(10).offset(start).execute()
+		return User.select().where(q).limit(10).offset(start).execute()
 
 
 def get_random_10():
@@ -287,6 +287,8 @@ def create_reset(email):
 
 
 def delete_post(id):
+	print("HERE")
+	Likes.delete().where(Likes.post_like_id == id).execute()
 	Posts.delete().where(Posts.post_id == id).execute()
 	return True
 

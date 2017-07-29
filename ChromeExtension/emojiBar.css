@@ -1,19 +1,23 @@
-.sameRow{
-    display: inline;
-}
+@import url(https://fonts.googleapis.com/css?family=Exo:100,200,400);
 
-.box{
-    border: 2px solid #00f6ff;
-    padding-left: 5px;
-    padding-top: 5px;
+body {
+    height: auto;
+    min-width: 375px;
     padding-bottom: 10px;
-    border-radius: 15px;
-    width: 100%;
-
 }
 
-.spacer{
-    margin-right: 25px;
+#status {
+    text-align: left;
+    padding-left: 10px;
+}
+
+#em-bar {
+    text-align: left;
+    padding-bottom: 10px;
+}
+
+#em-bar i{
+    margin: 7px 10px;
 }
 
 i{
@@ -25,6 +29,13 @@ i:hover{
     transform: scale(2,2);
 }
 
-pad{
-    padding-bottom: 5%;
+.message-bar {
+    padding-left: 10px;
+    padding-right: 10px;
 }
+
+button {
+    padding-left: 5px;
+}
+
+
