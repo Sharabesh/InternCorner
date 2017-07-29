@@ -119,7 +119,7 @@ class AdminPostsEndpoint(BaseHandler):
 			article_dict["feeling"] = item.feeling
 			article_dict["content"] = item.content
 			article_dict["title"] = item.title
-			article_dict["time_posted"] = (item.time_posted).strftime("%x")
+			article_dict["time_posted"] = str((item.time_posted))
 			output_lst.append(article_dict)
 		self.write(json.dumps(output_lst))
 
