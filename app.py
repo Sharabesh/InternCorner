@@ -467,6 +467,8 @@ settings = {
 	"cookie_secret": "b'4rp+0kDTQ8m5wgZ7F2eRYg0NXlVoF0IYmL9Z2GrpUdA='",
 	'default_handler_class': NotFoundHandler,
 	'default_handler_args': dict(status_code=404),
+	'xheaders' : True,
+	'protocol' : 'https'
 }
 
 
