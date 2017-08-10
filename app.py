@@ -204,6 +204,7 @@ class MostLikesEndpoint(BaseHandler):
 		output_list = []
 		for item in results:
 			article_dict = {}
+			article_dict["author"] = item.author
 			article_dict["content"] = item.content
 			article_dict["likes"] = item.likes
 			output_list.append(article_dict)

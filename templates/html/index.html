@@ -205,6 +205,7 @@
         type: "GET",
         url: "/mostLikes",
     }).complete(function (o) {
+
         j = o.responseText;
         console.log(j);
         obj = JSON.parse(j);
@@ -216,13 +217,16 @@
 
 //            This is to truncate the amount of characters
             ana = obj[i]["content"];
+            let extra = "";
             if(ana.length>55)
             {
-                ana = ana.substring(0,55) + "...";
+                ana = ana.substring(0,55) + extra;
+                extra = $("<a>",{"onclick":`openModal('${obj[i]["author"]}','${obj[i]["content"]}')`,"text":"..."});
+
             }
 
 
-            row.append($("<td>").text(ana));
+            row.append($("<td>").text(ana).append(extra));
             row.append($("<td>").text(obj[i]["likes"]));
             $("#mostLikes").append(row);
         }
