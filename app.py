@@ -48,7 +48,13 @@ class CheckInHandler(BaseHandler):
 class MyAccountHandler(BaseHandler):
 	@tornado.web.authenticated
 	def get(self):
-		user = get_user(self.get_current_email())
+		try:
+			user = get_user(self.get_current_email())
+		except:
+			self.clear_cookie("user")
+			self.clear_cookie("email")
+			self.clear_cookie("superuser")
+			self.redirect("/login")
 		user.project = user.project if user.project else json.dumps({"title": ""})
 
 		self.render("templates/html/my-account.html", user=self.get_current_user(), data=model_to_dict(user),
