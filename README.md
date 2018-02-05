@@ -1,5 +1,5 @@
 # Bridge
-* Bridge was a Stretch Assignment at Cisco Systems designed to track the experience. Through the portal users have the opportunity to repeatedly "check-in" - elaborate on what they've done and interact with other user content. The site also provides a suite of analytics and user engagement functionality designed to maintain a consistent user-base. 
+* Bridge was a Stretch Assignment at Cisco Systems designed to track employee experience. Through the portal users have the opportunity to repeatedly "check-in" - elaborate on what they've done and interact with other user content. The site also provides a suite of analytics and user engagement functionality designed to maintain a consistent user-base. 
 
 ## Technical Details 
 * InternCorner is written in Python's tornado framework 
