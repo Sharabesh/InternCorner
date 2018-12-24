@@ -5,7 +5,8 @@ from email.mime.text import MIMEText
 import os
 
 
-"""TODO: Generate Email Server Account"""
+""" Cisco Related emails are currently sent out from this email address"""
+
 GMAIL = "ciscointerncorner@gmail.com"
 
 try:
